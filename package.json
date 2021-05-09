@@ -22,6 +22,11 @@
       "@faergeek/eslint-config/node"
     ]
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
