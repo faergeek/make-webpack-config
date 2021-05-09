@@ -27,6 +27,16 @@
       "@commitlint/config-conventional"
     ]
   },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ]
+  },
   "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
