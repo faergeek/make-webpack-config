@@ -12,6 +12,10 @@
     "prettier:check": "prettier --list-different .",
     "release": "semantic-release"
   },
+  "prettier": {
+    "arrowParens": "avoid",
+    "singleQuote": true
+  },
   "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
