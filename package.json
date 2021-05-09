@@ -16,6 +16,12 @@
     "arrowParens": "avoid",
     "singleQuote": true
   },
+  "eslintConfig": {
+    "extends": [
+      "@faergeek",
+      "@faergeek/eslint-config/node"
+    ]
+  },
   "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
