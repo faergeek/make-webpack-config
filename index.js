@@ -116,7 +116,7 @@ function makeConfig({
         {
           test: /\.(js|ts|tsx)$/,
           include: paths.src,
-          loader: 'babel-loader',
+          loader: require.resolve('babel-loader'),
           options: {
             envName: dev ? 'development' : 'production',
             plugins: babelPlugins,
@@ -126,7 +126,7 @@ function makeConfig({
           test: /\.(css|sass|scss)$/,
           use: (node ? [] : [MiniCssExtractPlugin.loader]).concat([
             {
-              loader: 'css-loader',
+              loader: require.resolve('css-loader'),
               options: {
                 importLoaders: 2,
                 modules: {
@@ -140,18 +140,18 @@ function makeConfig({
                 },
               },
             },
-            'postcss-loader',
+            require.resolve('postcss-loader'),
           ]),
         },
-        { test: /\.(css|js)$/, use: 'source-map-loader' },
+        { test: /\.(css|js)$/, use: require.resolve('source-map-loader') },
         {
           test: /\.(sass|scss)$/,
           use: [
             {
-              loader: 'resolve-url-loader',
+              loader: require.resolve('resolve-url-loader'),
               options: { sourceMap: true },
             },
-            'sass-loader',
+            require.resolve('sass-loader'),
           ],
         },
         {
@@ -159,7 +159,7 @@ function makeConfig({
           type: 'javascript/auto',
           use: [
             {
-              loader: 'url-loader',
+              loader: require.resolve('url-loader'),
               options: {
                 emitFile: !node,
                 limit: 4000,
