@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/faergeek/make-webpack-config/compare/v1.1.1...v2.0.0) (2021-05-10)
+
+
+### Bug Fixes
+
+* remove dotenv-flow/config from entry ([249decb](https://github.com/faergeek/make-webpack-config/commit/249decb9014e08ef8ca78c95e3126fca82159482))
+
+
+### BREAKING CHANGES
+
+* dotenv-flow/config must be added manually if needed
+
 ## [1.1.1](https://github.com/faergeek/make-webpack-config/compare/v1.1.0...v1.1.1) (2021-05-10)
 
 
