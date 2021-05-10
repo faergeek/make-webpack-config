@@ -55,6 +55,7 @@
     "run-script-webpack-plugin": "^0.0.11",
     "sass-loader": "^11.0.1",
     "source-map-loader": "^2.0.1",
+    "url-loader": "^4.1.1",
     "webpack-bundle-analyzer": "^4.4.1",
     "webpack-node-externals": "^3.0.0",
     "webpack-plugin-serve": "^1.4.1",
