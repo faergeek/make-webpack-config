@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/faergeek/make-webpack-config/compare/v1.1.0...v1.1.1) (2021-05-10)
+
+
+### Bug Fixes
+
+* add source-map-support to peerDependencies ([f98ad3f](https://github.com/faergeek/make-webpack-config/commit/f98ad3f62c05e3d81d1a11b34033bd144ffbfb93))
+
 # [1.1.0](https://github.com/faergeek/make-webpack-config/compare/v1.0.0...v1.1.0) (2021-05-10)
 
 
