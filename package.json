@@ -46,6 +46,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "assets-webpack-plugin": "^7.1.0",
     "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.4",
     "css-minimizer-webpack-plugin": "^2.0.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "mini-css-extract-plugin": "^1.6.0",
