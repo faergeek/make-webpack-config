@@ -38,6 +38,7 @@ function makeConfig({
       new AssetsPlugin({
         entrypoints: true,
         includeAuxiliaryAssets: true,
+        includeDynamicImportedAssets: true,
         path: paths.build,
         prettyPrint: dev,
       }),
