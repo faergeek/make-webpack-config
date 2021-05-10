@@ -96,12 +96,7 @@ function makeConfig({
       : undefined,
     entry: {
       main: (node
-        ? [
-            'source-map-support/register',
-            watch && 'webpack/hot/signal',
-            'dotenv-flow/config',
-            entry,
-          ]
+        ? ['source-map-support/register', watch && 'webpack/hot/signal', entry]
         : [dev && watch && 'webpack-plugin-serve/client', entry]
       ).filter(Boolean),
     },
