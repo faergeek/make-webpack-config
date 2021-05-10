@@ -1,3 +1,15 @@
+# [2.1.0](https://github.com/faergeek/make-webpack-config/compare/v2.0.3...v2.1.0) (2021-05-10)
+
+
+### Bug Fixes
+
+* include dynamically imported assets into json ([4e722bd](https://github.com/faergeek/make-webpack-config/commit/4e722bd40b34755f2849609d06447bc82fc3a1ab))
+
+
+### Features
+
+* add define option ([a3cbc71](https://github.com/faergeek/make-webpack-config/commit/a3cbc71d32161821f0177e6b2139e40bc2ed5308))
+
 ## [2.0.3](https://github.com/faergeek/make-webpack-config/compare/v2.0.2...v2.0.3) (2021-05-10)
 
 
