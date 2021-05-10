@@ -1,3 +1,11 @@
+## [2.0.2](https://github.com/faergeek/make-webpack-config/compare/v2.0.1...v2.0.2) (2021-05-10)
+
+
+### Bug Fixes
+
+* **deps:** add postcss-loader ([3942d1b](https://github.com/faergeek/make-webpack-config/commit/3942d1b8bb922fabf5671f32479f35df267de04c))
+* **deps:** use require.resolve for loaders ([a149cfd](https://github.com/faergeek/make-webpack-config/commit/a149cfd3add2d04edc9bacfcbd6c9669f8b5f8df))
+
 ## [2.0.1](https://github.com/faergeek/make-webpack-config/compare/v2.0.0...v2.0.1) (2021-05-10)
 
 
