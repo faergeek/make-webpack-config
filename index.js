@@ -13,6 +13,7 @@ const WebpackBar = require('webpackbar');
 const ASSETS_RE = /\.(svg|png|gif|jpe?g|eot|ttf|woff2?)$/;
 
 function makeConfig({
+  define,
   deps,
   dev,
   entry,
@@ -23,7 +24,14 @@ function makeConfig({
   watch,
 }) {
   const babelPlugins = [];
-  const plugins = [new WebpackBar({ name })];
+  const plugins = [
+    new WebpackBar({ name }),
+    new webpack.DefinePlugin({
+      __DEV__: JSON.stringify(dev),
+      __NODE__: JSON.stringify(node),
+      ...define,
+    }),
+  ];
 
   if (!node) {
     plugins.push(
@@ -194,9 +202,10 @@ function makeConfig({
   };
 }
 
-function makeWebpackConfig({ dev, entry, paths, reactRefresh, watch }) {
+function makeWebpackConfig({ define, dev, entry, paths, reactRefresh, watch }) {
   return [
     makeConfig({
+      define,
       dev,
       entry: entry.browser,
       name: 'browser',
@@ -206,6 +215,7 @@ function makeWebpackConfig({ dev, entry, paths, reactRefresh, watch }) {
       watch,
     }),
     makeConfig({
+      define,
       deps: ['browser'],
       dev,
       entry: entry.node,
