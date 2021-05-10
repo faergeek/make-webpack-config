@@ -50,6 +50,7 @@
     "css-minimizer-webpack-plugin": "^2.0.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "mini-css-extract-plugin": "^1.6.0",
+    "postcss-loader": "^5.2.0",
     "react-refresh": "^0.10.0",
     "resolve-url-loader": "^4.0.0",
     "run-script-webpack-plugin": "^0.0.11",
