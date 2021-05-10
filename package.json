@@ -37,7 +37,23 @@
       "@semantic-release/github"
     ]
   },
-  "dependencies": {},
+  "peerDependencies": {
+    "webpack": "^5.36.2",
+    "webpack-cli": "4.4.0"
+  },
+  "dependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
+    "assets-webpack-plugin": "^7.1.0",
+    "css-minimizer-webpack-plugin": "^2.0.0",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "mini-css-extract-plugin": "^1.6.0",
+    "react-refresh": "^0.10.0",
+    "run-script-webpack-plugin": "^0.0.11",
+    "webpack-bundle-analyzer": "^4.4.1",
+    "webpack-node-externals": "^3.0.0",
+    "webpack-plugin-serve": "^1.4.1",
+    "webpackbar": "^5.0.0-3"
+  },
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
