@@ -1,6 +1,6 @@
 {
   "name": "@faergeek/make-webpack-config",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "main": "index.js",
   "repository": "git@github.com:faergeek/make-webpack-config.git",
   "author": "Sergey Slipchenko <me@faergeek.online>",

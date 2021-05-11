@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/faergeek/make-webpack-config/compare/v3.0.0...v3.0.1) (2021-05-11)
+
+
+### Bug Fixes
+
+* add files field to package.json ([a12f3b4](https://github.com/faergeek/make-webpack-config/commit/a12f3b495304d034857cfb0d777d9ba283b4a00a))
+
 # [3.0.0](https://github.com/faergeek/make-webpack-config/compare/v2.1.1...v3.0.0) (2021-05-11)
 
 
