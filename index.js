@@ -90,6 +90,14 @@ function makeConfig({
     }
   }
 
+  function wrapEntry(entry) {
+    return (
+      node
+        ? ['source-map-support/register', watch && 'webpack/hot/signal', entry]
+        : [dev && watch && 'webpack-plugin-serve/client', entry]
+    ).filter(Boolean);
+  }
+
   return {
     name,
     dependencies: deps,
@@ -104,10 +112,7 @@ function makeConfig({
       ? nodeExternals({ allowlist: [/^webpack\/hot/, ASSETS_RE] })
       : undefined,
     entry: {
-      main: (node
-        ? ['source-map-support/register', watch && 'webpack/hot/signal', entry]
-        : [dev && watch && 'webpack-plugin-serve/client', entry]
-      ).filter(Boolean),
+      main: wrapEntry(entry),
     },
     output: {
       chunkFilename: `[name]${node || watch ? '' : '.[contenthash]'}.js`,
