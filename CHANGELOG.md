@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/faergeek/make-webpack-config/compare/v2.1.1...v3.0.0) (2021-05-11)
+
+
+### Bug Fixes
+
+* change webpack-plugin-serve port ([d73a651](https://github.com/faergeek/make-webpack-config/commit/d73a651d5477cbb745b2d02dcefb66d5c58bfd91))
+
+
+### BREAKING CHANGES
+
+* webpack-plugin-serve port is now 8000
+
 ## [2.1.1](https://github.com/faergeek/make-webpack-config/compare/v2.1.0...v2.1.1) (2021-05-10)
 
 
