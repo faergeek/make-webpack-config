@@ -111,7 +111,12 @@ function makeConfig({
     externals: node
       ? nodeExternals({ allowlist: [/^webpack\/hot/, ASSETS_RE] })
       : undefined,
-    entry: wrapEntry(entry),
+    entry:
+      typeof entry === 'string'
+        ? wrapEntry(entry)
+        : Object.fromEntries(
+            Object.entries(entry).map(([k, v]) => [k, wrapEntry(v)])
+          ),
     output: {
       chunkFilename: `[name]${node || watch ? '' : '.[contenthash]'}.js`,
       crossOriginLoading: watch ? 'anonymous' : undefined,
