@@ -1,3 +1,10 @@
+## [3.1.4](https://github.com/faergeek/make-webpack-config/compare/v3.1.3...v3.1.4) (2021-05-11)
+
+
+### Bug Fixes
+
+* tweak cache groups ([0f503dc](https://github.com/faergeek/make-webpack-config/commit/0f503dcbacc53db25c23ac4b7750e865f2cc947e))
+
 ## [3.1.3](https://github.com/faergeek/make-webpack-config/compare/v3.1.2...v3.1.3) (2021-05-11)
 
 
