@@ -1,3 +1,12 @@
+# [3.2.0](https://github.com/faergeek/make-webpack-config/compare/v3.1.4...v3.2.0) (2021-05-11)
+
+
+### Features
+
+* add alias option ([9e97faa](https://github.com/faergeek/make-webpack-config/commit/9e97faa662326032d2fa6e629467774ca05b1ca8))
+* allow absolute imports from paths.src ([e136900](https://github.com/faergeek/make-webpack-config/commit/e136900e3a95df0cccd64ca003eafcf959bdfb75))
+* set resolve.symlinks to false ([4b9f222](https://github.com/faergeek/make-webpack-config/commit/4b9f2222c99fec3ed56a8555050ae2717d40d65a))
+
 ## [3.1.4](https://github.com/faergeek/make-webpack-config/compare/v3.1.3...v3.1.4) (2021-05-11)
 
 
