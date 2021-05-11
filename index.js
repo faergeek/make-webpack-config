@@ -44,6 +44,7 @@ function makeConfig({
         includeDynamicImportedAssets: true,
         path: paths.build,
         prettyPrint: dev,
+        update: true,
       })
     );
   }
