@@ -13,6 +13,7 @@ const WebpackBar = require('webpackbar');
 const ASSETS_RE = /\.(svg|png|gif|jpe?g|eot|ttf|woff2?)$/;
 
 function makeConfig({
+  alias,
   define,
   deps,
   dev,
@@ -129,6 +130,7 @@ function makeConfig({
       publicPath: watch ? 'http://localhost:8000/' : '/',
     },
     resolve: {
+      alias,
       extensions: ['.js', '.ts', '.tsx'],
     },
     module: {
@@ -214,9 +216,18 @@ function makeConfig({
   };
 }
 
-function makeWebpackConfig({ define, dev, entry, paths, reactRefresh, watch }) {
+function makeWebpackConfig({
+  alias,
+  define,
+  dev,
+  entry,
+  paths,
+  reactRefresh,
+  watch,
+}) {
   return [
     makeConfig({
+      alias,
       define,
       dev,
       entry: entry.browser,
@@ -227,6 +238,7 @@ function makeWebpackConfig({ define, dev, entry, paths, reactRefresh, watch }) {
       watch,
     }),
     makeConfig({
+      alias,
       define,
       deps: ['browser'],
       dev,
