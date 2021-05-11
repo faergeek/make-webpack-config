@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/faergeek/make-webpack-config/compare/v3.1.0...v3.1.1) (2021-05-11)
+
+
+### Bug Fixes
+
+* use type instead of test for css cache group ([0849a0a](https://github.com/faergeek/make-webpack-config/commit/0849a0ac88cb0d43a60a650cc4319d8d5cb744c9))
+
 # [3.1.0](https://github.com/faergeek/make-webpack-config/compare/v3.0.1...v3.1.0) (2021-05-11)
 
 
