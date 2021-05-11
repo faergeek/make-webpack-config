@@ -1,3 +1,13 @@
+## [3.1.3](https://github.com/faergeek/make-webpack-config/compare/v3.1.2...v3.1.3) (2021-05-11)
+
+
+### Bug Fixes
+
+* add typescript to resolve.extensions ([c7ea489](https://github.com/faergeek/make-webpack-config/commit/c7ea48918c352b5995ea55681fb6f6886530dd9e))
+* always pretty-print assets json ([fba146c](https://github.com/faergeek/make-webpack-config/commit/fba146cef194a5d03331ecb6efec406d3f8b571f))
+* make sure user can't override our defines ([4175ea8](https://github.com/faergeek/make-webpack-config/commit/4175ea82d50d5e3e84415be009bcd4f6265eee51))
+* remove output.libraryTarget ([2088581](https://github.com/faergeek/make-webpack-config/commit/208858192f26f9a99ac14aabbd3a3ef0df9f2e16))
+
 ## [3.1.2](https://github.com/faergeek/make-webpack-config/compare/v3.1.1...v3.1.2) (2021-05-11)
 
 
