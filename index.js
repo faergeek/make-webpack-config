@@ -133,6 +133,7 @@ function makeConfig({
       alias,
       extensions: ['.js', '.ts', '.tsx'],
       modules: ['node_modules', paths.src],
+      symlinks: false,
     },
     module: {
       rules: [
