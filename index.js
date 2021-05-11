@@ -27,9 +27,9 @@ function makeConfig({
   const plugins = [
     new WebpackBar({ name }),
     new webpack.DefinePlugin({
+      ...define,
       __DEV__: JSON.stringify(dev),
       __NODE__: JSON.stringify(node),
-      ...define,
     }),
   ];
 
