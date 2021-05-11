@@ -1,3 +1,10 @@
+## [3.1.2](https://github.com/faergeek/make-webpack-config/compare/v3.1.1...v3.1.2) (2021-05-11)
+
+
+### Reverts
+
+* use mini-css-extract-plugin emit option ([41deb16](https://github.com/faergeek/make-webpack-config/commit/41deb16757a06af46bce9283bd81df5c145a6757))
+
 ## [3.1.1](https://github.com/faergeek/make-webpack-config/compare/v3.1.0...v3.1.1) (2021-05-11)
 
 
