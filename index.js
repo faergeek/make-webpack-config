@@ -202,7 +202,7 @@ function makeConfig({
             enforce: true,
           },
           css: {
-            test: /\.css$/,
+            type: 'css/mini-extract',
             name: 'main',
             chunks: 'all',
             enforce: true,
