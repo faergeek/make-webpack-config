@@ -190,7 +190,9 @@ function makeConfig({
     plugins,
     optimization: {
       minimizer: ['...', new CssMinimizerPlugin()],
-      runtimeChunk: node ? undefined : 'single',
+      runtimeChunk: node
+        ? undefined
+        : { name: entrypoint => `${entrypoint.name}.runtime` },
       splitChunks: {
         cacheGroups: {
           vendor: {
