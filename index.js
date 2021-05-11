@@ -199,16 +199,14 @@ function makeConfig({
       splitChunks: {
         cacheGroups: {
           vendor: {
-            test: /[\\/]node_modules[\\/](?!webpack[\\/]hot[\\/]).*\.js$/,
-            name: 'vendors',
+            test: /[\\/]node_modules[\\/](?!webpack[\\/]hot[\\/])/,
             chunks: 'initial',
             enforce: true,
           },
           css: {
             type: 'css/mini-extract',
             name: 'main',
-            chunks: 'all',
-            enforce: true,
+            chunks: 'async',
           },
         },
       },
