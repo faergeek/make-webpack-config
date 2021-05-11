@@ -125,7 +125,6 @@ function makeConfig({
         ? path.relative(paths.build, '[resource-path]')
         : undefined,
       filename: `[name]${node || watch ? '' : '.[contenthash]'}.js`,
-      libraryTarget: node ? 'commonjs' : undefined,
       path: node ? paths.build : paths.public,
       publicPath: watch ? 'http://localhost:8000/' : '/',
     },
