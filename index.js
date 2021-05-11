@@ -80,7 +80,7 @@ function makeConfig({
           client: { retry: true },
           hmr: dev ? 'refresh-on-failure' : false,
           log: { level: 'warn' },
-          port: 8081,
+          port: 8000,
           static: [paths.public],
           waitForBuild: true,
           middleware: (app, builtins) =>
@@ -118,7 +118,7 @@ function makeConfig({
       filename: `[name]${node || watch ? '' : '.[contenthash]'}.js`,
       libraryTarget: node ? 'commonjs' : undefined,
       path: node ? paths.build : paths.public,
-      publicPath: watch ? 'http://localhost:8081/' : '/',
+      publicPath: watch ? 'http://localhost:8000/' : '/',
     },
     module: {
       rules: [
