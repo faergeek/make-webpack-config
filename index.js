@@ -129,6 +129,9 @@ function makeConfig({
       path: node ? paths.build : paths.public,
       publicPath: watch ? 'http://localhost:8000/' : '/',
     },
+    resolve: {
+      extensions: ['.js', '.ts', '.tsx'],
+    },
     module: {
       rules: [
         {
