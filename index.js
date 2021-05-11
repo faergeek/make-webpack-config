@@ -40,7 +40,7 @@ function makeConfig({
         includeAuxiliaryAssets: true,
         includeDynamicImportedAssets: true,
         path: paths.build,
-        prettyPrint: dev,
+        prettyPrint: true,
         update: true,
       }),
       new MiniCssExtractPlugin({
