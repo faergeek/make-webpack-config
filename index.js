@@ -131,7 +131,7 @@ function makeConfig({
     module: {
       rules: [
         {
-          test: /\.(js|ts|tsx)$/,
+          test: /\.(js|tsx?)$/,
           include: paths.src,
           loader: require.resolve('babel-loader'),
           options: {
