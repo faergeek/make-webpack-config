@@ -31,9 +31,6 @@ function makeConfig({
       __NODE__: JSON.stringify(node),
       ...define,
     }),
-    new MiniCssExtractPlugin({
-      filename: watch ? '[name].css' : '[name].[contenthash].css',
-    }),
   ];
 
   if (!node) {
@@ -45,6 +42,9 @@ function makeConfig({
         path: paths.build,
         prettyPrint: dev,
         update: true,
+      }),
+      new MiniCssExtractPlugin({
+        filename: watch ? '[name].css' : '[name].[contenthash].css',
       })
     );
   }
@@ -142,11 +142,7 @@ function makeConfig({
         },
         {
           test: /\.(css|sass|scss)$/,
-          use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-              options: { emit: !node },
-            },
+          use: (node ? [] : [MiniCssExtractPlugin.loader]).concat([
             {
               loader: require.resolve('css-loader'),
               options: {
@@ -163,7 +159,7 @@ function makeConfig({
               },
             },
             require.resolve('postcss-loader'),
-          ],
+          ]),
         },
         { test: /\.(css|js)$/, use: require.resolve('source-map-loader') },
         {
