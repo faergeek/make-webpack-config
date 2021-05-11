@@ -132,6 +132,7 @@ function makeConfig({
     resolve: {
       alias,
       extensions: ['.js', '.ts', '.tsx'],
+      modules: ['node_modules', paths.src],
     },
     module: {
       rules: [
