@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/faergeek/make-webpack-config/compare/v3.0.1...v3.1.0) (2021-05-11)
+
+
+### Features
+
+* add support for passing object as an entry ([51c15b8](https://github.com/faergeek/make-webpack-config/commit/51c15b8b181b28a33a86c91a06a46acdbb8684e5))
+
 ## [3.0.1](https://github.com/faergeek/make-webpack-config/compare/v3.0.0...v3.0.1) (2021-05-11)
 
 
