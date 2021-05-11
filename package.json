@@ -5,6 +5,9 @@
   "repository": "git@github.com:faergeek/make-webpack-config.git",
   "author": "Sergey Slipchenko <me@faergeek.online>",
   "license": "MIT",
+  "files": [
+    "*.js"
+  ],
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint --max-warnings 0 .",
