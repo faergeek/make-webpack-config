@@ -210,10 +210,10 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
-"@npmcli/arborist@^2.0.0", "@npmcli/arborist@^2.3.0", "@npmcli/arborist@^2.4.2":
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/@npmcli/arborist/-/arborist-2.4.2.tgz#7c22eb0d7b66f31e250e1927047d0bd497dbdf8a"
-  integrity sha512-QrsMrRWzO1D2EmPQheyPz1yRnnmln6vPe4SujV4cRF0v9qIAQbD8M0dMH6K3y+w/2X3t7vg5lx20LHXsbcu7lw==
+"@npmcli/arborist@^2.0.0", "@npmcli/arborist@^2.3.0", "@npmcli/arborist@^2.4.4":
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/@npmcli/arborist/-/arborist-2.4.4.tgz#8a5885b9d8076264aaf5547eb8c1faa95fc8e4c1"
+  integrity sha512-mqZvcPCWT6gSSYxs08aKvXmECXh9fP85q1pUIY/jDkaQ58QTRy6F7XrUQr7F77jXpYfpYKPUi6RhpuSpOXCITA==
   dependencies:
     "@npmcli/installed-package-contents" "^1.0.7"
     "@npmcli/map-workspaces" "^1.0.2"
@@ -226,7 +226,7 @@
     cacache "^15.0.3"
     common-ancestor-path "^1.0.1"
     json-parse-even-better-errors "^2.3.1"
-    json-stringify-nice "^1.1.2"
+    json-stringify-nice "^1.1.4"
     mkdirp-infer-owner "^2.0.0"
     npm-install-checks "^4.0.0"
     npm-package-arg "^8.1.0"
@@ -2311,7 +2311,7 @@ glob-parent@^5.0.0, glob-parent@^5.1.0, glob-parent@~5.1.0:
   dependencies:
     is-glob "^4.0.1"
 
-glob@^7.1.1, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6:
+glob@^7.1.1, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6, glob@^7.1.7:
   version "7.1.7"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.7.tgz#3b193e9233f01d42d0b3f78294bbeeb418f94a90"
   integrity sha512-OvD9ENzPLbegENnYP5UUfJIirTg4+XwMWGaQfQTY0JenxNvvIKP3U3/tAQSPIu/lHxXYSZmpXlUHeqAIdKzBLQ==
@@ -2955,7 +2955,7 @@ json-stable-stringify-without-jsonify@^1.0.1:
   resolved "https://registry.yarnpkg.com/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz#9db7b59496ad3f3cfef30a75142d2d930ad72651"
   integrity sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
 
-json-stringify-nice@^1.1.2:
+json-stringify-nice@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/json-stringify-nice/-/json-stringify-nice-1.1.4.tgz#2c937962b80181d3f317dd39aa323e14f5a60a67"
   integrity sha512-5Z5RFW63yxReJ7vANgW6eZFGWaQvnPE3WNmZoOJrSkGju2etKA2L5rrOa1sm877TVTFt57A80BH1bArcmlLfPw==
@@ -3163,10 +3163,10 @@ libnpmdiff@^2.0.4:
     pacote "^11.3.0"
     tar "^6.1.0"
 
-libnpmexec@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/libnpmexec/-/libnpmexec-1.1.0.tgz#daa79d4545e21d0eb6887a33e0bbc8ab466099b2"
-  integrity sha512-OWpsPWtD6CAn66JouyjBfhQ9eS1mAtXgZXXd1SoAyUP3Mol+ao9IJ2THcJQcgX96keVmZkUA11uJS5ZNEd9DwA==
+libnpmexec@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/libnpmexec/-/libnpmexec-1.1.1.tgz#aa510cc74612cac3945f7e2fd2ac4c650fa7ef66"
+  integrity sha512-uw6H2dzC6F6fdq7lAxfzXPimHCJ3/g6ycFKcv2Q2QXuNZ94EDmNPpMO6f4mwiC5F6Lyy/WK0IL7AZwRhmSvUdQ==
   dependencies:
     "@npmcli/arborist" "^2.3.0"
     "@npmcli/ci-detect" "^1.3.0"
@@ -3834,11 +3834,11 @@ npm-user-validate@^1.0.1:
   integrity sha512-uQwcd/tY+h1jnEaze6cdX/LrhWhoBxfSknxentoqmIuStxUExxjWd3ULMLFPiFUrZKbOVMowH6Jq2FRWfmhcEw==
 
 npm@^7.0.0:
-  version "7.12.0"
-  resolved "https://registry.yarnpkg.com/npm/-/npm-7.12.0.tgz#c2fb58bbb4f7bbef339a945a28b7c75117799bdd"
-  integrity sha512-8Zvas3+1zKtE4uXIxHWRpg1bqGNrOta9RTDZWJ2k+EfOfzOggPQh9N4jHtsrIuGLawXv9xCWyvauke1UWMOMoA==
+  version "7.12.1"
+  resolved "https://registry.yarnpkg.com/npm/-/npm-7.12.1.tgz#ef808e9684ccc1624991e76fed53f19827fc90e4"
+  integrity sha512-vjIniB3kqujcDTgH+k90J2i5PPqYZyf1gi5Ni5fARK4WQr5FuVnTQlTXloyk15+qWUxwWHcy6U8YCWwh/TLzmA==
   dependencies:
-    "@npmcli/arborist" "^2.4.2"
+    "@npmcli/arborist" "^2.4.4"
     "@npmcli/ci-detect" "^1.2.0"
     "@npmcli/config" "^2.2.0"
     "@npmcli/run-script" "^1.8.5"
@@ -3853,7 +3853,7 @@ npm@^7.0.0:
     cli-columns "^3.1.2"
     cli-table3 "^0.6.0"
     columnify "~1.5.4"
-    glob "^7.1.4"
+    glob "^7.1.7"
     graceful-fs "^4.2.6"
     hosted-git-info "^4.0.2"
     ini "^2.0.0"
@@ -3863,7 +3863,7 @@ npm@^7.0.0:
     leven "^3.1.0"
     libnpmaccess "^4.0.2"
     libnpmdiff "^2.0.4"
-    libnpmexec "^1.1.0"
+    libnpmexec "^1.1.1"
     libnpmfund "^1.0.2"
     libnpmhook "^6.0.2"
     libnpmorg "^2.0.2"
@@ -4926,9 +4926,9 @@ schema-utils@^3.0.0:
     ajv-keywords "^3.5.2"
 
 semantic-release@^17.4.2:
-  version "17.4.2"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.4.2.tgz#b5147b5a629c227b7074ad4cc89920a14cb08c96"
-  integrity sha512-TPLWuoe2L2DmgnQEh+OLWW5V1T+ZAa1xWuHXsuPAWEko0BqSdLPl+5+BlQ+D5Bp27S5gDJ1//Y1tgbmvUhnOCw==
+  version "17.4.3"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.4.3.tgz#e01b2d0c0adaf5a6cc427359f1df755d1e908927"
+  integrity sha512-lTOUSrkbaQ+TRs3+BmtJhLtPSyiO7iTGmh5SyuEFqNO8HQbQ4nzXg4UlPrDQasO/C0eFK/V0eCbOzJdjtKBOYw==
   dependencies:
     "@semantic-release/commit-analyzer" "^8.0.0"
     "@semantic-release/error" "^2.2.0"
@@ -4946,7 +4946,7 @@ semantic-release@^17.4.2:
     git-log-parser "^1.2.0"
     hook-std "^2.0.0"
     hosted-git-info "^4.0.0"
-    lodash "^4.17.15"
+    lodash "^4.17.21"
     marked "^2.0.0"
     marked-terminal "^4.1.1"
     micromatch "^4.0.2"
@@ -5584,9 +5584,9 @@ typedarray-to-buffer@^3.1.5:
     is-typedarray "^1.0.0"
 
 uglify-js@^3.1.4:
-  version "3.13.5"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.13.5.tgz#5d71d6dbba64cf441f32929b1efce7365bb4f113"
-  integrity sha512-xtB8yEqIkn7zmOyS2zUNBsYCBRhDkvlNxMMY2smuJ/qA8NCHeQvKCF3i9Z4k8FJH4+PJvZRtMrPynfZ75+CSZw==
+  version "3.13.6"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.13.6.tgz#6815ac7fdd155d03c83e2362bb717e5b39b74013"
+  integrity sha512-rRprLwl8RVaS+Qvx3Wh5hPfPBn9++G6xkGlUupya0s5aDmNjI7z3lnRLB3u7sN4OmbB0pWgzhM9BEJyiWAwtAA==
 
 uniq@^1.0.1:
   version "1.0.1"
