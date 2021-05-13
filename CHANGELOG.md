@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/faergeek/make-webpack-config/compare/v3.2.0...v3.2.1) (2021-05-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency css-minimizer-webpack-plugin to v3 ([5f2003a](https://github.com/faergeek/make-webpack-config/commit/5f2003ab28d01e0c008e0371640c418e1ab3ec1c))
+
 # [3.2.0](https://github.com/faergeek/make-webpack-config/compare/v3.1.4...v3.2.0) (2021-05-11)
 
 
