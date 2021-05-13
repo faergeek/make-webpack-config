@@ -1,3 +1,10 @@
+## [3.2.2](https://github.com/faergeek/make-webpack-config/compare/v3.2.1...v3.2.2) (2021-05-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency sass to v1.32.13 ([50e5187](https://github.com/faergeek/make-webpack-config/commit/50e51871cedfcf0035127bedf151e5993c5942cf))
+
 ## [3.2.1](https://github.com/faergeek/make-webpack-config/compare/v3.2.0...v3.2.1) (2021-05-13)
 
 
