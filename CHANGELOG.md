@@ -1,3 +1,11 @@
+## [3.2.5](https://github.com/faergeek/make-webpack-config/compare/v3.2.4...v3.2.5) (2021-05-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency postcss-loader to v5.3.0 ([d4b0f52](https://github.com/faergeek/make-webpack-config/commit/d4b0f52181f7c21aec691c49adbca3c04fd5e46b))
+* **deps:** update dependency webpack-bundle-analyzer to v4.4.2 ([e53dcf8](https://github.com/faergeek/make-webpack-config/commit/e53dcf844629f7f1625d382b36f79c2f3d6167b1))
+
 ## [3.2.4](https://github.com/faergeek/make-webpack-config/compare/v3.2.3...v3.2.4) (2021-05-17)
 
 
