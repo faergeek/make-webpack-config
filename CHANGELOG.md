@@ -1,3 +1,10 @@
+## [3.2.4](https://github.com/faergeek/make-webpack-config/compare/v3.2.3...v3.2.4) (2021-05-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency source-map-loader to v2.0.2 ([28bb281](https://github.com/faergeek/make-webpack-config/commit/28bb281cc8dfa821476656c45a5d0dacca8b4f32))
+
 ## [3.2.3](https://github.com/faergeek/make-webpack-config/compare/v3.2.2...v3.2.3) (2021-05-13)
 
 
