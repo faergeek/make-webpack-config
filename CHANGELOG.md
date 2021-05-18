@@ -1,3 +1,10 @@
+## [3.2.6](https://github.com/faergeek/make-webpack-config/compare/v3.2.5...v3.2.6) (2021-05-18)
+
+
+### Bug Fixes
+
+* **deps:** add file-loader ([6317b25](https://github.com/faergeek/make-webpack-config/commit/6317b256e095ae1bf8ab9d211e1899123211430d))
+
 ## [3.2.5](https://github.com/faergeek/make-webpack-config/compare/v3.2.4...v3.2.5) (2021-05-17)
 
 
