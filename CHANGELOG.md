@@ -1,3 +1,10 @@
+## [3.2.7](https://github.com/faergeek/make-webpack-config/compare/v3.2.6...v3.2.7) (2021-05-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency css-loader to v5.2.5 ([ec4c7a9](https://github.com/faergeek/make-webpack-config/commit/ec4c7a9b0ac4014e99b6641a7ba1d1b4c878b55e))
+
 ## [3.2.6](https://github.com/faergeek/make-webpack-config/compare/v3.2.5...v3.2.6) (2021-05-18)
 
 
