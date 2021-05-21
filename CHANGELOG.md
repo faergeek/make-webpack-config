@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/faergeek/make-webpack-config/compare/v4.0.1...v5.0.0) (2021-05-21)
+
+
+### Reverts
+
+* Revert "feat: add astroturf" ([ae37b73](https://github.com/faergeek/make-webpack-config/commit/ae37b7324235d830fbcdde67ed0cde5931f39d88))
+
+
+### BREAKING CHANGES
+
+* astroturf is removed for now because of incompatibility
+
 ## [4.0.1](https://github.com/faergeek/make-webpack-config/compare/v4.0.0...v4.0.1) (2021-05-21)
 
 
