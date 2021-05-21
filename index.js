@@ -15,7 +15,6 @@ const ASSETS_RE = /\.(svg|png|gif|jpe?g|eot|ttf|woff2?)$/;
 function makeConfig({
   alias,
   define,
-  deps,
   dev,
   entry,
   name,
@@ -102,7 +101,6 @@ function makeConfig({
 
   return {
     name,
-    dependencies: deps,
     target: node
       ? 'node'
       : dev
@@ -238,7 +236,6 @@ function makeWebpackConfig({
       define,
       dev,
       entry: entry.browser,
-      name: 'browser',
       node: false,
       paths,
       reactRefresh,
@@ -247,10 +244,8 @@ function makeWebpackConfig({
     makeConfig({
       alias,
       define,
-      deps: ['browser'],
       dev,
       entry: entry.node,
-      name: 'node',
       node: true,
       paths,
       reactRefresh,
