@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/faergeek/make-webpack-config/compare/v4.0.0...v4.0.1) (2021-05-21)
+
+
+### Reverts
+
+* Revert "perf: don't make node config wait for browser" ([3d68840](https://github.com/faergeek/make-webpack-config/commit/3d688400496c3ce6e0f150f4f799156e84da4035))
+
 # [4.0.0](https://github.com/faergeek/make-webpack-config/compare/v3.3.0...v4.0.0) (2021-05-21)
 
 
