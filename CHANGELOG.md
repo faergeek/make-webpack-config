@@ -1,3 +1,16 @@
+# [4.0.0](https://github.com/faergeek/make-webpack-config/compare/v3.3.0...v4.0.0) (2021-05-21)
+
+
+### Performance Improvements
+
+* don't make node config wait for browser ([5c377ca](https://github.com/faergeek/make-webpack-config/commit/5c377caeeb2717cdfcfffc167f8ea60e5eb3ca52))
+
+
+### BREAKING CHANGES
+
+* webpack-assets.json does not exists when server is
+started
+
 # [3.3.0](https://github.com/faergeek/make-webpack-config/compare/v3.2.8...v3.3.0) (2021-05-21)
 
 
