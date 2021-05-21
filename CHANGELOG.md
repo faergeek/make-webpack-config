@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/faergeek/make-webpack-config/compare/v3.2.8...v3.3.0) (2021-05-21)
+
+
+### Features
+
+* add astroturf ([bcb303f](https://github.com/faergeek/make-webpack-config/commit/bcb303fe404f8df81a949a109be290343651bc5d))
+
 ## [3.2.8](https://github.com/faergeek/make-webpack-config/compare/v3.2.7...v3.2.8) (2021-05-21)
 
 
