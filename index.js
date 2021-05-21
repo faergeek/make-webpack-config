@@ -140,16 +140,11 @@ function makeConfig({
         {
           test: /\.(js|tsx?)$/,
           include: paths.src,
-          use: [
-            {
-              loader: require.resolve('babel-loader'),
-              options: {
-                envName: dev ? 'development' : 'production',
-                plugins: babelPlugins,
-              },
-            },
-            require.resolve('astroturf/loader'),
-          ],
+          loader: require.resolve('babel-loader'),
+          options: {
+            envName: dev ? 'development' : 'production',
+            plugins: babelPlugins,
+          },
         },
         {
           test: /\.(css|sass|scss)$/,
