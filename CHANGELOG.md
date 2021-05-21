@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/faergeek/make-webpack-config/compare/v5.0.0...v5.0.1) (2021-05-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency source-map-loader to v3 ([ad2ff3b](https://github.com/faergeek/make-webpack-config/commit/ad2ff3b4e6d9717325d46021c2200d7d9277276d))
+
 # [5.0.0](https://github.com/faergeek/make-webpack-config/compare/v4.0.1...v5.0.0) (2021-05-21)
 
 
