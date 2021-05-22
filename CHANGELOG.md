@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/faergeek/make-webpack-config/compare/v5.0.1...v5.0.2) (2021-05-22)
+
+
+### Bug Fixes
+
+* **deps:** update dependency sass to v1.34.0 ([ce56c53](https://github.com/faergeek/make-webpack-config/commit/ce56c5398df474e4d2e1fbc9cde5c2eec0242f95))
+
 ## [5.0.1](https://github.com/faergeek/make-webpack-config/compare/v5.0.0...v5.0.1) (2021-05-21)
 
 
