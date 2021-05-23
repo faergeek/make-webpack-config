@@ -46,6 +46,7 @@
     "webpack-cli": "4.4.0"
   },
   "dependencies": {
+    "@babel/core": "^7.14.3",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "assets-webpack-plugin": "^7.1.0",
     "babel-loader": "^8.2.2",
