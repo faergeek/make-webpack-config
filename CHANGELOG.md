@@ -1,3 +1,10 @@
+## [5.0.3](https://github.com/faergeek/make-webpack-config/compare/v5.0.2...v5.0.3) (2021-05-23)
+
+
+### Bug Fixes
+
+* **deps:** pin react-refresh version ([ef6aae2](https://github.com/faergeek/make-webpack-config/commit/ef6aae204df4678ee0d27c221db1c7326c0e5b13))
+
 ## [5.0.2](https://github.com/faergeek/make-webpack-config/compare/v5.0.1...v5.0.2) (2021-05-22)
 
 
