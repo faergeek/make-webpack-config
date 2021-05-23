@@ -1,3 +1,11 @@
+## [5.0.4](https://github.com/faergeek/make-webpack-config/compare/v5.0.3...v5.0.4) (2021-05-23)
+
+
+### Bug Fixes
+
+* **deps:** add @babel/core ([9d5a881](https://github.com/faergeek/make-webpack-config/commit/9d5a88143edbfc01efe9b69c141dad9da4aa2aaa))
+* **deps:** add postcss ([72e9302](https://github.com/faergeek/make-webpack-config/commit/72e9302b075b6ee468a9658ec4e7dc3fd3ee1a62))
+
 ## [5.0.3](https://github.com/faergeek/make-webpack-config/compare/v5.0.2...v5.0.3) (2021-05-23)
 
 
