@@ -1,3 +1,15 @@
+# [6.0.0](https://github.com/faergeek/make-webpack-config/compare/v5.0.4...v6.0.0) (2021-05-24)
+
+
+### Bug Fixes
+
+* move @babel/core and postcss to peer deps ([c9329b7](https://github.com/faergeek/make-webpack-config/commit/c9329b7595f9986bd60f4cb167eab2d811be0708))
+
+
+### BREAKING CHANGES
+
+* you have to install @babel/core and postcss yourself
+
 ## [5.0.4](https://github.com/faergeek/make-webpack-config/compare/v5.0.3...v5.0.4) (2021-05-23)
 
 
