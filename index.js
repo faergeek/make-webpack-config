@@ -205,7 +205,6 @@ function makeConfig({
           vendor: {
             test: /[\\/]node_modules[\\/](?!webpack[\\/]hot[\\/])/,
             chunks: 'initial',
-            enforce: true,
           },
           css: {
             type: 'css/mini-extract',
