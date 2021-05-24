@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/faergeek/make-webpack-config/compare/v6.0.0...v6.0.1) (2021-05-24)
+
+
+### Bug Fixes
+
+* do not enforce vendor chunk extraction ([0ca416b](https://github.com/faergeek/make-webpack-config/commit/0ca416bd0fb62660fa22dfeba01b733d3e66d4dd))
+
 # [6.0.0](https://github.com/faergeek/make-webpack-config/compare/v5.0.4...v6.0.0) (2021-05-24)
 
 
