@@ -1,5 +1,7 @@
 # make-webpack-config
 
+![Build status](https://github.com/faergeek/make-webpack-config/actions/workflows/main.yml/badge.svg)
+
 ## Usage
 
 First install it with npm:
