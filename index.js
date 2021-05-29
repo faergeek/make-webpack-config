@@ -202,9 +202,11 @@ function makeConfig({
         : { name: entrypoint => `${entrypoint.name}.runtime` },
       splitChunks: {
         cacheGroups: {
-          vendor: {
+          vendors: {
             test: /[\\/]node_modules[\\/](?!webpack[\\/]hot[\\/])/,
             chunks: 'initial',
+            name: (module, chunks, cacheGroupKey) =>
+              `${cacheGroupKey}-${chunks.map(chunk => chunk.name).join('&')}`,
           },
           css: {
             type: 'css/mini-extract',
