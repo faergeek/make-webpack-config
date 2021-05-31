@@ -175,7 +175,12 @@ function makeConfig({
               loader: require.resolve('resolve-url-loader'),
               options: { sourceMap: true },
             },
-            require.resolve('sass-loader'),
+            {
+              loader: require.resolve('sass-loader'),
+              options: {
+                implementation: require('node-sass'),
+              },
+            },
           ],
         },
         {
