@@ -21,6 +21,7 @@ function makeConfig({
   name,
   node,
   paths,
+  prefresh,
   reactRefresh,
   watch,
 }) {
@@ -72,6 +73,11 @@ function makeConfig({
               overlay: { sockIntegration: 'wps' },
             })
           );
+        }
+
+        if (prefresh) {
+          babelPlugins.push('@prefresh/babel-plugin');
+          plugins.push(new (require('@prefresh/webpack'))());
         }
       } else {
         plugins.push(new BundleAnalyzerPlugin({ openAnalyzer: false }));
@@ -230,6 +236,7 @@ function makeWebpackConfig({
   dev,
   entry,
   paths,
+  prefresh,
   reactRefresh,
   watch,
 }) {
@@ -242,6 +249,7 @@ function makeWebpackConfig({
       name: 'browser',
       node: false,
       paths,
+      prefresh,
       reactRefresh,
       watch,
     }),
@@ -254,6 +262,7 @@ function makeWebpackConfig({
       name: 'node',
       node: true,
       paths,
+      prefresh,
       reactRefresh,
       watch,
     }),
