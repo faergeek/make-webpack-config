@@ -25,7 +25,8 @@ const path = require('path');
 module.exports = (env, argv) =>
   makeWebpackConfig({
     dev: argv.mode === 'development',
-    reactRefresh: true,
+    prefresh: true,
+    reactRefresh: false,
     watch: argv.watch,
     paths: {
       build: path.resolve('build'),
