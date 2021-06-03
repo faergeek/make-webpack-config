@@ -18,6 +18,7 @@ function makeConfig({
   deps,
   dev,
   entry,
+  extractRuntimeChunk,
   name,
   node,
   paths,
@@ -208,9 +209,10 @@ function makeConfig({
     plugins,
     optimization: {
       minimizer: ['...', new CssMinimizerPlugin()],
-      runtimeChunk: node
-        ? undefined
-        : { name: entrypoint => `runtime-${entrypoint.name}` },
+      runtimeChunk:
+        node || !extractRuntimeChunk
+          ? undefined
+          : { name: entrypoint => `runtime-${entrypoint.name}` },
       splitChunks: {
         cacheGroups: {
           vendors: {
@@ -235,6 +237,7 @@ function makeWebpackConfig({
   define,
   dev,
   entry,
+  extractRuntimeChunk,
   paths,
   prefresh,
   reactRefresh,
@@ -246,6 +249,7 @@ function makeWebpackConfig({
       define,
       dev,
       entry: entry.browser,
+      extractRuntimeChunk,
       name: 'browser',
       node: false,
       paths,
@@ -259,6 +263,7 @@ function makeWebpackConfig({
       deps: ['browser'],
       dev,
       entry: entry.node,
+      extractRuntimeChunk,
       name: 'node',
       node: true,
       paths,
