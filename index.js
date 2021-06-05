@@ -118,7 +118,11 @@ function makeConfig({
     stats: watch ? 'none' : 'errors-warnings',
     devtool: dev ? 'cheap-module-source-map' : 'source-map',
     externals: node
-      ? nodeExternals({ allowlist: [/^webpack\/hot/, ASSETS_RE] })
+      ? nodeExternals({
+          allowlist: [/^webpack\/hot/, ASSETS_RE].concat(
+            alias && Object.keys(alias)
+          ),
+        })
       : undefined,
     entry:
       typeof entry === 'string'
