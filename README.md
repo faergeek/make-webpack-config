@@ -41,6 +41,9 @@ module.exports = (env, argv) =>
         admin: './src/admin',
       },
     },
+    externals: require('webpack-node-externals')({
+      allowlist: [/^webpack\/hot/, /\.(svg|png|gif|jpe?g|eot|ttf|woff2?)$/],
+    }),
     define: {
       __SOME_API_KEY__: JSON.stringify(process.env.SOME_API_KEY),
     },

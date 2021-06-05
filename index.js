@@ -6,11 +6,8 @@ const path = require('path');
 const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const nodeExternals = require('webpack-node-externals');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
 const WebpackBar = require('webpackbar');
-
-const ASSETS_RE = /\.(svg|png|gif|jpe?g|eot|ttf|woff2?)$/;
 
 function makeConfig({
   alias,
@@ -21,6 +18,7 @@ function makeConfig({
   extractRuntimeChunk,
   name,
   node,
+  nodeExternals,
   paths,
   prefresh,
   reactRefresh,
@@ -117,13 +115,7 @@ function makeConfig({
       : 'browserslist:production',
     stats: watch ? 'none' : 'errors-warnings',
     devtool: dev ? 'cheap-module-source-map' : 'source-map',
-    externals: node
-      ? nodeExternals({
-          allowlist: [/^webpack\/hot/, ASSETS_RE].concat(
-            alias && Object.keys(alias)
-          ),
-        })
-      : undefined,
+    externals: node ? nodeExternals : undefined,
     entry:
       typeof entry === 'string'
         ? wrapEntry(entry)
@@ -195,7 +187,7 @@ function makeConfig({
           ],
         },
         {
-          test: ASSETS_RE,
+          test: /\.(svg|png|gif|jpe?g|eot|ttf|woff2?)$/,
           type: 'javascript/auto',
           use: [
             {
@@ -242,6 +234,7 @@ function makeWebpackConfig({
   dev,
   entry,
   extractRuntimeChunk,
+  nodeExternals,
   paths,
   prefresh,
   reactRefresh,
@@ -256,6 +249,7 @@ function makeWebpackConfig({
       extractRuntimeChunk,
       name: 'browser',
       node: false,
+      nodeExternals,
       paths,
       prefresh,
       reactRefresh,
@@ -270,6 +264,7 @@ function makeWebpackConfig({
       extractRuntimeChunk,
       name: 'node',
       node: true,
+      nodeExternals,
       paths,
       prefresh,
       reactRefresh,
