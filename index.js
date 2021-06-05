@@ -187,7 +187,7 @@ function makeConfig({
           ],
         },
         {
-          test: /\.(svg|png|gif|jpe?g|eot|ttf|woff2?)$/,
+          test: /\.(svg|png|gif|jpe?g|eot|otf|ttf|woff2?)$/,
           type: 'javascript/auto',
           use: [
             {
