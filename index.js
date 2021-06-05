@@ -15,10 +15,10 @@ function makeConfig({
   deps,
   dev,
   entry,
+  externals,
   extractRuntimeChunk,
   name,
   node,
-  nodeExternals,
   paths,
   prefresh,
   reactRefresh,
@@ -115,13 +115,13 @@ function makeConfig({
       : 'browserslist:production',
     stats: watch ? 'none' : 'errors-warnings',
     devtool: dev ? 'cheap-module-source-map' : 'source-map',
-    externals: node ? nodeExternals : undefined,
     entry:
       typeof entry === 'string'
         ? wrapEntry(entry)
         : Object.fromEntries(
             Object.entries(entry).map(([k, v]) => [k, wrapEntry(v)])
           ),
+    externals,
     output: {
       chunkFilename: `[name]${node || watch ? '' : '.[contenthash]'}.js`,
       crossOriginLoading: watch ? 'anonymous' : undefined,
@@ -234,12 +234,16 @@ function makeWebpackConfig({
   dev,
   entry,
   extractRuntimeChunk,
-  nodeExternals,
   paths,
   prefresh,
   reactRefresh,
   watch,
 }) {
+  const pkg = require(path.relative(
+    __dirname,
+    path.resolve(process.cwd(), 'package.json')
+  ));
+
   return [
     makeConfig({
       alias,
@@ -249,7 +253,6 @@ function makeWebpackConfig({
       extractRuntimeChunk,
       name: 'browser',
       node: false,
-      nodeExternals,
       paths,
       prefresh,
       reactRefresh,
@@ -261,10 +264,12 @@ function makeWebpackConfig({
       deps: ['browser'],
       dev,
       entry: entry.node,
+      externals: Object.fromEntries(
+        Object.keys(pkg.dependencies).map(dep => [dep, `commonjs ${dep}`])
+      ),
       extractRuntimeChunk,
       name: 'node',
       node: true,
-      nodeExternals,
       paths,
       prefresh,
       reactRefresh,
