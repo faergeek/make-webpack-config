@@ -41,7 +41,7 @@ module.exports = (env, argv) =>
         admin: './src/admin',
       },
     },
-    externals: require('webpack-node-externals')({
+    nodeExternals: require('webpack-node-externals')({
       allowlist: [/^webpack\/hot/, /\.(svg|png|gif|jpe?g|eot|ttf|woff2?)$/],
     }),
     define: {
