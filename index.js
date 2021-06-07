@@ -153,13 +153,22 @@ function makeConfig({
         },
         {
           test: /\.(css|sass|scss)$/,
-          use: (node ? [] : [MiniCssExtractPlugin.loader]).concat([
+          use: (node
+            ? []
+            : [
+                {
+                  loader: MiniCssExtractPlugin.loader,
+                  options: { modules: { namedExport: true } },
+                },
+              ]
+          ).concat([
             {
               loader: require.resolve('css-loader'),
               options: {
                 importLoaders: 2,
                 modules: {
                   auto: true,
+                  namedExport: true,
                   exportOnlyLocals: node,
                   exportLocalsConvention: 'dashesOnly',
                   localIdentName: dev
