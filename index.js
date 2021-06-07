@@ -89,6 +89,7 @@ function makeConfig({
           hmr: dev ? 'refresh-on-failure' : false,
           log: { level: 'warn' },
           port,
+          progress: false,
           static: [paths.public],
           waitForBuild: true,
           middleware: (app, builtins) =>
