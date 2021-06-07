@@ -25,6 +25,7 @@ const path = require('path');
 module.exports = (env, argv) =>
   makeWebpackConfig({
     dev: argv.mode === 'development',
+    port: 9000, // default is 8000
     extractRuntimeChunk: true,
     prefresh: true,
     reactRefresh: false,
