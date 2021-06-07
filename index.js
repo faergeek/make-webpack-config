@@ -1,6 +1,5 @@
 const AssetsPlugin = require('assets-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
@@ -52,8 +51,6 @@ function makeConfig({
   }
 
   if (watch) {
-    plugins.push(new FriendlyErrorsWebpackPlugin({ clearConsole: false }));
-
     if (node) {
       plugins.push(
         new webpack.HotModuleReplacementPlugin(),
@@ -115,7 +112,7 @@ function makeConfig({
       : dev
       ? 'browserslist:development'
       : 'browserslist:production',
-    stats: watch ? 'none' : 'errors-warnings',
+    stats: 'errors-warnings',
     devtool: dev ? 'cheap-module-source-map' : 'source-map',
     entry:
       typeof entry === 'string'
