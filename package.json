@@ -71,7 +71,7 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
-    "@faergeek/eslint-config": "^3.0.0",
+    "@faergeek/eslint-config": "^4.0.0",
     "eslint": "^7.25.0",
     "husky": "^6.0.0",
     "prettier": "^2.2.1",
