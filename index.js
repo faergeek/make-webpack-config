@@ -1,6 +1,7 @@
 const AssetsPlugin = require('assets-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const svgToMiniDataURI = require('mini-svg-data-uri');
 const path = require('path');
 const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 const webpack = require('webpack');
@@ -195,7 +196,15 @@ function makeConfig({
           ],
         },
         {
-          test: /\.(svg|png|gif|jpe?g|ico|eot|otf|ttf|woff2?)$/,
+          test: /\.svg$/,
+          type: 'asset',
+          generator: {
+            emit: !node,
+            dataUrl: content => svgToMiniDataURI(content.toString()),
+          },
+        },
+        {
+          test: /\.(png|gif|jpe?g|ico|eot|otf|ttf|woff2?)$/,
           type: 'asset',
           generator: { emit: !node },
         },
