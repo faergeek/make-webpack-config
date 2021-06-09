@@ -196,17 +196,8 @@ function makeConfig({
         },
         {
           test: /\.(svg|png|gif|jpe?g|ico|eot|otf|ttf|woff2?)$/,
-          type: 'javascript/auto',
-          use: [
-            {
-              loader: require.resolve('url-loader'),
-              options: {
-                emitFile: !node,
-                limit: 4000,
-                name: watch ? '[name].[ext]' : '[name].[contenthash].[ext]',
-              },
-            },
-          ],
+          type: 'asset',
+          generator: { emit: !node },
         },
       ],
     },
