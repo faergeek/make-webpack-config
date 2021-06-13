@@ -205,7 +205,7 @@ function makeConfig({
         },
         {
           test: /\.(png|gif|jpe?g|ico|eot|otf|ttf|woff2?)$/,
-          type: 'asset/source',
+          type: 'asset/resource',
           generator: { emit: !node },
         },
       ],
