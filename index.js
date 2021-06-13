@@ -47,6 +47,15 @@ function makeConfig({
       }),
       new MiniCssExtractPlugin({
         filename: watch ? '[name].css' : '[name].[contenthash].css',
+      }),
+      new BundleAnalyzerPlugin({
+        analyzerHost: 'localhost',
+        analyzerMode: watch ? 'server' : 'static',
+        analyzerPort: 'auto',
+        defaultSizes: 'gzip',
+        generateStatsFile: true,
+        openAnalyzer: false,
+        reportFilename: path.join(paths.build, 'webpack-bundle-analyzer.html'),
       })
     );
   }
@@ -77,8 +86,6 @@ function makeConfig({
           babelPlugins.push('@prefresh/babel-plugin');
           plugins.push(new (require('@prefresh/webpack'))());
         }
-      } else {
-        plugins.push(new BundleAnalyzerPlugin({ openAnalyzer: false }));
       }
 
       plugins.push(
