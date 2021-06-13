@@ -56,6 +56,7 @@ function makeConfig({
         generateStatsFile: true,
         openAnalyzer: false,
         reportFilename: path.join(paths.build, 'webpack-bundle-analyzer.html'),
+        statsFilename: path.join(paths.build, 'stats.json'),
       })
     );
   }
