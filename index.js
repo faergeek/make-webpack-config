@@ -99,7 +99,6 @@ function makeConfig({
 
       plugins.push(
         new WebpackPluginServe({
-          client: { retry: true },
           hmr: dev ? 'refresh-on-failure' : false,
           log: { level: 'warn' },
           port,
