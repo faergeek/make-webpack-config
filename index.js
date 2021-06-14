@@ -47,18 +47,26 @@ function makeConfig({
       }),
       new MiniCssExtractPlugin({
         filename: watch ? '[name].css' : '[name].[contenthash].css',
-      }),
-      new BundleAnalyzerPlugin({
-        analyzerHost: 'localhost',
-        analyzerMode: watch ? 'server' : 'static',
-        analyzerPort: 'auto',
-        defaultSizes: 'gzip',
-        generateStatsFile: true,
-        openAnalyzer: false,
-        reportFilename: path.join(paths.build, 'webpack-bundle-analyzer.html'),
-        statsFilename: path.join(paths.build, 'stats.json'),
       })
     );
+
+    if (!dev) {
+      plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerHost: 'localhost',
+          analyzerMode: watch ? 'server' : 'static',
+          analyzerPort: 'auto',
+          defaultSizes: 'gzip',
+          generateStatsFile: true,
+          openAnalyzer: false,
+          reportFilename: path.join(
+            paths.build,
+            'webpack-bundle-analyzer.html'
+          ),
+          statsFilename: path.join(paths.build, 'stats.json'),
+        })
+      );
+    }
   }
 
   if (watch) {
