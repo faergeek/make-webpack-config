@@ -228,10 +228,10 @@ function makeConfig({
     optimization: {
       minimizer: ['...', new CssMinimizerPlugin()],
       runtimeChunk:
-        node || !extractRuntimeChunk
-          ? undefined
-          : { name: entrypoint => `runtime-${entrypoint.name}` },
-      splitChunks: {
+        extractRuntimeChunk && !dev && !node
+          ? { name: entrypoint => `runtime-${entrypoint.name}` }
+          : undefined,
+      splitChunks: !dev && {
         cacheGroups: {
           vendors: {
             test: /[\\/]node_modules[\\/](?!webpack[\\/]hot[\\/])/,
