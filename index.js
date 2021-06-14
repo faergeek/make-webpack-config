@@ -110,6 +110,7 @@ function makeConfig({
 
       plugins.push(
         new WebpackPluginServe({
+          client: { silent: true },
           hmr: dev ? 'refresh-on-failure' : false,
           port,
           progress: false,
