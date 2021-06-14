@@ -12,7 +12,6 @@ const WebpackBar = require('webpackbar');
 function makeConfig({
   alias,
   define,
-  deps,
   dev,
   entry,
   externals,
@@ -121,7 +120,6 @@ function makeConfig({
 
   return {
     name,
-    dependencies: deps,
     target: node
       ? 'node'
       : dev
@@ -285,7 +283,6 @@ function makeWebpackConfig({
     makeConfig({
       alias,
       define,
-      deps: ['browser'],
       dev,
       entry: entry.node,
       externals: Object.fromEntries(
