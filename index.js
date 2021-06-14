@@ -9,8 +9,19 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
 const WebpackBar = require('webpackbar');
 
+function getEntryModuleFilename() {
+  let mod = module;
+
+  while (mod.parent) {
+    mod = mod.parent;
+  }
+
+  return mod.filename;
+}
+
 function makeConfig({
   alias,
+  cache,
   define,
   dev,
   entry,
@@ -134,6 +145,13 @@ function makeConfig({
             Object.entries(entry).map(([k, v]) => [k, wrapEntry(v)])
           ),
     externals,
+    cache: cache && {
+      type: 'filesystem',
+      version: '1',
+      buildDependencies: {
+        config: [getEntryModuleFilename()],
+      },
+    },
     output: {
       chunkFilename: `[name]${node || watch ? '' : '.[contenthash]'}.js`,
       crossOriginLoading: watch ? 'anonymous' : undefined,
@@ -250,6 +268,7 @@ function makeConfig({
 
 function makeWebpackConfig({
   alias,
+  cache,
   define,
   dev,
   entry,
@@ -268,6 +287,7 @@ function makeWebpackConfig({
   return [
     makeConfig({
       alias,
+      cache,
       define,
       dev,
       entry: entry.browser,
@@ -282,6 +302,7 @@ function makeWebpackConfig({
     }),
     makeConfig({
       alias,
+      cache,
       define,
       dev,
       entry: entry.node,

@@ -25,11 +25,14 @@ const path = require('path');
 module.exports = (env, argv) =>
   makeWebpackConfig({
     dev: argv.mode === 'development',
+    watch: argv.watch,
+    reactRefresh: false,
+    prefresh: true,
     port: 9000, // default is 8000
     extractRuntimeChunk: true,
-    prefresh: true,
-    reactRefresh: false,
-    watch: argv.watch,
+    // it's also recommended to clear cache on postinstall.
+    // see https://webpack.js.org/guides/build-performance/#persistent-cache
+    cache: true,
     paths: {
       build: path.resolve('build'),
       public: path.resolve('build', 'public'),
