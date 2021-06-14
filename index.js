@@ -100,7 +100,6 @@ function makeConfig({
       plugins.push(
         new WebpackPluginServe({
           hmr: dev ? 'refresh-on-failure' : false,
-          log: { level: 'warn' },
           port,
           progress: false,
           static: [paths.public],
