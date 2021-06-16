@@ -21,6 +21,7 @@ function getEntryModuleFilename() {
 
 function makeConfig({
   alias,
+  analyze,
   analyzerPort = 'auto',
   cache,
   define,
@@ -62,7 +63,7 @@ function makeConfig({
       })
     );
 
-    if (!dev) {
+    if (analyze) {
       plugins.push(
         new BundleAnalyzerPlugin({
           analyzerHost: 'localhost',
@@ -280,6 +281,7 @@ function makeConfig({
 
 function makeWebpackConfig({
   alias,
+  analyze,
   analyzerPort,
   cache,
   define,
@@ -300,6 +302,7 @@ function makeWebpackConfig({
   return [
     makeConfig({
       alias,
+      analyze,
       analyzerPort,
       cache,
       define,
@@ -316,6 +319,7 @@ function makeWebpackConfig({
     }),
     makeConfig({
       alias,
+      analyze,
       analyzerPort,
       cache,
       define,
