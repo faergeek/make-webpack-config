@@ -113,7 +113,7 @@ function makeConfig({
       plugins.push(
         new WebpackPluginServe({
           client: { silent: true },
-          hmr: 'refresh-on-failure',
+          hmr: dev ? 'refresh-on-failure' : false,
           port,
           progress: 'minimal',
           static: [paths.public],
@@ -129,7 +129,7 @@ function makeConfig({
     return (
       node
         ? ['source-map-support/register', watch && 'webpack/hot/signal', entry]
-        : [watch && 'webpack-plugin-serve/client', entry]
+        : [dev && watch && 'webpack-plugin-serve/client', entry]
     ).filter(Boolean);
   }
 
@@ -152,7 +152,7 @@ function makeConfig({
     externals,
     cache: cache && {
       type: 'filesystem',
-      version: '2',
+      version: '3',
       buildDependencies: {
         config: [getEntryModuleFilename()],
       },
@@ -249,19 +249,11 @@ function makeConfig({
     optimization: {
       minimizer: ['...', new CssMinimizerPlugin()],
       runtimeChunk:
-        extractRuntimeChunk && !node
+        extractRuntimeChunk && !dev && !node
           ? { name: entrypoint => `runtime-${entrypoint.name}` }
           : undefined,
-      splitChunks: {
+      splitChunks: !dev && {
         cacheGroups: {
-          dev: {
-            test: /[\\/]node_modules[\\/](@pmmmwh[\\/]react-refresh-webpack-plugin|@prefresh|mini-css-extract-plugin|react-refresh[\\/])/,
-            chunks: 'all',
-            name: 'dev',
-            priority: 1,
-            enforce: true,
-            reuseExistingChunk: false,
-          },
           vendors: {
             test: /[\\/]node_modules[\\/](?!webpack[\\/]hot[\\/])/,
             chunks: 'initial',
