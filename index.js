@@ -113,7 +113,7 @@ function makeConfig({
           client: { silent: true },
           hmr: dev ? 'refresh-on-failure' : false,
           port,
-          progress: false,
+          progress: 'minimal',
           static: [paths.public],
           waitForBuild: true,
           middleware: (app, builtins) =>
