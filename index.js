@@ -21,6 +21,7 @@ function getEntryModuleFilename() {
 
 function makeConfig({
   alias,
+  analyzerPort = 'auto',
   cache,
   define,
   deps,
@@ -66,7 +67,7 @@ function makeConfig({
         new BundleAnalyzerPlugin({
           analyzerHost: 'localhost',
           analyzerMode: watch ? 'server' : 'static',
-          analyzerPort: 'auto',
+          analyzerPort,
           defaultSizes: 'gzip',
           generateStatsFile: true,
           openAnalyzer: false,
@@ -279,6 +280,7 @@ function makeConfig({
 
 function makeWebpackConfig({
   alias,
+  analyzerPort,
   cache,
   define,
   dev,
@@ -298,6 +300,7 @@ function makeWebpackConfig({
   return [
     makeConfig({
       alias,
+      analyzerPort,
       cache,
       define,
       dev,
@@ -313,6 +316,7 @@ function makeWebpackConfig({
     }),
     makeConfig({
       alias,
+      analyzerPort,
       cache,
       define,
       deps: watch ? undefined : ['browser'],

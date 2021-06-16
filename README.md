@@ -29,6 +29,7 @@ module.exports = (env, argv) =>
     reactRefresh: false,
     prefresh: true,
     port: 9000, // default is 8000
+    analyzerPort: 9001, // default is 'auto', which means random
     extractRuntimeChunk: true,
     // it's also recommended to clear cache on postinstall.
     // see https://webpack.js.org/guides/build-performance/#persistent-cache
