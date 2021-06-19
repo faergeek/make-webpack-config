@@ -22,7 +22,7 @@ function getEntryModuleFilename() {
 function makeConfig({
   alias,
   analyze,
-  analyzerPort = 'auto',
+  analyzerPort,
   cache,
   define,
   deps,
@@ -274,7 +274,7 @@ function makeConfig({
 function makeWebpackConfig({
   alias,
   analyze,
-  analyzerPort,
+  analyzerPort = 8001,
   cache,
   define,
   dev,
