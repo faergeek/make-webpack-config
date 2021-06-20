@@ -156,7 +156,7 @@ function makeConfig({
     externals,
     cache: cache && {
       type: 'filesystem',
-      version: '3',
+      version: '4',
       buildDependencies: {
         config: [getEntryModuleFilename()],
       },
