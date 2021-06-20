@@ -1,13 +1,35 @@
 const AssetsPlugin = require('assets-webpack-plugin');
+const { spawn } = require('child_process');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const svgToMiniDataURI = require('mini-svg-data-uri');
 const path = require('path');
-const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
 const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
 const WebpackBar = require('webpackbar');
+
+class LaunchPlugin {
+  constructor(filename) {
+    this.path = filename;
+  }
+
+  apply(compiler) {
+    const hmrPlugin = new webpack.HotModuleReplacementPlugin();
+    hmrPlugin.apply(compiler);
+
+    compiler.hooks.afterEmit.tap(this.constructor.name, () => {
+      if (this.child) {
+        process.kill(this.child.pid, 'SIGUSR2');
+        return;
+      }
+
+      this.child = spawn('node', ['--inspect=9229', this.path], {
+        stdio: 'inherit',
+      });
+    });
+  }
+}
 
 function getEntryModuleFilename() {
   let mod = module;
@@ -84,14 +106,7 @@ function makeConfig({
 
   if (watch) {
     if (node) {
-      plugins.push(
-        new webpack.HotModuleReplacementPlugin(),
-        new RunScriptWebpackPlugin({
-          name: 'main.js',
-          nodeArgs: ['--inspect=9229'],
-          signal: true,
-        })
-      );
+      plugins.push(new LaunchPlugin(path.join(paths.build, 'main.js')));
     } else {
       if (dev) {
         if (reactRefresh) {
