@@ -128,7 +128,11 @@ function makeConfig({
   function wrapEntry(entry) {
     return (
       node
-        ? ['source-map-support/register', watch && 'webpack/hot/signal', entry]
+        ? [
+            'source-map-support/register',
+            '@faergeek/make-webpack-config/hot',
+            entry,
+          ]
         : [dev && watch && 'webpack-plugin-serve/client', entry]
     ).filter(Boolean);
   }
