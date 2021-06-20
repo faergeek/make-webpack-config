@@ -319,7 +319,7 @@ function makeWebpackConfig({
       analyzerPort,
       cache,
       define,
-      deps: watch ? undefined : ['browser'],
+      deps: ['browser'],
       dev,
       entry: entry.node,
       externals: Object.fromEntries(
