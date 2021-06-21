@@ -166,7 +166,7 @@ function makeConfig({
       : dev
       ? 'browserslist:development'
       : 'browserslist:production',
-    stats: 'errors-warnings',
+    stats: watch ? 'errors-only' : 'errors-warnings',
     devtool: dev ? 'cheap-module-source-map' : 'source-map',
     entry:
       typeof entry === 'string'
