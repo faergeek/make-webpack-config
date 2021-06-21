@@ -134,12 +134,13 @@ function makeConfig({
         new WebpackPluginServe({
           client: { silent: true },
           hmr: dev ? 'refresh-on-failure' : false,
+          log: { level: 'error' },
+          middleware: (app, builtins) =>
+            builtins.headers({ 'Access-Control-Allow-Origin': '*' }),
           port,
           progress: 'minimal',
           static: [paths.public],
           waitForBuild: true,
-          middleware: (app, builtins) =>
-            builtins.headers({ 'Access-Control-Allow-Origin': '*' }),
         })
       );
     }
