@@ -11,13 +11,11 @@ const WebpackBar = require('webpackbar');
 
 class LaunchPlugin {
   constructor(filename) {
+    this.child = null;
     this.path = filename;
   }
 
   apply(compiler) {
-    const hmrPlugin = new webpack.HotModuleReplacementPlugin();
-    hmrPlugin.apply(compiler);
-
     compiler.hooks.afterEmit.tap(this.constructor.name, () => {
       if (this.child) {
         process.kill(this.child.pid, 'SIGUSR2');
@@ -26,6 +24,10 @@ class LaunchPlugin {
 
       this.child = spawn('node', ['--inspect=9229', this.path], {
         stdio: 'inherit',
+      });
+
+      this.child.on('close', () => {
+        this.child = null;
       });
     });
   }
@@ -106,7 +108,10 @@ function makeConfig({
 
   if (watch) {
     if (node) {
-      plugins.push(new LaunchPlugin(path.join(paths.build, 'main.js')));
+      plugins.push(
+        new webpack.HotModuleReplacementPlugin(),
+        new LaunchPlugin(path.join(paths.build, 'main.js'))
+      );
     } else {
       if (dev) {
         if (reactRefresh) {
