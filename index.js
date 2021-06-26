@@ -44,12 +44,11 @@ class ServerPlugin {
     const streams = [];
 
     createServer(async (req, res) => {
+      res.setHeader('Access-Control-Allow-Origin', '*');
       const stream = new SseStream(req);
       streams.push(stream);
 
-      pipeline(stream, res);
-
-      req.on('close', () => {
+      pipeline(stream, res, () => {
         res.end();
         const index = streams.indexOf(stream);
         if (index !== -1) {
