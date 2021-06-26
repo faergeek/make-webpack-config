@@ -1,12 +1,12 @@
 const AssetsPlugin = require('assets-webpack-plugin');
 const { spawn } = require('child_process');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const { createServer } = require('http');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const svgToMiniDataURI = require('mini-svg-data-uri');
 const path = require('path');
 const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const { WebpackPluginServe } = require('webpack-plugin-serve');
 const WebpackBar = require('webpackbar');
 
 class LaunchPlugin {
@@ -28,6 +28,40 @@ class LaunchPlugin {
 
       this.child.on('close', () => {
         this.child = null;
+      });
+    });
+  }
+}
+
+class ServerPlugin {
+  constructor(port) {
+    this.port = port;
+  }
+
+  apply(compiler) {
+    const clients = [];
+
+    createServer((req, res) => {
+      clients.push(res);
+
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Cache-Control', 'no-cache, no-transform');
+      res.setHeader('Connection', 'keep-alive');
+      res.setHeader('Content-Type', 'text/event-stream;charset=utf-8');
+      res.write('\n');
+
+      req.on('close', () => {
+        res.end();
+        const index = clients.indexOf(res);
+        if (index !== -1) {
+          clients.splice(index, 1);
+        }
+      });
+    }).listen(this.port);
+
+    compiler.hooks.afterEmit.tap(this.constructor.name, () => {
+      clients.forEach(client => {
+        client.write(`event: check\ndata:\n\n`);
       });
     });
   }
@@ -107,21 +141,17 @@ function makeConfig({
   }
 
   if (watch) {
+    plugins.push(new webpack.HotModuleReplacementPlugin());
+
     if (node) {
-      plugins.push(
-        new webpack.HotModuleReplacementPlugin(),
-        new LaunchPlugin(path.join(paths.build, 'main.js'))
-      );
+      plugins.push(new LaunchPlugin(path.join(paths.build, 'main.js')));
     } else {
+      plugins.push(new ServerPlugin(port));
+
       if (dev) {
         if (reactRefresh) {
           babelPlugins.push('react-refresh/babel');
-
-          plugins.push(
-            new (require('@pmmmwh/react-refresh-webpack-plugin'))({
-              overlay: { sockIntegration: 'wps' },
-            })
-          );
+          plugins.push(new (require('@pmmmwh/react-refresh-webpack-plugin'))());
         }
 
         if (prefresh) {
@@ -129,20 +159,6 @@ function makeConfig({
           plugins.push(new (require('@prefresh/webpack'))());
         }
       }
-
-      plugins.push(
-        new WebpackPluginServe({
-          client: { silent: true },
-          hmr: dev ? 'refresh-on-failure' : false,
-          log: { level: 'error' },
-          middleware: (app, builtins) =>
-            builtins.headers({ 'Access-Control-Allow-Origin': '*' }),
-          port,
-          progress: 'minimal',
-          static: [paths.public],
-          waitForBuild: true,
-        })
-      );
     }
   }
 
@@ -151,10 +167,10 @@ function makeConfig({
       node
         ? [
             'source-map-support/register',
-            '@faergeek/make-webpack-config/hot',
+            '@faergeek/make-webpack-config/node.hot',
             entry,
           ]
-        : [dev && watch && 'webpack-plugin-serve/client', entry]
+        : [`@faergeek/make-webpack-config/browser.hot?${port}`, entry]
     ).filter(Boolean);
   }
 
@@ -190,7 +206,7 @@ function makeConfig({
         : undefined,
       filename: `[name]${node || watch ? '' : '.[contenthash]'}.js`,
       path: node ? paths.build : paths.public,
-      publicPath: watch ? `http://localhost:${port}/` : '/',
+      publicPath: '/',
     },
     resolve: {
       alias,
