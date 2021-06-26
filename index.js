@@ -9,7 +9,6 @@ const { default: SseStream } = require('ssestream');
 const { pipeline } = require('stream');
 const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const WebpackBar = require('webpackbar');
 
 class LaunchPlugin {
   constructor(filename) {
@@ -82,7 +81,6 @@ function makeConfig({
   analyze,
   analyzerPort,
   cache,
-  color,
   define,
   deps,
   dev,
@@ -98,14 +96,18 @@ function makeConfig({
   watch,
 }) {
   const babelPlugins = [];
+
   const plugins = [
-    new WebpackBar({ color, name }),
     new webpack.DefinePlugin({
       ...define,
       __DEV__: JSON.stringify(dev),
       __NODE__: JSON.stringify(node),
     }),
   ];
+
+  if (process.stdout.isTTY) {
+    plugins.push(new webpack.ProgressPlugin());
+  }
 
   if (!node) {
     plugins.push(
@@ -339,7 +341,6 @@ function makeWebpackConfig({
       analyze,
       analyzerPort,
       cache,
-      color: 'magenta',
       define,
       dev,
       entry: entry.browser,
@@ -357,7 +358,6 @@ function makeWebpackConfig({
       analyze,
       analyzerPort,
       cache,
-      color: 'cyan',
       define,
       deps: ['browser'],
       dev,
