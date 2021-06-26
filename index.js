@@ -5,6 +5,8 @@ const { createServer } = require('http');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const svgToMiniDataURI = require('mini-svg-data-uri');
 const path = require('path');
+const SseStream = require('ssestream');
+const { pipeline } = require('stream');
 const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
@@ -39,29 +41,26 @@ class ServerPlugin {
   }
 
   apply(compiler) {
-    const clients = [];
+    const streams = [];
 
-    createServer((req, res) => {
-      clients.push(res);
+    createServer(async (req, res) => {
+      const stream = new SseStream(req);
+      streams.push(stream);
 
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Cache-Control', 'no-cache, no-transform');
-      res.setHeader('Connection', 'keep-alive');
-      res.setHeader('Content-Type', 'text/event-stream;charset=utf-8');
-      res.write('\n');
+      pipeline(stream, res);
 
       req.on('close', () => {
         res.end();
-        const index = clients.indexOf(res);
+        const index = streams.indexOf(stream);
         if (index !== -1) {
-          clients.splice(index, 1);
+          streams.splice(index, 1);
         }
       });
     }).listen(this.port);
 
     compiler.hooks.afterEmit.tap(this.constructor.name, () => {
-      clients.forEach(client => {
-        client.write(`event: check\ndata:\n\n`);
+      streams.forEach(stream => {
+        stream.write({ event: 'check', data: '' });
       });
     });
   }
