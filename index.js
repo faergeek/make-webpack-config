@@ -82,6 +82,7 @@ function makeConfig({
   analyze,
   analyzerPort,
   cache,
+  color,
   define,
   deps,
   dev,
@@ -98,7 +99,7 @@ function makeConfig({
 }) {
   const babelPlugins = [];
   const plugins = [
-    new WebpackBar({ name }),
+    new WebpackBar({ color, name }),
     new webpack.DefinePlugin({
       ...define,
       __DEV__: JSON.stringify(dev),
@@ -338,6 +339,7 @@ function makeWebpackConfig({
       analyze,
       analyzerPort,
       cache,
+      color: 'magenta',
       define,
       dev,
       entry: entry.browser,
@@ -355,6 +357,7 @@ function makeWebpackConfig({
       analyze,
       analyzerPort,
       cache,
+      color: 'cyan',
       define,
       deps: ['browser'],
       dev,
