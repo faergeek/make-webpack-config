@@ -59,7 +59,7 @@ class ServerPlugin {
 
     compiler.hooks.afterEmit.tap(this.constructor.name, () => {
       streams.forEach(stream => {
-        stream.write({ event: 'check', data: '' });
+        stream.write({ event: 'check', data: 'check' });
       });
     });
   }
