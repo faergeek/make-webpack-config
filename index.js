@@ -203,7 +203,6 @@ function makeConfig({
     },
     output: {
       chunkFilename: `[name]${node || watch ? '' : '.[contenthash]'}.js`,
-      crossOriginLoading: watch ? 'anonymous' : undefined,
       devtoolModuleFilenameTemplate: node
         ? path.relative(paths.build, '[resource-path]')
         : undefined,
