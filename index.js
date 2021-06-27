@@ -1,3 +1,4 @@
+/* eslint-env node */
 const AssetsPlugin = require('assets-webpack-plugin');
 const { spawn } = require('child_process');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -17,7 +18,7 @@ class LaunchPlugin {
   }
 
   apply(compiler) {
-    compiler.hooks.afterEmit.tap(this.constructor.name, () => {
+    compiler.hooks.done.tap(this.constructor.name, () => {
       if (this.child) {
         process.kill(this.child.pid, 'SIGUSR2');
         return;
@@ -40,6 +41,7 @@ class ServerPlugin {
   }
 
   apply(compiler) {
+    let latestHash;
     const streams = [];
 
     createServer(async (req, res) => {
@@ -56,11 +58,17 @@ class ServerPlugin {
       });
 
       streams.push(stream);
+
+      if (latestHash) {
+        stream.write({ event: 'check', data: latestHash });
+      }
     }).listen(this.port);
 
-    compiler.hooks.afterEmit.tap(this.constructor.name, () => {
+    compiler.hooks.done.tap(this.constructor.name, stats => {
+      latestHash = stats.hash;
+
       streams.forEach(stream => {
-        stream.write({ event: 'check', data: 'check' });
+        stream.write({ event: 'check', data: latestHash });
       });
     });
   }
@@ -172,10 +180,10 @@ function makeConfig({
       node
         ? [
             'source-map-support/register',
-            watch && '@faergeek/make-webpack-config/node.hot',
+            watch && '@faergeek/make-webpack-config/hmr/node',
             entry,
           ]
-        : [watch && `@faergeek/make-webpack-config/browser.hot?${port}`, entry]
+        : [watch && `@faergeek/make-webpack-config/hmr/browser?${port}`, entry]
     ).filter(Boolean);
   }
 
@@ -298,13 +306,13 @@ function makeConfig({
           : undefined,
       splitChunks: {
         cacheGroups: {
-          hot: {
-            test: /[\\/]node_modules[\\/](@faergeek[\\/]make-webpack-config[\\/]browser\.hot\.js|mini-css-extract-plugin[\\/]dist[\\/]hmr[\\/])/,
+          hmr: {
+            test: /[\\/]node_modules[\\/](@faergeek[\\/]make-webpack-config[\\/]hmr[\\/]browser\.js|mini-css-extract-plugin[\\/]dist[\\/]hmr[\\/])/,
             chunks: 'all',
             enforce: true,
             reuseExistingChunk: false,
             priority: 1,
-            name: 'hot',
+            name: 'hmr',
           },
           vendors: {
             test: /[\\/]node_modules[\\/]/,

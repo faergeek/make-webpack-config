@@ -20,18 +20,7 @@
     "singleQuote": true
   },
   "eslintConfig": {
-    "extends": [
-      "@faergeek"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "index.js",
-          "node.hot.js"
-        ],
-        "extends": "@faergeek/eslint-config/node"
-      }
-    ]
+    "extends": "@faergeek"
   },
   "commitlint": {
     "extends": [

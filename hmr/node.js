@@ -1,7 +1,10 @@
+/* eslint-env node */
+import { onceIdle } from './utils';
+
 if (import.meta.webpackHot) {
   process.on('SIGUSR2', () => {
-    if (import.meta.webpackHot.status() === 'idle') {
+    onceIdle(() => {
       import.meta.webpackHot.check(true);
-    }
+    });
   });
 }
