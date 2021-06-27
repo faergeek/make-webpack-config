@@ -298,8 +298,13 @@ function makeConfig({
           : undefined,
       splitChunks: !dev && {
         cacheGroups: {
+          hot: {
+            test: /[\\/]node_modules[\\/](@faergeek[\\/]make-webpack-config[\\/](browser|node)\.hot[\\/])/,
+            chunks: 'all',
+            name: entrypoint => `runtime-${entrypoint.name}`,
+          },
           vendors: {
-            test: /[\\/]node_modules[\\/](?!webpack[\\/]hot[\\/])/,
+            test: /[\\/]node_modules[\\/]/,
             chunks: 'initial',
             name: (module, chunks, cacheGroupKey) =>
               `${cacheGroupKey}-${chunks.map(chunk => chunk.name).join('&')}`,
