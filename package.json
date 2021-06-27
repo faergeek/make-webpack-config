@@ -6,6 +6,7 @@
   "author": "Sergey Slipchenko <me@faergeek.online>",
   "license": "MIT",
   "files": [
+    "hmr/*.js",
     "*.js"
   ],
   "scripts": {
