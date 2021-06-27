@@ -170,10 +170,10 @@ function makeConfig({
       node
         ? [
             'source-map-support/register',
-            '@faergeek/make-webpack-config/node.hot',
+            watch && '@faergeek/make-webpack-config/node.hot',
             entry,
           ]
-        : [`@faergeek/make-webpack-config/browser.hot?${port}`, entry]
+        : [watch && `@faergeek/make-webpack-config/browser.hot?${port}`, entry]
     ).filter(Boolean);
   }
 
