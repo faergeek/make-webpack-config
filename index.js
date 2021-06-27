@@ -151,16 +151,14 @@ function makeConfig({
     } else {
       plugins.push(new ServerPlugin(port));
 
-      if (dev) {
-        if (reactRefresh) {
-          babelPlugins.push('react-refresh/babel');
-          plugins.push(new (require('@pmmmwh/react-refresh-webpack-plugin'))());
-        }
+      if (reactRefresh) {
+        babelPlugins.push('react-refresh/babel');
+        plugins.push(new (require('@pmmmwh/react-refresh-webpack-plugin'))());
+      }
 
-        if (prefresh) {
-          babelPlugins.push('@prefresh/babel-plugin');
-          plugins.push(new (require('@prefresh/webpack'))());
-        }
+      if (prefresh) {
+        babelPlugins.push('@prefresh/babel-plugin');
+        plugins.push(new (require('@prefresh/webpack'))());
       }
     }
   }
