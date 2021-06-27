@@ -82,7 +82,6 @@ function makeConfig({
   analyzerPort,
   cache,
   define,
-  deps,
   dev,
   entry,
   externals,
@@ -182,7 +181,6 @@ function makeConfig({
 
   return {
     name,
-    dependencies: deps,
     target: node
       ? 'node'
       : dev
@@ -369,7 +367,6 @@ function makeWebpackConfig({
       analyzerPort,
       cache,
       define,
-      deps: ['browser'],
       dev,
       entry: entry.node,
       externals: Object.fromEntries(
