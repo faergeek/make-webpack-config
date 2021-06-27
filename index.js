@@ -291,13 +291,14 @@ function makeConfig({
     plugins,
     optimization: {
       minimizer: ['...', new CssMinimizerPlugin()],
-      runtimeChunk: extractRuntimeChunk
-        ? { name: entrypoint => `runtime-${entrypoint.name}` }
-        : undefined,
+      runtimeChunk:
+        extractRuntimeChunk && !node
+          ? { name: entrypoint => `runtime-${entrypoint.name}` }
+          : undefined,
       splitChunks: {
         cacheGroups: {
           hot: {
-            test: /[\\/]node_modules[\\/](@faergeek[\\/]make-webpack-config[\\/](browser|node)\.hot\.js|mini-css-extract-plugin[\\/]dist[\\/]hmr[\\/])/,
+            test: /[\\/]node_modules[\\/](@faergeek[\\/]make-webpack-config[\\/]browser\.hot\.js|mini-css-extract-plugin[\\/]dist[\\/]hmr[\\/])/,
             chunks: 'all',
             enforce: true,
             reuseExistingChunk: false,
