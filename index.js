@@ -144,14 +144,17 @@ function makeConfig({
   }
 
   if (watch) {
-    plugins.push(new webpack.HotModuleReplacementPlugin());
-
     if (node) {
-      plugins.push(new LaunchPlugin(path.join(paths.build, 'main.js')));
+      plugins.push(
+        new webpack.HotModuleReplacementPlugin(),
+        new LaunchPlugin(path.join(paths.build, 'main.js'))
+      );
     } else {
       plugins.push(new ServerPlugin(port));
 
       if (dev) {
+        plugins.push(new webpack.HotModuleReplacementPlugin());
+
         if (reactRefresh) {
           babelPlugins.push('react-refresh/babel');
           plugins.push(new (require('@pmmmwh/react-refresh-webpack-plugin'))());
