@@ -228,7 +228,7 @@ function makeConfig({
     module: {
       rules: [
         {
-          test: /\.(js|tsx?)$/,
+          test: /\.(js|mdx|tsx?)$/,
           include: paths.src,
           loader: require.resolve('babel-loader'),
           options: {
@@ -236,6 +236,7 @@ function makeConfig({
             plugins: babelPlugins,
           },
         },
+        { test: /\.mdx$/, use: '@mdx-js/loader' },
         {
           test: /\.(css|sass|scss)$/,
           use: (node
