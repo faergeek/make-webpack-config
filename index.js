@@ -226,6 +226,7 @@ function makeConfig({
       symlinks: false,
     },
     module: {
+      strictExportPresence: true,
       rules: [
         {
           test: /\.(js|mdx|tsx?)$/,
