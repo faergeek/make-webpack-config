@@ -190,7 +190,6 @@ function makeConfig({
   return {
     name,
     mode: dev ? 'development' : 'production',
-    watch,
     target: node
       ? 'node'
       : dev
