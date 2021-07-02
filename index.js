@@ -2,6 +2,7 @@
 const AssetsPlugin = require('assets-webpack-plugin');
 const { spawn } = require('child_process');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const escapeStringRegexp = require('escape-string-regexp');
 const { createServer } = require('http');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const svgToMiniDataURI = require('mini-svg-data-uri');
@@ -204,6 +205,7 @@ function makeConfig({
             Object.entries(entry).map(([k, v]) => [k, wrapEntry(v)])
           ),
     externals,
+    externalsType: node ? 'commonjs' : undefined,
     cache: cache && {
       type: 'filesystem',
       version: '4',
@@ -372,8 +374,10 @@ function makeWebpackConfig({
       define,
       dev,
       entry: entry.node,
-      externals: Object.fromEntries(
-        Object.keys(pkg.dependencies).map(dep => [dep, `commonjs ${dep}`])
+      externals: new RegExp(
+        `^(${Object.keys(pkg.dependencies)
+          .map(dep => escapeStringRegexp(dep))
+          .join('|')})(/|$)`
       ),
       extractRuntimeChunk,
       name: 'node',
