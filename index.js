@@ -240,15 +240,7 @@ function makeConfig({
         { test: /\.mdx$/, use: '@mdx-js/loader' },
         {
           test: /\.(css|sass|scss)$/,
-          use: (node
-            ? []
-            : [
-                {
-                  loader: MiniCssExtractPlugin.loader,
-                  options: { modules: { namedExport: true } },
-                },
-              ]
-          ).concat([
+          use: (node ? [] : [MiniCssExtractPlugin.loader]).concat([
             {
               loader: require.resolve('css-loader'),
               options: {
