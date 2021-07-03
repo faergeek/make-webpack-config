@@ -1,8 +1,8 @@
 /* eslint-env node */
-const AssetsPlugin = require('assets-webpack-plugin');
 const { spawn } = require('child_process');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const escapeStringRegexp = require('escape-string-regexp');
+const { mkdir, writeFile } = require('fs/promises');
 const { createServer } = require('http');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const svgToMiniDataURI = require('mini-svg-data-uri');
@@ -11,6 +11,65 @@ const { default: SseStream } = require('ssestream');
 const { pipeline } = require('stream');
 const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+class AssetsPlugin {
+  constructor(filename) {
+    this.filename = filename;
+  }
+
+  apply(compiler) {
+    compiler.hooks.done.tapPromise({ name: 'AssetsPlugin' }, async stats => {
+      const { assets, entrypoints, publicPath } = stats.toJson({
+        all: false,
+        assets: true,
+        cachedAssets: true,
+        entrypoints: true,
+        publicPath: true,
+      });
+
+      const nonHmrAssetsIndex = Object.fromEntries(
+        assets
+          .filter(
+            asset => asset.type === 'asset' && !asset.info.hotModuleReplacement
+          )
+          .map(asset => [asset.name, asset])
+      );
+
+      const assetsByEntrypoint = Object.fromEntries(
+        Object.values(entrypoints).map(entrypoint => [
+          entrypoint.name,
+          entrypoint.assets
+            .map(asset => nonHmrAssetsIndex[asset.name])
+            .filter(Boolean)
+            .reduce(
+              (result, asset) => {
+                const ext = path.extname(asset.name).slice(1);
+
+                if (result[ext]) {
+                  result[ext].push(
+                    publicPath === 'auto' ? asset.name : publicPath + asset.name
+                  );
+                }
+
+                return result;
+              },
+              {
+                css: [],
+                js: [],
+              }
+            ),
+        ])
+      );
+
+      await mkdir(path.dirname(this.filename), { recursive: true });
+
+      await writeFile(
+        this.filename,
+        JSON.stringify(assetsByEntrypoint, null, 2)
+      );
+    });
+  }
+}
 
 class LaunchPlugin {
   constructor(filename) {
@@ -119,14 +178,7 @@ function makeConfig({
 
   if (!node) {
     plugins.push(
-      new AssetsPlugin({
-        entrypoints: true,
-        includeAuxiliaryAssets: true,
-        includeDynamicImportedAssets: true,
-        path: paths.build,
-        prettyPrint: true,
-        update: true,
-      }),
+      new AssetsPlugin(path.join(paths.build, 'webpack-assets.json')),
       new MiniCssExtractPlugin({
         filename: watch ? '[name].css' : '[name].[contenthash].css',
       })
