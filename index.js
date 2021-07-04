@@ -92,6 +92,12 @@ class LaunchPlugin {
         this.child = null;
       });
     });
+
+    compiler.hooks.entryOption.tap(this.constructor.name, (context, entry) => {
+      Object.values(entry).forEach(entryValue => {
+        entryValue.import.unshift('@faergeek/make-webpack-config/hmr/node');
+      });
+    });
   }
 }
 
@@ -129,6 +135,14 @@ class ServerPlugin {
 
       streams.forEach(stream => {
         stream.write({ event: 'check', data: latestHash });
+      });
+    });
+
+    compiler.hooks.entryOption.tap(this.constructor.name, (context, entry) => {
+      Object.values(entry).forEach(entryValue => {
+        entryValue.import.unshift(
+          `@faergeek/make-webpack-config/hmr/browser?${this.port}`
+        );
       });
     });
   }
@@ -228,16 +242,14 @@ function makeConfig({
     }
   }
 
-  function wrapEntry(entry) {
-    return (
-      node
-        ? [
-            'source-map-support/register',
-            watch && '@faergeek/make-webpack-config/hmr/node',
-            entry,
-          ]
-        : [watch && `@faergeek/make-webpack-config/hmr/browser?${port}`, entry]
-    ).filter(Boolean);
+  if (node) {
+    plugins.push(compiler => {
+      compiler.hooks.entryOption.tap('SourceMapSupport', (context, entry) => {
+        Object.values(entry).forEach(entryValue => {
+          entryValue.import.unshift('source-map-support/register');
+        });
+      });
+    });
   }
 
   return {
@@ -250,12 +262,7 @@ function makeConfig({
       : 'browserslist:production',
     stats: 'errors-warnings',
     devtool: dev ? 'cheap-module-source-map' : 'source-map',
-    entry:
-      typeof entry === 'string'
-        ? wrapEntry(entry)
-        : Object.fromEntries(
-            Object.entries(entry).map(([k, v]) => [k, wrapEntry(v)])
-          ),
+    entry,
     externals,
     externalsType: node ? 'commonjs' : undefined,
     cache: cache && {
