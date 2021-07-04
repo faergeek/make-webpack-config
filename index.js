@@ -255,11 +255,7 @@ function makeConfig({
   return {
     name,
     mode: dev ? 'development' : 'production',
-    target: node
-      ? 'node'
-      : dev
-      ? 'browserslist:development'
-      : 'browserslist:production',
+    target: node ? 'node' : undefined,
     stats: 'errors-warnings',
     devtool: dev ? 'cheap-module-source-map' : 'source-map',
     entry,
