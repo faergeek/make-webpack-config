@@ -368,7 +368,6 @@ function makeWebpackConfig({
       },
       immutableAssets: !watch,
       plugins: [
-        process.stdout.isTTY && new webpack.ProgressPlugin(),
         new webpack.DefinePlugin({
           ...define,
           __DEV__: JSON.stringify(dev),
@@ -379,6 +378,7 @@ function makeWebpackConfig({
           filename: watch ? '[name].css' : '[name].[contenthash].css',
         }),
       ]
+        .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
         .concat(
           analyze
             ? [
