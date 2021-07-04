@@ -327,13 +327,13 @@ function makeWebpackConfig({
       ),
       externalsType: 'commonjs',
       plugins: [
-        process.stdout.isTTY && new webpack.ProgressPlugin(),
         new webpack.DefinePlugin({
           ...define,
           __DEV__: JSON.stringify(dev),
           __NODE__: JSON.stringify(true),
         }),
       ]
+        .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
         .concat(
           watch ? [new NodeHmrPlugin(path.join(paths.build, 'main.js'))] : []
         )
