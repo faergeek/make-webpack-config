@@ -297,6 +297,7 @@ function makeConfig({
           options: {
             envName: dev ? 'development' : 'production',
             plugins: babelPlugins,
+            targets: node ? 'current node' : {},
           },
         },
         { test: /\.mdx$/, use: '@mdx-js/loader' },
