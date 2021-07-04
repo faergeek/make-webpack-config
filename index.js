@@ -71,13 +71,15 @@ class AssetsPlugin {
   }
 }
 
-class LaunchPlugin {
+class NodeHmrPlugin {
   constructor(filename) {
     this.child = null;
     this.path = filename;
   }
 
   apply(compiler) {
+    new webpack.HotModuleReplacementPlugin().apply(compiler);
+
     compiler.hooks.done.tap(this.constructor.name, () => {
       if (this.child) {
         process.kill(this.child.pid, 'SIGUSR2');
@@ -101,12 +103,14 @@ class LaunchPlugin {
   }
 }
 
-class ServerPlugin {
+class BrowserHmrPlugin {
   constructor(port) {
     this.port = port;
   }
 
   apply(compiler) {
+    new webpack.HotModuleReplacementPlugin().apply(compiler);
+
     let latestHash;
     const streams = [];
 
@@ -160,107 +164,35 @@ function getEntryModuleFilename() {
 
 function makeConfig({
   alias,
-  analyze,
-  analyzerPort,
+  babelLoaderOptions,
   cache,
-  define,
-  dev,
+  devtoolModuleFilenameTemplate,
+  emitAssets,
   entry,
   externals,
-  extractRuntimeChunk,
+  externalsType,
+  immutableAssets,
+  mode,
   name,
-  node,
-  paths,
-  port,
-  prefresh,
-  reactRefresh,
-  watch,
+  optimization,
+  outputPath,
+  plugins,
+  srcPath,
+  target,
 }) {
-  const babelPlugins = [];
-
-  const plugins = [
-    new webpack.DefinePlugin({
-      ...define,
-      __DEV__: JSON.stringify(dev),
-      __NODE__: JSON.stringify(node),
-    }),
-  ];
-
-  if (process.stdout.isTTY) {
-    plugins.push(new webpack.ProgressPlugin());
-  }
-
-  if (!node) {
-    plugins.push(
-      new AssetsPlugin(path.join(paths.build, 'webpack-assets.json')),
-      new MiniCssExtractPlugin({
-        filename: watch ? '[name].css' : '[name].[contenthash].css',
-      })
-    );
-
-    if (analyze) {
-      plugins.push(
-        new BundleAnalyzerPlugin({
-          analyzerHost: 'localhost',
-          analyzerMode: watch ? 'server' : 'static',
-          analyzerPort,
-          defaultSizes: 'gzip',
-          generateStatsFile: true,
-          openAnalyzer: false,
-          reportFilename: path.join(
-            paths.build,
-            'webpack-bundle-analyzer.html'
-          ),
-          statsFilename: path.join(paths.build, 'stats.json'),
-        })
-      );
-    }
-  }
-
-  if (watch) {
-    if (node) {
-      plugins.push(
-        new webpack.HotModuleReplacementPlugin(),
-        new LaunchPlugin(path.join(paths.build, 'main.js'))
-      );
-    } else {
-      plugins.push(new ServerPlugin(port));
-
-      if (dev) {
-        plugins.push(new webpack.HotModuleReplacementPlugin());
-
-        if (reactRefresh) {
-          babelPlugins.push('react-refresh/babel');
-          plugins.push(new (require('@pmmmwh/react-refresh-webpack-plugin'))());
-        }
-
-        if (prefresh) {
-          babelPlugins.push('@prefresh/babel-plugin');
-          plugins.push(new (require('@prefresh/webpack'))());
-        }
-      }
-    }
-  }
-
-  if (node) {
-    plugins.push(compiler => {
-      compiler.hooks.entryOption.tap('SourceMapSupport', (context, entry) => {
-        Object.values(entry).forEach(entryValue => {
-          entryValue.import.unshift('source-map-support/register');
-        });
-      });
-    });
-  }
+  const filename = `[name]${immutableAssets ? '.[contenthash]' : ''}.js`;
 
   return {
-    name,
-    mode: dev ? 'development' : 'production',
-    target: node ? 'node' : undefined,
-    stats: 'errors-warnings',
-    devtool: dev ? 'cheap-module-source-map' : 'source-map',
+    mode,
     entry,
     externals,
-    externalsType: node ? 'commonjs' : undefined,
+    externalsType,
+    name,
+    optimization,
+    plugins,
+    target,
+    stats: 'errors-warnings',
+    devtool: mode === 'development' ? 'cheap-module-source-map' : 'source-map',
     cache: cache && {
       type: 'filesystem',
       version: '4',
@@ -269,18 +201,16 @@ function makeConfig({
       },
     },
     output: {
-      chunkFilename: `[name]${node || watch ? '' : '.[contenthash]'}.js`,
-      devtoolModuleFilenameTemplate: node
-        ? path.relative(paths.build, '[resource-path]')
-        : undefined,
-      filename: `[name]${node || watch ? '' : '.[contenthash]'}.js`,
-      path: node ? paths.build : paths.public,
+      chunkFilename: filename,
+      devtoolModuleFilenameTemplate,
+      filename,
+      path: outputPath,
       publicPath: '/',
     },
     resolve: {
       alias,
       extensions: ['.js', '.ts', '.tsx'],
-      modules: ['node_modules', paths.src],
+      modules: ['node_modules', srcPath],
       symlinks: false,
     },
     module: {
@@ -288,18 +218,14 @@ function makeConfig({
       rules: [
         {
           test: /\.(js|mdx|tsx?)$/,
-          include: paths.src,
+          include: srcPath,
           loader: require.resolve('babel-loader'),
-          options: {
-            envName: dev ? 'development' : 'production',
-            plugins: babelPlugins,
-            targets: node ? 'current node' : {},
-          },
+          options: babelLoaderOptions,
         },
         { test: /\.mdx$/, use: '@mdx-js/loader' },
         {
           test: /\.(css|sass|scss)$/,
-          use: (node ? [] : [MiniCssExtractPlugin.loader]).concat([
+          use: (emitAssets ? [MiniCssExtractPlugin.loader] : []).concat([
             {
               loader: require.resolve('css-loader'),
               options: {
@@ -307,12 +233,12 @@ function makeConfig({
                 modules: {
                   auto: true,
                   namedExport: true,
-                  exportOnlyLocals: node,
+                  exportOnlyLocals: !emitAssets,
                   exportLocalsConvention: 'dashesOnly',
-                  localIdentName: dev
-                    ? '[local]@[1]#[contenthash:base64:5]'
-                    : undefined,
-                  localIdentRegExp: /\/([^/]*)\.module\.\w+$/i,
+                  localIdentName:
+                    mode === 'development'
+                      ? '[local]@[name]#[contenthash:base64:5]'
+                      : undefined,
                 },
               },
             },
@@ -339,47 +265,16 @@ function makeConfig({
           test: /\.svg$/,
           type: 'asset',
           generator: {
-            emit: !node,
+            emit: emitAssets,
             dataUrl: content => svgToMiniDataURI(content.toString()),
           },
         },
         {
           test: /\.(png|gif|jpe?g|ico|eot|otf|ttf|woff2?)$/,
           type: 'asset/resource',
-          generator: { emit: !node },
+          generator: { emit: emitAssets },
         },
       ],
-    },
-    plugins,
-    optimization: {
-      minimizer: ['...', new CssMinimizerPlugin()],
-      runtimeChunk:
-        extractRuntimeChunk && !node
-          ? { name: entrypoint => `runtime-${entrypoint.name}` }
-          : undefined,
-      splitChunks: {
-        cacheGroups: {
-          hmr: {
-            test: /[\\/]node_modules[\\/](@faergeek[\\/]make-webpack-config[\\/]hmr[\\/]browser\.js|mini-css-extract-plugin[\\/]dist[\\/]hmr[\\/])/,
-            chunks: 'all',
-            enforce: true,
-            reuseExistingChunk: false,
-            priority: 1,
-            name: 'hmr',
-          },
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            chunks: 'initial',
-            name: (module, chunks, cacheGroupKey) =>
-              `${cacheGroupKey}-${chunks.map(chunk => chunk.name).join('&')}`,
-          },
-          css: {
-            type: 'css/mini-extract',
-            name: 'main',
-            chunks: 'async',
-          },
-        },
-      },
     },
   };
 }
@@ -404,45 +299,135 @@ function makeWebpackConfig({
     path.resolve(process.cwd(), 'package.json')
   ));
 
+  const env = dev ? 'development' : 'production';
+
   return [
     makeConfig({
       alias,
-      analyze,
-      analyzerPort,
       cache,
-      define,
-      dev,
-      entry: entry.browser,
-      extractRuntimeChunk,
-      name: 'browser',
-      node: false,
-      paths,
-      port,
-      prefresh,
-      reactRefresh,
-      watch,
+      mode: env,
+      name: 'node',
+      entry: entry.node,
+      srcPath: paths.src,
+      outputPath: paths.build,
+      emitAssets: false,
+      target: 'node',
+      babelLoaderOptions: {
+        envName: env,
+        targets: 'current node',
+      },
+      devtoolModuleFilenameTemplate: path.relative(
+        paths.build,
+        '[resource-path]'
+      ),
+      externals: new RegExp(
+        `^(${Object.keys(pkg.dependencies)
+          .map(escapeStringRegexp)
+          .join('|')})(/|$)`
+      ),
+      externalsType: 'commonjs',
+      plugins: [
+        process.stdout.isTTY && new webpack.ProgressPlugin(),
+        new webpack.DefinePlugin({
+          ...define,
+          __DEV__: JSON.stringify(dev),
+          __NODE__: JSON.stringify(true),
+        }),
+      ]
+        .concat(
+          watch ? [new NodeHmrPlugin(path.join(paths.build, 'main.js'))] : []
+        )
+        .concat([
+          compiler => {
+            compiler.hooks.entryOption.tap(
+              'SourceMapSupport',
+              (context, entry) => {
+                Object.values(entry).forEach(entryValue => {
+                  entryValue.import.unshift('source-map-support/register');
+                });
+              }
+            );
+          },
+        ]),
     }),
     makeConfig({
       alias,
-      analyze,
-      analyzerPort,
       cache,
-      define,
-      dev,
-      entry: entry.node,
-      externals: new RegExp(
-        `^(${Object.keys(pkg.dependencies)
-          .map(dep => escapeStringRegexp(dep))
-          .join('|')})(/|$)`
-      ),
-      extractRuntimeChunk,
-      name: 'node',
-      node: true,
-      paths,
-      port,
-      prefresh,
-      reactRefresh,
-      watch,
+      mode: env,
+      name: 'browser',
+      entry: entry.browser,
+      srcPath: paths.src,
+      outputPath: paths.public,
+      emitAssets: true,
+      babelLoaderOptions: {
+        envName: env,
+        plugins: [
+          watch && dev && reactRefresh && 'react-refresh/babel',
+          watch && dev && prefresh && '@prefresh/babel-plugin',
+        ].filter(Boolean),
+      },
+      immutableAssets: !watch,
+      plugins: [
+        process.stdout.isTTY && new webpack.ProgressPlugin(),
+        new webpack.DefinePlugin({
+          ...define,
+          __DEV__: JSON.stringify(dev),
+          __NODE__: JSON.stringify(false),
+        }),
+        new AssetsPlugin(path.join(paths.build, 'webpack-assets.json')),
+        new MiniCssExtractPlugin({
+          filename: watch ? '[name].css' : '[name].[contenthash].css',
+        }),
+      ]
+        .concat(
+          analyze
+            ? [
+                new BundleAnalyzerPlugin({
+                  analyzerHost: 'localhost',
+                  analyzerMode: watch ? 'server' : 'static',
+                  analyzerPort,
+                  defaultSizes: 'gzip',
+                  openAnalyzer: false,
+                  reportFilename: path.join(
+                    paths.build,
+                    'webpack-bundle-analyzer.html'
+                  ),
+                  statsFilename: path.join(paths.build, 'stats.json'),
+                }),
+              ]
+            : []
+        )
+        .concat(
+          watch && dev
+            ? [
+                new BrowserHmrPlugin(port),
+                reactRefresh &&
+                  new (require('@pmmmwh/react-refresh-webpack-plugin'))(),
+                prefresh && new (require('@prefresh/webpack'))(),
+              ].filter(Boolean)
+            : []
+        ),
+      optimization: {
+        minimizer: ['...', new CssMinimizerPlugin()],
+        runtimeChunk: extractRuntimeChunk
+          ? { name: entrypoint => `runtime-${entrypoint.name}` }
+          : undefined,
+        splitChunks: {
+          cacheGroups: {
+            vendors: {
+              test: /[\\/]node_modules[\\/]/,
+              chunks: 'initial',
+              name: (module, chunks, cacheGroupKey) =>
+                `${cacheGroupKey}-${chunks.map(chunk => chunk.name).join('&')}`,
+            },
+            css: {
+              type: 'css/mini-extract',
+              name: 'main',
+              chunks: 'async',
+            },
+          },
+        },
+      },
     }),
   ];
 }
