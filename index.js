@@ -341,8 +341,8 @@ function makeWebpackConfig({
           compiler => {
             compiler.hooks.entryOption.tap(
               'SourceMapSupport',
-              (context, entry) => {
-                Object.values(entry).forEach(entryValue => {
+              (context, processedEntry) => {
+                Object.values(processedEntry).forEach(entryValue => {
                   entryValue.import.unshift('source-map-support/register');
                 });
               }
