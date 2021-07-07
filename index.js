@@ -2,7 +2,6 @@
 const { spawn } = require('child_process');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const escapeStringRegexp = require('escape-string-regexp');
-const findCacheDir = require('find-cache-dir');
 const { mkdir, writeFile } = require('fs/promises');
 const { createServer } = require('http');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -220,19 +219,8 @@ function makeConfig({
         {
           test: /\.(js|mdx|tsx?)$/,
           include: srcPath,
-          use: [
-            {
-              loader: require.resolve('babel-loader'),
-              options: babelLoaderOptions,
-            },
-            {
-              loader: require.resolve('linaria/loader'),
-              options: {
-                cacheDirectory: findCacheDir({ name: 'linaria' }),
-                sourceMap: true,
-              },
-            },
-          ],
+          loader: require.resolve('babel-loader'),
+          options: babelLoaderOptions,
         },
         { test: /\.mdx$/, use: '@mdx-js/loader' },
         {
