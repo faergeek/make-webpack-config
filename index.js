@@ -86,9 +86,11 @@ class NodeHmrPlugin {
         return;
       }
 
-      this.child = spawn('node', ['--inspect=9229', this.path], {
-        stdio: 'inherit',
-      });
+      this.child = spawn(
+        'node',
+        ['--enable-source-maps', '--inspect=9229', this.path],
+        { stdio: 'inherit' }
+      );
 
       this.child.on('close', () => {
         this.child = null;
@@ -336,19 +338,7 @@ function makeWebpackConfig({
         .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
         .concat(
           watch ? [new NodeHmrPlugin(path.join(paths.build, 'main.js'))] : []
-        )
-        .concat([
-          compiler => {
-            compiler.hooks.entryOption.tap(
-              'SourceMapSupport',
-              (context, processedEntry) => {
-                Object.values(processedEntry).forEach(entryValue => {
-                  entryValue.import.unshift('source-map-support/register');
-                });
-              }
-            );
-          },
-        ]),
+        ),
     }),
     makeConfig({
       alias,
