@@ -3834,9 +3834,9 @@ make-dir@^3.0.2, make-dir@^3.1.0:
     semver "^6.0.0"
 
 make-fetch-happen@*, make-fetch-happen@^9.0.1:
-  version "9.0.5"
-  resolved "https://registry.yarnpkg.com/make-fetch-happen/-/make-fetch-happen-9.0.5.tgz#e7819afd9c8605f1452df4c1c6dc5c502ca18459"
-  integrity sha512-XN0i/VqHsql30Oq7179spk6vu3IuaPL1jaivNYhBrJtK7tkOuJwMK2IlROiOnJ40b9SvmOo2G86FZyI6LD2EsQ==
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/make-fetch-happen/-/make-fetch-happen-9.1.0.tgz#53085a09e7971433e6765f7971bf63f4e05cb968"
+  integrity sha512-+zopwDy7DNknmwPQplem5lAZX/eCOzSvSNNcSKm5eVwTkOBzoktEfXsa9L23J/GIRhxRsaxzkPEhrJEpE2F4Gg==
   dependencies:
     agentkeepalive "^4.1.3"
     cacache "^15.2.0"
@@ -5592,9 +5592,9 @@ scss-tokenizer@^0.2.3:
     source-map "^0.4.2"
 
 semantic-release@^17.4.2:
-  version "17.4.6"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.4.6.tgz#a9e53da3d43ac07250c55b6939857587be2ecaa2"
-  integrity sha512-0B1OGkW8gzQjLbj3H5G4fJyy73HAWsoDnzWYyfNJHyyyLi1acQd+id4O7U+12wXTk9G83pXCgSFj9oYTvocFMA==
+  version "17.4.7"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.4.7.tgz#88e1dce7294cc43acc54c4e0a83f582264567206"
+  integrity sha512-3Ghu8mKCJgCG3QzE5xphkYWM19lGE3XjFdOXQIKBM2PBpBvgFQ/lXv31oX0+fuN/UjNFO/dqhNs8ATLBhg6zBg==
   dependencies:
     "@semantic-release/commit-analyzer" "^8.0.0"
     "@semantic-release/error" "^2.2.0"
