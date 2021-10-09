@@ -57,7 +57,7 @@
     "@commitlint/cli": "^13.0.0",
     "@commitlint/config-conventional": "^13.0.0",
     "@faergeek/eslint-config": "^5.0.0",
-    "eslint": "^7.25.0",
+    "eslint": "^8.0.0",
     "husky": "^7.0.0",
     "prettier": "^2.2.1",
     "semantic-release": "^18.0.0"
