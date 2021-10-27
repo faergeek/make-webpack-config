@@ -240,7 +240,7 @@ function makeConfig({
                   localIdentName:
                     mode === 'development'
                       ? '[local]@[name]#[contenthash:base64:5]'
-                      : undefined,
+                      : '[hash:base64]',
                 },
               },
             },
