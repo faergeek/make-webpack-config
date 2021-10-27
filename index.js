@@ -218,12 +218,11 @@ function makeConfig({
       strictExportPresence: true,
       rules: [
         {
-          test: /\.(js|mdx|tsx?)$/,
+          test: /\.(js|tsx?)$/,
           include: srcPath,
           loader: require.resolve('babel-loader'),
           options: babelLoaderOptions,
         },
-        { test: /\.mdx$/, use: '@mdx-js/loader' },
         {
           test: /\.(css|sass|scss)$/,
           use: (emitAssets ? [MiniCssExtractPlugin.loader] : []).concat([
