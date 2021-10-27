@@ -1,7 +1,6 @@
 /* eslint-env node */
 const { spawn } = require('child_process');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const escapeStringRegexp = require('escape-string-regexp');
 const { mkdir, writeFile } = require('fs/promises');
 const { createServer } = require('http');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -281,7 +280,7 @@ function makeConfig({
   };
 }
 
-function makeWebpackConfig({
+async function makeWebpackConfig({
   alias,
   analyze,
   analyzerPort = 8001,
@@ -302,6 +301,8 @@ function makeWebpackConfig({
   ));
 
   const env = dev ? 'development' : 'production';
+
+  const { default: escapeStringRegexp } = await import('escape-string-regexp');
 
   return [
     makeConfig({
