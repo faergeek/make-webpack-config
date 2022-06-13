@@ -48,7 +48,7 @@
     "react-refresh": "0.13.0",
     "resolve-url-loader": "^5.0.0",
     "sass-loader": "^13.0.0",
-    "source-map-loader": "^3.0.0",
+    "source-map-loader": "^4.0.0",
     "ssestream": "^1.1.0",
     "webpack-bundle-analyzer": "^4.4.1"
   },
