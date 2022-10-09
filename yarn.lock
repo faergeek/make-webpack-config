@@ -781,9 +781,9 @@
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
 
 "@types/node@*":
-  version "18.8.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.8.1.tgz#33e6759935f7a82821b72fb936e66f6b99a36173"
-  integrity sha512-vuYaNuEIbOYLTLUAJh50ezEbvxrD43iby+lpUA2aa148Nh5kX/AVO/9m1Ahmbux2iU5uxJTNF9g2Y+31uml7RQ==
+  version "18.8.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.8.3.tgz#ce750ab4017effa51aed6a7230651778d54e327c"
+  integrity sha512-0os9vz6BpGwxGe9LOhgP/ncvYN5Tx1fNcd2TM3rD/aCGBkysb+ZWpXEocG24h6ZzOi13+VB8HndAQFezsSOw1w==
 
 "@types/node@^14.0.0":
   version "14.18.31"
@@ -1335,9 +1335,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001400:
-  version "1.0.30001415"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001415.tgz#fd7ea96e9e94c181a7f56e7571efb43d92b860cc"
-  integrity sha512-ER+PfgCJUe8BqunLGWd/1EY4g8AzQcsDAVzdtMGKVtQEmKAwaFfU6vb7EAVIqTMYsqxBorYZi2+22Iouj/y7GQ==
+  version "1.0.30001418"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001418.tgz#5f459215192a024c99e3e3a53aac310fc7cf24e6"
+  integrity sha512-oIs7+JL3K9JRQ3jPZjlH6qyYDp+nBTCais7hjh0s+fuBwufc7uZ7hPYMXrDOJhV360KGMTcczMRObk0/iMqZRg==
 
 cardinal@^2.1.1:
   version "2.1.1"
@@ -1380,9 +1380,9 @@ chownr@^2.0.0:
   integrity sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==
 
 ci-info@^3.2.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.4.0.tgz#b28484fd436cbc267900364f096c9dc185efb251"
-  integrity sha512-t5QdPT5jq3o262DOQ8zA6E1tlH2upmUc4Hlvrbx1pGYJuiiHl7O7rvVNI+l8HTVhd/q3Qc9vqimkNk5yiXsAug==
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.5.0.tgz#bfac2a29263de4c829d806b1ab478e35091e171f"
+  integrity sha512-yH4RezKOGlOhxkmhbeNuC4eYZKAUsEaGtBuBzDDP1eFUKiccDWzBABxBfOx31IDwDIXMTxWuwAxUGModvkbuVw==
 
 cidr-regex@^3.1.1:
   version "3.1.1"
@@ -1659,13 +1659,13 @@ css-loader@^6.0.0:
     semver "^7.3.5"
 
 css-minimizer-webpack-plugin@^4.0.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/css-minimizer-webpack-plugin/-/css-minimizer-webpack-plugin-4.2.0.tgz#99b453efcbc4c13d80327d94767f5aa41ee509e7"
-  integrity sha512-9FKGMGafKmYEbHoPh78nrrvumS5yU1rhptqdC2RfTH78MohjxpGMTW2tvdY/iYbD2sLnhzZMKTQ4n9Ja48kxZQ==
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/css-minimizer-webpack-plugin/-/css-minimizer-webpack-plugin-4.2.1.tgz#ed5631d8d266b4e2d1389c502a746a93453423e8"
+  integrity sha512-ub12STsk3uXfHFTn9dtkI9nebvUKQ9rB0pn/6WNMRV77nqAOlOOJrrvsP8S8jngcnu+8ll3/9/xa7RCUNBVdOA==
   dependencies:
     cssnano "^5.1.8"
-    jest-worker "^29.0.3"
-    postcss "^8.4.13"
+    jest-worker "^29.1.2"
+    postcss "^8.4.17"
     schema-utils "^4.0.0"
     serialize-javascript "^6.0.0"
     source-map "^0.6.1"
@@ -1953,9 +1953,9 @@ ecc-jsbn@~0.1.1:
     safer-buffer "^2.1.0"
 
 electron-to-chromium@^1.4.251:
-  version "1.4.271"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.271.tgz#2d9f04f6a53c70e1bb1acfaae9c39f07ca40d290"
-  integrity sha512-BCPBtK07xR1/uY2HFDtl3wK2De66AW4MSiPlLrnPNxKC/Qhccxd59W73654S3y6Rb/k3hmuGJOBnhjfoutetXA==
+  version "1.4.276"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.276.tgz#17837b19dafcc43aba885c4689358b298c19b520"
+  integrity sha512-EpuHPqu8YhonqLBXHoU6hDJCD98FCe6KDoet3/gY1qsQ6usjJoHqBH2YIVs8FXaAtHwVL8Uqa/fsYao/vq9VWQ==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -3138,7 +3138,7 @@ jest-util@^29.1.2:
     graceful-fs "^4.2.9"
     picomatch "^2.2.3"
 
-jest-worker@^29.0.3:
+jest-worker@^29.1.2:
   version "29.1.2"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-29.1.2.tgz#a68302af61bce82b42a9a57285ca7499d29b2afc"
   integrity sha512-AdTZJxKjTSPHbXT/AIOjQVmoFx0LHFcVabWu0sxI7PAy7rFf8c0upyvgBKgguVXdM4vY74JdwkyD4hSmpTW8jA==
@@ -4762,7 +4762,7 @@ postcss-value-parser@^4.1.0, postcss-value-parser@^4.2.0:
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
-postcss@^8.2.14, postcss@^8.4.13, postcss@^8.4.7:
+postcss@^8.2.14, postcss@^8.4.17, postcss@^8.4.7:
   version "8.4.17"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.17.tgz#f87863ec7cd353f81f7ab2dec5d67d861bbb1be5"
   integrity sha512-UNxNOLQydcOFi41yHNMcKRZ39NeXlr8AxGuZJsdub8vIb12fHzcq37DTU/QtbI6WLxNg2gF9Z+8qtRwTj1UI1Q==
@@ -5900,9 +5900,9 @@ universalify@^2.0.0:
   integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
 
 update-browserslist-db@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.0.9.tgz#2924d3927367a38d5c555413a7ce138fc95fcb18"
-  integrity sha512-/xsqn21EGVdXI3EXSum1Yckj3ZVZugqyOZQ/CxYPBD/R+ko9NSUScf8tFF4dOKY+2pvSSJA/S+5B8s4Zr4kyvg==
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.0.10.tgz#0f54b876545726f17d00cd9a2561e6dade943ff3"
+  integrity sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==
   dependencies:
     escalade "^3.1.1"
     picocolors "^1.0.0"
