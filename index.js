@@ -11,6 +11,8 @@ const { pipeline } = require('stream');
 const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
+const SIGNALS_ARE_SUPPORTED = process.platform !== 'win32';
+
 class AssetsPlugin {
   constructor(filename) {
     this.filename = filename;
@@ -81,7 +83,9 @@ class NodeHmrPlugin {
 
     compiler.hooks.done.tap(this.constructor.name, () => {
       if (this.child) {
-        process.kill(this.child.pid, 'SIGUSR2');
+        if (SIGNALS_ARE_SUPPORTED) {
+          process.kill(this.child.pid, 'SIGUSR2');
+        }
         return;
       }
 
@@ -98,7 +102,11 @@ class NodeHmrPlugin {
 
     compiler.hooks.entryOption.tap(this.constructor.name, (context, entry) => {
       Object.values(entry).forEach(entryValue => {
-        entryValue.import.unshift('@faergeek/make-webpack-config/hmr/node');
+        entryValue.import.unshift(
+          `@faergeek/make-webpack-config/hmr/node${
+            SIGNALS_ARE_SUPPORTED ? '' : '?poll=1000'
+          }`
+        );
       });
     });
   }
