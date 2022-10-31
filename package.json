@@ -13,8 +13,7 @@
     "prepare": "husky install",
     "lint": "eslint --max-warnings 0 .",
     "prettier": "prettier --write .",
-    "prettier:check": "prettier --list-different .",
-    "release": "semantic-release"
+    "prettier:check": "prettier --list-different ."
   },
   "prettier": {
     "arrowParens": "avoid",
