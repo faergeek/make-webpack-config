@@ -1,6 +1,20 @@
 /* eslint-env node */
 /* globals __resourceQuery */
-import { onceIdle } from './utils';
+function onceIdle(cb) {
+  if (import.meta.webpackHot.status() === 'idle') {
+    cb();
+    return;
+  }
+
+  function statusHandler(status) {
+    if (status === 'idle') {
+      cb();
+      import.meta.webpackHot.removeStatusHandler(statusHandler);
+    }
+  }
+
+  import.meta.webpackHot.addStatusHandler(statusHandler);
+}
 
 if (import.meta.webpackHot) {
   const searchParams = new URLSearchParams(__resourceQuery);

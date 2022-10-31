@@ -2,12 +2,9 @@
 const { spawn } = require('child_process');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { mkdir, writeFile } = require('fs/promises');
-const { createServer } = require('http');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const svgToMiniDataURI = require('mini-svg-data-uri');
 const path = require('path');
-const { default: SseStream } = require('ssestream');
-const { pipeline } = require('stream');
 const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -106,55 +103,6 @@ class NodeHmrPlugin {
           `@faergeek/make-webpack-config/hmr/node${
             SIGNALS_ARE_SUPPORTED ? '' : '?poll=1000'
           }`
-        );
-      });
-    });
-  }
-}
-
-class BrowserHmrPlugin {
-  constructor(port) {
-    this.port = port;
-  }
-
-  apply(compiler) {
-    new webpack.HotModuleReplacementPlugin().apply(compiler);
-
-    let latestHash;
-    const streams = [];
-
-    createServer(async (req, res) => {
-      const stream = new SseStream(req);
-
-      res.setHeader('Access-Control-Allow-Origin', '*');
-
-      pipeline(stream, res, () => {
-        res.end();
-        const index = streams.indexOf(stream);
-        if (index !== -1) {
-          streams.splice(index, 1);
-        }
-      });
-
-      streams.push(stream);
-
-      if (latestHash) {
-        stream.write({ event: 'check', data: latestHash });
-      }
-    }).listen(this.port);
-
-    compiler.hooks.done.tap(this.constructor.name, stats => {
-      latestHash = stats.hash;
-
-      streams.forEach(stream => {
-        stream.write({ event: 'check', data: latestHash });
-      });
-    });
-
-    compiler.hooks.entryOption.tap(this.constructor.name, (context, entry) => {
-      Object.values(entry).forEach(entryValue => {
-        entryValue.import.unshift(
-          `@faergeek/make-webpack-config/hmr/browser?${this.port}`
         );
       });
     });
@@ -311,6 +259,10 @@ async function makeWebpackConfig({
 
   const { default: escapeStringRegexp } = await import('escape-string-regexp');
 
+  const { TinyBrowserHmrWebpackPlugin } = await import(
+    '@faergeek/tiny-browser-hmr-webpack-plugin'
+  );
+
   return [
     makeConfig({
       alias,
@@ -353,7 +305,10 @@ async function makeWebpackConfig({
       cache,
       mode: env,
       name: 'browser',
-      entry: entry.browser,
+      entry: (watch && dev
+        ? ['@faergeek/tiny-browser-hmr-webpack-plugin/client']
+        : []
+      ).concat([entry.browser]),
       srcPath: paths.src,
       outputPath: paths.public,
       emitAssets: true,
@@ -399,7 +354,8 @@ async function makeWebpackConfig({
         .concat(
           watch && dev
             ? [
-                new BrowserHmrPlugin(port),
+                new webpack.HotModuleReplacementPlugin(),
+                new TinyBrowserHmrWebpackPlugin({ port }),
                 reactRefresh &&
                   new (require('@pmmmwh/react-refresh-webpack-plugin'))(),
                 prefresh && new (require('@prefresh/webpack'))(),
