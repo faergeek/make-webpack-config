@@ -357,7 +357,9 @@ async function makeWebpackConfig({
                 new webpack.HotModuleReplacementPlugin(),
                 new TinyBrowserHmrWebpackPlugin({ port }),
                 reactRefresh &&
-                  new (require('@pmmmwh/react-refresh-webpack-plugin'))(),
+                  new (require('@pmmmwh/react-refresh-webpack-plugin'))({
+                    overlay: false,
+                  }),
                 prefresh && new (require('@prefresh/webpack'))(),
               ].filter(Boolean)
             : []
