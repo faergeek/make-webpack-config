@@ -309,7 +309,6 @@ async function makeWebpackConfig({
         }),
         new AssetsPlugin(path.join(paths.build, 'webpack-assets.json')),
         new MiniCssExtractPlugin({
-          experimentalUseImportModule: false,
           filename: watch ? '[name].css' : '[name].[contenthash].css',
         }),
       ]
