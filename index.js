@@ -149,6 +149,7 @@ function makeConfig({
     plugins,
     target,
     stats: 'errors-warnings',
+    ignoreWarnings: [/Failed to parse source map/],
     devtool: mode === 'development' ? 'cheap-module-source-map' : 'source-map',
     cache: cache && {
       type: 'filesystem',
