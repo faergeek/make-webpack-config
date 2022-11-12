@@ -124,7 +124,6 @@ function makeConfig({
   babelLoaderOptions,
   cache,
   devtoolModuleFilenameTemplate,
-  emitAssets,
   entry,
   externals,
   externalsType,
@@ -163,7 +162,7 @@ function makeConfig({
       devtoolModuleFilenameTemplate,
       filename,
       path: outputPath,
-      publicPath: '/',
+      publicPath: target === 'browser' ? '/' : undefined,
     },
     resolve: {
       alias,
@@ -182,7 +181,10 @@ function makeConfig({
         },
         {
           test: /\.css$/,
-          use: (emitAssets ? [MiniCssExtractPlugin.loader] : []).concat([
+          use: (target === 'browser'
+            ? [MiniCssExtractPlugin.loader]
+            : []
+          ).concat([
             {
               loader: require.resolve('css-loader'),
               options: {
@@ -190,7 +192,7 @@ function makeConfig({
                 modules: {
                   auto: true,
                   namedExport: true,
-                  exportOnlyLocals: !emitAssets,
+                  exportOnlyLocals: target === 'node',
                   exportLocalsConvention: 'dashesOnly',
                   localIdentName:
                     mode === 'development'
@@ -207,14 +209,12 @@ function makeConfig({
           test: /\.svg$/,
           type: 'asset',
           generator: {
-            emit: emitAssets,
             dataUrl: content => svgToMiniDataURI(content.toString()),
           },
         },
         {
           test: /\.(png|gif|jpe?g|ico|eot|otf|ttf|woff2?)$/,
           type: 'asset/resource',
-          generator: { emit: emitAssets },
         },
       ],
     },
@@ -258,7 +258,6 @@ async function makeWebpackConfig({
       entry: entry.node,
       srcPath: paths.src,
       outputPath: paths.build,
-      emitAssets: false,
       target: 'node',
       babelLoaderOptions: {
         envName: env,
@@ -297,7 +296,6 @@ async function makeWebpackConfig({
       ).concat([entry.browser]),
       srcPath: paths.src,
       outputPath: paths.public,
-      emitAssets: true,
       babelLoaderOptions: {
         envName: env,
         plugins: [
