@@ -162,7 +162,7 @@ function makeConfig({
       devtoolModuleFilenameTemplate,
       filename,
       path: outputPath,
-      publicPath: target === 'browser' ? '/' : undefined,
+      publicPath: target === 'node' ? undefined : '/',
     },
     resolve: {
       alias,
@@ -181,10 +181,7 @@ function makeConfig({
         },
         {
           test: /\.css$/,
-          use: (target === 'browser'
-            ? [MiniCssExtractPlugin.loader]
-            : []
-          ).concat([
+          use: (target !== 'node' ? [MiniCssExtractPlugin.loader] : []).concat([
             {
               loader: require.resolve('css-loader'),
               options: {
