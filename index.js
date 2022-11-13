@@ -136,7 +136,9 @@ function makeConfig({
   stats,
   target,
 }) {
-  const filename = `[name]${immutableAssets ? '.[contenthash]' : ''}.js`;
+  const filename = `[name]${immutableAssets ? '.[contenthash]' : ''}.${
+    target === 'node' ? 'cjs' : 'js'
+  }`;
 
   return {
     mode,
@@ -273,7 +275,7 @@ export default async function makeWebpackConfig({
       ]
         .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
         .concat(
-          watch ? [new NodeHmrPlugin(path.join(paths.build, 'main.js'))] : []
+          watch ? [new NodeHmrPlugin(path.join(paths.build, 'main.cjs'))] : []
         ),
     }),
     makeConfig({
