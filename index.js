@@ -134,6 +134,7 @@ function makeConfig({
   outputPath,
   plugins,
   srcPath,
+  stats,
   target,
 }) {
   const filename = `[name]${immutableAssets ? '.[contenthash]' : ''}.js`;
@@ -147,7 +148,7 @@ function makeConfig({
     optimization,
     plugins,
     target,
-    stats: 'errors-warnings',
+    stats,
     ignoreWarnings: [/Failed to parse source map/],
     devtool: mode === 'development' ? 'cheap-module-source-map' : 'source-map',
     cache: cache && {
@@ -245,10 +246,13 @@ async function makeWebpackConfig({
     '@faergeek/tiny-browser-hmr-webpack-plugin'
   );
 
+  const stats = watch ? 'errors-warnings' : undefined;
+
   return [
     makeConfig({
       alias,
       cache,
+      stats,
       mode: env,
       name: 'node',
       entry: entry.node,
@@ -284,6 +288,7 @@ async function makeWebpackConfig({
     makeConfig({
       alias,
       cache,
+      stats,
       mode: env,
       name: 'browser',
       entry: (watch && dev
