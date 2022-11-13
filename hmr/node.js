@@ -1,5 +1,8 @@
-/* eslint-env node */
 /* globals __resourceQuery */
+import process from 'node:process';
+import { setTimeout } from 'node:timers';
+import { URLSearchParams } from 'node:url';
+
 function onceIdle(cb) {
   if (import.meta.webpackHot.status() === 'idle') {
     cb();

@@ -1,12 +1,21 @@
-/* eslint-env node */
-const { spawn } = require('child_process');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const { mkdir, writeFile } = require('fs/promises');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const svgToMiniDataURI = require('mini-svg-data-uri');
-const path = require('path');
-const webpack = require('webpack');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+import { spawn } from 'node:child_process';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+import * as path from 'node:path';
+import process from 'node:process';
+import { URL } from 'node:url';
+
+import { TinyBrowserHmrWebpackPlugin } from '@faergeek/tiny-browser-hmr-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import escapeStringRegexp from 'escape-string-regexp';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import svgToMiniDataURI from 'mini-svg-data-uri';
+import webpack from 'webpack';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+
+const require = createRequire(import.meta.url);
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
 
 const SIGNALS_ARE_SUPPORTED = process.platform !== 'win32';
 
@@ -109,16 +118,6 @@ class NodeHmrPlugin {
   }
 }
 
-function getEntryModuleFilename() {
-  let mod = module;
-
-  while (mod.parent) {
-    mod = mod.parent;
-  }
-
-  return mod.filename;
-}
-
 function makeConfig({
   alias,
   babelLoaderOptions,
@@ -155,7 +154,7 @@ function makeConfig({
       type: 'filesystem',
       version: '4',
       buildDependencies: {
-        config: [getEntryModuleFilename()],
+        config: [require.main.filename],
       },
     },
     output: {
@@ -219,7 +218,7 @@ function makeConfig({
   };
 }
 
-async function makeWebpackConfig({
+export default async function makeWebpackConfig({
   alias,
   analyze,
   analyzerPort = 8001,
@@ -238,13 +237,6 @@ async function makeWebpackConfig({
   ));
 
   const env = dev ? 'development' : 'production';
-
-  const { default: escapeStringRegexp } = await import('escape-string-regexp');
-
-  const { TinyBrowserHmrWebpackPlugin } = await import(
-    '@faergeek/tiny-browser-hmr-webpack-plugin'
-  );
-
   const stats = watch ? 'errors-warnings' : undefined;
 
   return [
@@ -369,5 +361,3 @@ async function makeWebpackConfig({
     }),
   ];
 }
-
-module.exports = makeWebpackConfig;
