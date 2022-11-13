@@ -3,7 +3,7 @@
   "version": "0.0.0-semantically-released",
   "main": "index.js",
   "repository": "git@github.com:faergeek/make-webpack-config.git",
-  "author": "Sergey Slipchenko <me@faergeek.online>",
+  "author": "Sergey Slipchenko <faergeek@gmail.com>",
   "license": "MIT",
   "files": [
     "hmr/*.js",
