@@ -226,7 +226,6 @@ async function makeWebpackConfig({
   define,
   dev,
   entry,
-  extractRuntimeChunk,
   paths,
   port = 8000,
   prefresh,
@@ -346,9 +345,7 @@ async function makeWebpackConfig({
         ),
       optimization: {
         minimizer: ['...', new CssMinimizerPlugin()],
-        runtimeChunk: extractRuntimeChunk
-          ? { name: entrypoint => `runtime-${entrypoint.name}` }
-          : undefined,
+        runtimeChunk: 'single',
         splitChunks: {
           cacheGroups: {
             default: false,
