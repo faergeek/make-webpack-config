@@ -163,6 +163,9 @@ function makeConfig({
       chunkFilename: filename,
       devtoolModuleFilenameTemplate,
       filename,
+      hotUpdateChunkFilename: `[id].[fullhash].hot-update.${
+        target === 'node' ? 'cjs' : 'js'
+      }`,
       path: outputPath,
       publicPath: target === 'node' ? undefined : '/',
     },
