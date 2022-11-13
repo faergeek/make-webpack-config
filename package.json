@@ -34,8 +34,6 @@
   "dependencies": {
     "@faergeek/tiny-browser-hmr-webpack-plugin": "^1.0.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.0",
-    "@prefresh/babel-plugin": "^0.4.1",
-    "@prefresh/webpack": "^3.3.0",
     "babel-loader": "^9.0.0",
     "css-loader": "^6.0.0",
     "css-minimizer-webpack-plugin": "^4.0.0",

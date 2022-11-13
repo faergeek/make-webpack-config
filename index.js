@@ -229,7 +229,6 @@ async function makeWebpackConfig({
   entry,
   paths,
   port = 8000,
-  prefresh,
   reactRefresh,
   watch,
 }) {
@@ -299,10 +298,9 @@ async function makeWebpackConfig({
       outputPath: paths.public,
       babelLoaderOptions: {
         envName: env,
-        plugins: [
-          watch && dev && reactRefresh && 'react-refresh/babel',
-          watch && dev && prefresh && '@prefresh/babel-plugin',
-        ].filter(Boolean),
+        plugins: [watch && dev && reactRefresh && 'react-refresh/babel'].filter(
+          Boolean
+        ),
       },
       immutableAssets: !watch,
       plugins: [
@@ -344,7 +342,6 @@ async function makeWebpackConfig({
                   new (require('@pmmmwh/react-refresh-webpack-plugin'))({
                     overlay: false,
                   }),
-                prefresh && new (require('@prefresh/webpack'))(),
               ].filter(Boolean)
             : []
         ),
