@@ -351,6 +351,8 @@ async function makeWebpackConfig({
           : undefined,
         splitChunks: {
           cacheGroups: {
+            default: false,
+            defaultVendors: false,
             vendors: {
               test: /[\\/]node_modules[\\/]/,
               chunks: 'initial',
