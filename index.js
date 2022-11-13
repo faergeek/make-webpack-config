@@ -317,6 +317,7 @@ export default async function makeWebpackConfig({
                   analyzerMode: watch ? 'server' : 'static',
                   analyzerPort,
                   defaultSizes: 'gzip',
+                  generateStatsFile: true,
                   openAnalyzer: false,
                   reportFilename: path.join(
                     paths.build,
