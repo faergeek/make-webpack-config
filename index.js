@@ -215,9 +215,15 @@ function makeConfig({
               type: 'asset/resource',
             },
             {
-              type: 'asset',
+              resourceQuery: /inline/,
+              type: 'asset/inline',
               generator: {
                 dataUrl: content => svgToMiniDataURI(content.toString()),
+              },
+            },
+            {
+              type: 'asset/resource',
+              generator: {
                 emit: target !== 'node',
                 publicPath: '/',
               },
@@ -232,7 +238,11 @@ function makeConfig({
               type: 'asset/resource',
             },
             {
-              type: 'asset',
+              resourceQuery: /inline/,
+              type: 'asset/inline',
+            },
+            {
+              type: 'asset/resource',
               generator: {
                 emit: target !== 'node',
                 publicPath: '/',
