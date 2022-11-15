@@ -209,14 +209,36 @@ function makeConfig({
         { test: /\.(css|js)$/, use: require.resolve('source-map-loader') },
         {
           test: /\.svg$/,
-          type: 'asset',
-          generator: {
-            dataUrl: content => svgToMiniDataURI(content.toString()),
-          },
+          oneOf: [
+            {
+              resourceQuery: /absolute/,
+              type: 'asset/resource',
+            },
+            {
+              type: 'asset',
+              generator: {
+                dataUrl: content => svgToMiniDataURI(content.toString()),
+                emit: target !== 'node',
+                publicPath: '/',
+              },
+            },
+          ],
         },
         {
-          test: /\.(png|gif|jpe?g|ico|eot|otf|ttf|woff2?)$/,
-          type: 'asset/resource',
+          test: /\.(png|gif|jpe?g|ico|eot|otf|ttf|webp|woff2?)$/,
+          oneOf: [
+            {
+              resourceQuery: /absolute/,
+              type: 'asset/resource',
+            },
+            {
+              type: 'asset',
+              generator: {
+                emit: target !== 'node',
+                publicPath: '/',
+              },
+            },
+          ],
         },
       ],
     },
