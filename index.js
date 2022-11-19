@@ -30,6 +30,7 @@ class AssetsPlugin {
         all: false,
         assets: true,
         cachedAssets: true,
+        chunkGroupAuxiliary: true,
         entrypoints: true,
         publicPath: true,
       });
@@ -46,21 +47,26 @@ class AssetsPlugin {
         Object.values(entrypoints).map(entrypoint => [
           entrypoint.name,
           entrypoint.assets
+            .concat(entrypoint.auxiliaryAssets)
             .map(asset => nonHmrAssetsIndex[asset.name])
             .filter(Boolean)
             .reduce(
               (result, asset) => {
                 const ext = path.extname(asset.name).slice(1);
 
+                const assetPath =
+                  publicPath === 'auto' ? asset.name : publicPath + asset.name;
+
                 if (result[ext]) {
-                  result[ext].push(
-                    publicPath === 'auto' ? asset.name : publicPath + asset.name
-                  );
+                  result[ext].push(assetPath);
+                } else {
+                  result.auxiliary.push(assetPath);
                 }
 
                 return result;
               },
               {
+                auxiliary: [],
                 css: [],
                 js: [],
               }
