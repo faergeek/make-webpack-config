@@ -376,7 +376,12 @@ export default async function makeWebpackConfig({
             : []
         ),
       optimization: {
-        minimizer: ['...', new CssMinimizerPlugin()],
+        minimizer: [
+          '...',
+          new CssMinimizerPlugin({
+            minify: CssMinimizerPlugin.lightningCssMinify,
+          }),
+        ],
         runtimeChunk: 'single',
         splitChunks: {
           cacheGroups: {
