@@ -10,7 +10,6 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import escapeStringRegexp from 'escape-string-regexp';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import svgToMiniDataURI from 'mini-svg-data-uri';
-import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
@@ -378,9 +377,7 @@ export default async function makeWebpackConfig({
         ),
       optimization: {
         minimizer: [
-          new TerserPlugin({
-            minify: TerserPlugin.esbuildMinify,
-          }),
+          '...',
           new CssMinimizerPlugin({
             minify: CssMinimizerPlugin.lightningCssMinify,
           }),

@@ -38,7 +38,6 @@
     "babel-loader": "^9.0.0",
     "css-loader": "^6.0.0",
     "css-minimizer-webpack-plugin": "^4.0.0",
-    "esbuild": "^0.15.14",
     "escape-string-regexp": "^5.0.0",
     "lightningcss": "^1.16.1",
     "mini-css-extract-plugin": "^2.0.0",
@@ -46,7 +45,6 @@
     "postcss-loader": "^7.0.0",
     "react-refresh": "0.14.0",
     "source-map-loader": "^4.0.0",
-    "terser-webpack-plugin": "^5.3.6",
     "webpack-bundle-analyzer": "^4.4.1"
   },
   "devDependencies": {
