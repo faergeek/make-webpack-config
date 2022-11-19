@@ -158,13 +158,7 @@ function makeConfig({
     stats,
     ignoreWarnings: [/Failed to parse source map/],
     devtool: mode === 'development' ? 'cheap-module-source-map' : 'source-map',
-    cache: cache && {
-      type: 'filesystem',
-      version: '4',
-      buildDependencies: {
-        config: [require.main.filename],
-      },
-    },
+    cache,
     output: {
       chunkFilename: filename,
       devtoolModuleFilenameTemplate,
