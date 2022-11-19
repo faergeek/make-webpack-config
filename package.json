@@ -40,6 +40,7 @@
     "css-minimizer-webpack-plugin": "^4.0.0",
     "esbuild": "^0.15.14",
     "escape-string-regexp": "^5.0.0",
+    "lightningcss": "^1.16.1",
     "mini-css-extract-plugin": "^2.0.0",
     "mini-svg-data-uri": "^1.3.3",
     "postcss-loader": "^7.0.0",
@@ -53,7 +54,6 @@
     "@commitlint/config-conventional": "^17.0.0",
     "@faergeek/eslint-config": "^5.0.0",
     "eslint": "^8.0.0",
-    "lightningcss": "^1.16.1",
     "prettier": "^2.2.1",
     "semantic-release": "^19.0.0"
   }
