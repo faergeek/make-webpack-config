@@ -354,7 +354,7 @@ export default async function makeWebpackConfig({
           Boolean
         ),
       },
-      immutableAssets: !watch,
+      immutableAssets: true,
       plugins: [
         new webpack.DefinePlugin({
           ...define,
@@ -363,7 +363,7 @@ export default async function makeWebpackConfig({
         }),
         new AssetsPlugin(path.join(paths.build, 'assets.json')),
         new MiniCssExtractPlugin({
-          filename: watch ? '[name].css' : '[name].[contenthash].css',
+          filename: '[name].[contenthash].css',
         }),
       ]
         .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
