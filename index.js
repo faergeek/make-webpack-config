@@ -1,4 +1,4 @@
-import { spawn } from 'node:child_process';
+import { fork } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import * as path from 'node:path';
@@ -93,7 +93,7 @@ class NodeHmrPlugin {
   apply(compiler) {
     new webpack.HotModuleReplacementPlugin().apply(compiler);
 
-    compiler.hooks.done.tap(this.constructor.name, () => {
+    compiler.hooks.afterEmit.tapPromise(this.constructor.name, async () => {
       if (this.child) {
         if (SIGNALS_ARE_SUPPORTED) {
           process.kill(this.child.pid, 'SIGUSR2');
@@ -101,13 +101,24 @@ class NodeHmrPlugin {
         return;
       }
 
-      this.child = spawn(
-        'node',
-        ['--enable-source-maps', '--inspect=9229', this.path],
-        { stdio: 'inherit' }
-      );
+      this.child = fork(this.path, {
+        execArgv: ['--enable-source-maps', '--inspect=9229'],
+        stdio: 'inherit',
+      });
 
-      this.child.on('close', () => {
+      await new Promise((resolve, reject) => {
+        const handleMessage = message => {
+          if (message === 'hmr-is-ready') {
+            this.child.off('message', handleMessage);
+            resolve();
+          }
+        };
+
+        this.child.on('message', handleMessage);
+        this.child.on('error', reject);
+      });
+
+      this.child.once('close', () => {
         this.child = null;
       });
     });
@@ -128,6 +139,7 @@ function makeConfig({
   alias,
   babelLoaderOptions,
   cache,
+  dependencies,
   devtoolModuleFilenameTemplate,
   entry,
   externals,
@@ -147,6 +159,7 @@ function makeConfig({
   }`;
 
   return {
+    dependencies,
     mode,
     entry,
     externals,
@@ -287,6 +300,7 @@ export default async function makeWebpackConfig({
 
   return [
     makeConfig({
+      dependencies: ['browser'],
       alias,
       cache,
       stats,
@@ -408,6 +422,7 @@ export default async function makeWebpackConfig({
     }),
     entry.serviceWorker &&
       makeConfig({
+        dependencies: ['browser'],
         alias,
         cache,
         stats,
