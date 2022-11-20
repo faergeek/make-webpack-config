@@ -366,7 +366,7 @@ export default async function makeWebpackConfig({
         }),
         new AssetsPlugin(path.join(paths.build, 'assets.json')),
         new MiniCssExtractPlugin({
-          filename: '[name].[contenthash].css',
+          filename: dev ? '[name].css' : '[name].[contenthash].css',
         }),
       ]
         .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
