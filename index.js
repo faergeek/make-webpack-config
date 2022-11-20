@@ -166,6 +166,7 @@ function makeConfig({
       hotUpdateChunkFilename: `[id].[fullhash].hot-update.${
         target === 'node' ? 'cjs' : 'js'
       }`,
+      iife: !['node', 'webworker'].includes(target),
       path: outputPath,
       publicPath: target === 'node' ? undefined : '/',
     },
