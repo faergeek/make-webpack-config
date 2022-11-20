@@ -301,7 +301,10 @@ export default async function makeWebpackConfig({
   return [
     makeConfig({
       dependencies: ['browser'],
-      alias,
+      alias: {
+        ...alias,
+        'assets.json': path.join(paths.build, 'assets.json'),
+      },
       cache,
       stats,
       mode: env,
@@ -423,7 +426,10 @@ export default async function makeWebpackConfig({
     entry.serviceWorker &&
       makeConfig({
         dependencies: ['browser'],
-        alias,
+        alias: {
+          ...alias,
+          'assets.json': path.join(paths.build, 'assets.json'),
+        },
         cache,
         stats,
         mode: env,
