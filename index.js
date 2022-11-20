@@ -192,7 +192,10 @@ function makeConfig({
         },
         {
           test: /\.css$/,
-          use: (target !== 'node' ? [MiniCssExtractPlugin.loader] : []).concat([
+          use: (!['node', 'webworker'].includes(target)
+            ? [MiniCssExtractPlugin.loader]
+            : []
+          ).concat([
             {
               loader: require.resolve('css-loader'),
               options: {
