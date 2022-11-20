@@ -402,5 +402,29 @@ export default async function makeWebpackConfig({
         },
       },
     }),
-  ];
+    entry.serviceWorker &&
+      makeConfig({
+        alias,
+        cache,
+        stats,
+        mode: env,
+        name: 'service-worker',
+        entry: {
+          sw: entry.serviceWorker,
+        },
+        srcPath: paths.src,
+        outputPath: paths.public,
+        target: 'webworker',
+        babelLoaderOptions: {
+          envName: env,
+        },
+        plugins: [
+          new webpack.DefinePlugin({
+            ...define,
+            __DEV__: JSON.stringify(dev),
+            __NODE__: JSON.stringify(false),
+          }),
+        ].concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : []),
+      }),
+  ].filter(Boolean);
 }
