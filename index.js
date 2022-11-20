@@ -177,6 +177,11 @@ function makeConfig({
     },
     module: {
       strictExportPresence: true,
+      parser: {
+        javascript: {
+          url: 'relative',
+        },
+      },
       rules: [
         {
           test: /\.(js|tsx?)$/,
