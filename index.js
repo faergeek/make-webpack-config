@@ -361,7 +361,7 @@ export default async function makeWebpackConfig({
           __DEV__: JSON.stringify(dev),
           __NODE__: JSON.stringify(false),
         }),
-        new AssetsPlugin(path.join(paths.public, 'assets.json')),
+        new AssetsPlugin(path.join(paths.build, 'assets.json')),
         new MiniCssExtractPlugin({
           filename: watch ? '[name].css' : '[name].[contenthash].css',
         }),
