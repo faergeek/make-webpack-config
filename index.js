@@ -398,11 +398,6 @@ export default async function makeWebpackConfig({
               name: (module, chunks, cacheGroupKey) =>
                 `${cacheGroupKey}-${chunks.map(chunk => chunk.name).join('&')}`,
             },
-            css: {
-              type: 'css/mini-extract',
-              name: 'main',
-              chunks: 'async',
-            },
           },
         },
       },
