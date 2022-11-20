@@ -45,5 +45,7 @@ if (import.meta.webpackHot) {
         import.meta.webpackHot.check(true);
       });
     });
+
+    process.send('hmr-is-ready');
   }
 }
