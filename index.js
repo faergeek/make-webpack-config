@@ -343,7 +343,7 @@ export default async function makeWebpackConfig({
       entry: (watch && dev
         ? ['@faergeek/tiny-browser-hmr-webpack-plugin/client']
         : []
-      ).concat([entry.browser]),
+      ).concat(entry.browser),
       srcPath: paths.src,
       outputPath: paths.public,
       babelLoaderOptions: {
