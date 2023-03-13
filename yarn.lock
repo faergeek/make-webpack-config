@@ -247,9 +247,9 @@
     eslint-plugin-simple-import-sort "^10.0.0"
 
 "@faergeek/tiny-browser-hmr-webpack-plugin@^1.0.1":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@faergeek/tiny-browser-hmr-webpack-plugin/-/tiny-browser-hmr-webpack-plugin-1.0.5.tgz#9a543e992e1f642f6004a583d12c776a7e04a514"
-  integrity sha512-tukWOEJu/HFMJ//julXi5wNmCeBtS+3h+9YWZgwtC4gJbF0yIPINqdBQEQDsw39irAzMsGmpt7VPHnxlaEFZKw==
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@faergeek/tiny-browser-hmr-webpack-plugin/-/tiny-browser-hmr-webpack-plugin-1.0.6.tgz#d074667e9fbe34080cafd977b912abdff42cdb28"
+  integrity sha512-e7IySKRTDK4bKMsSS1IU7NR27Pt4pZ2rZDOoNFXZsyfVqTV99gBsT9pmEInqwODUJBu9gid8NF+/5bwVuDkvmA==
   dependencies:
     ws "^8.10.0"
   optionalDependencies:
