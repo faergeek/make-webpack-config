@@ -444,6 +444,9 @@ export default async function makeWebpackConfig({
             __DEV__: JSON.stringify(dev),
             __NODE__: JSON.stringify(false),
           }),
+          new webpack.optimize.LimitChunkCountPlugin({
+            maxChunks: 1,
+          }),
         ].concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : []),
       }),
   ].filter(Boolean);
