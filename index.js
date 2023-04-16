@@ -179,9 +179,9 @@ function makeConfig({
       hotUpdateChunkFilename: `[id].[fullhash].hot-update.${
         target === 'node' ? 'cjs' : 'js'
       }`,
-      iife: !['node', 'webworker'].includes(target),
+      iife: target == null,
       path: outputPath,
-      publicPath: target === 'node' ? undefined : '/',
+      publicPath: target == null ? '/' : undefined,
     },
     resolve: {
       alias,
@@ -200,10 +200,7 @@ function makeConfig({
         },
         {
           test: /\.css$/,
-          use: (!['node', 'webworker'].includes(target)
-            ? [MiniCssExtractPlugin.loader]
-            : []
-          ).concat([
+          use: (target == null ? [MiniCssExtractPlugin.loader] : []).concat([
             {
               loader: require.resolve('css-loader'),
               options: {
@@ -211,7 +208,7 @@ function makeConfig({
                 modules: {
                   auto: true,
                   namedExport: true,
-                  exportOnlyLocals: target === 'node',
+                  exportOnlyLocals: target != null,
                   exportLocalsConvention: 'dashesOnly',
                   localIdentName:
                     mode === 'development'
@@ -241,7 +238,7 @@ function makeConfig({
             {
               type: 'asset/resource',
               generator: {
-                emit: target !== 'node',
+                emit: target == null,
                 publicPath: '/',
               },
             },
@@ -261,7 +258,7 @@ function makeConfig({
             {
               type: 'asset/resource',
               generator: {
-                emit: target !== 'node',
+                emit: target == null,
                 publicPath: '/',
               },
             },
