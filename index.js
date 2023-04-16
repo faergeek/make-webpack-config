@@ -272,6 +272,24 @@ function makeConfig({
   };
 }
 
+function mapEntryArrayOrString(entry, fn) {
+  return Array.isArray(entry) ? fn(entry) : fn([entry]);
+}
+
+function mapObject(obj, fn) {
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [key, fn(value)])
+  );
+}
+
+function mapEntry(entry, fn) {
+  if (Array.isArray(entry) || typeof entry === 'string') {
+    return mapEntryArrayOrString(entry, fn);
+  }
+
+  return mapObject(entry, value => mapEntryArrayOrString(value, fn));
+}
+
 export default async function makeWebpackConfig({
   alias,
   analyze,
@@ -340,10 +358,12 @@ export default async function makeWebpackConfig({
       stats,
       mode: env,
       name: 'browser',
-      entry: (watch && dev
-        ? ['@faergeek/tiny-browser-hmr-webpack-plugin/client']
-        : []
-      ).concat(entry.browser),
+      entry: mapEntry(entry.browser, entryArray =>
+        (watch && dev
+          ? ['@faergeek/tiny-browser-hmr-webpack-plugin/client']
+          : []
+        ).concat(entryArray)
+      ),
       srcPath: paths.src,
       outputPath: paths.public,
       babelLoaderOptions: {
