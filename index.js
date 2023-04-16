@@ -26,60 +26,52 @@ class AssetsPlugin {
 
   apply(compiler) {
     compiler.hooks.done.tapPromise({ name: 'AssetsPlugin' }, async stats => {
-      const { assets, entrypoints, publicPath } = stats.toJson({
-        all: false,
-        assets: true,
-        cachedAssets: true,
-        chunkGroupAuxiliary: true,
-        entrypoints: true,
-        publicPath: true,
-      });
+      const { assets, assetsByChunkName, entrypoints, publicPath } =
+        stats.toJson({
+          all: false,
+          assets: true,
+          cachedAssets: true,
+          chunkGroupAuxiliary: true,
+          entrypoints: true,
+          publicPath: true,
+        });
 
-      const nonHmrAssetsIndex = Object.fromEntries(
+      const index = Object.fromEntries(
         assets
           .filter(
-            asset => asset.type === 'asset' && !asset.info.hotModuleReplacement
+            item => item.type === 'asset' && !item.info.hotModuleReplacement
           )
-          .map(asset => [asset.name, asset])
+          .map(asset => [
+            asset.name,
+            {
+              path: publicPath + asset.name,
+              immutable: Boolean(asset.info.immutable),
+            },
+          ])
       );
 
-      const assetsByEntrypoint = Object.fromEntries(
-        Object.values(entrypoints).map(entrypoint => [
-          entrypoint.name,
-          entrypoint.assets
-            .concat(entrypoint.auxiliaryAssets)
-            .map(asset => nonHmrAssetsIndex[asset.name])
-            .filter(Boolean)
-            .reduce(
-              (result, asset) => {
-                const ext = path.extname(asset.name).slice(1);
-
-                const assetPath =
-                  publicPath === 'auto' ? asset.name : publicPath + asset.name;
-
-                if (result[ext]) {
-                  result[ext].push(assetPath);
-                } else {
-                  result.auxiliary.push(assetPath);
-                }
-
-                return result;
-              },
-              {
-                auxiliary: [],
-                css: [],
-                js: [],
-              }
-            ),
+      const entries = Object.fromEntries(
+        Object.values(entrypoints).map(entry => [
+          entry.name,
+          entry.assets
+            .concat(entry.auxiliaryAssets)
+            .map(asset => asset.name)
+            .filter(assetName => index[assetName]),
         ])
       );
 
-      await mkdir(path.dirname(this.filename), { recursive: true });
-
-      await writeFile(
-        this.filename,
-        JSON.stringify(assetsByEntrypoint, null, 2)
+      const chunks = mapObject(assetsByChunkName, assetNames =>
+        assetNames.filter(assetName => index[assetName])
       );
+
+      const assetsJson = {
+        index,
+        entries,
+        chunks,
+      };
+
+      await mkdir(path.dirname(this.filename), { recursive: true });
+      await writeFile(this.filename, JSON.stringify(assetsJson, null, 2));
     });
   }
 }
