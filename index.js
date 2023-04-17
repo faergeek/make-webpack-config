@@ -24,61 +24,109 @@ class AssetsPlugin {
     this.filename = filename;
   }
 
+  #groupAssetsByType(assets) {
+    return assets.reduce(
+      (result, asset) => {
+        const ext = path.extname(asset.path).slice(1);
+
+        if (result[ext]) {
+          result[ext].push(asset);
+        } else {
+          result.auxiliary.push(asset);
+        }
+
+        return result;
+      },
+      {
+        auxiliary: [],
+        css: [],
+        js: [],
+      }
+    );
+  }
+
   apply(compiler) {
     compiler.hooks.done.tapPromise({ name: 'AssetsPlugin' }, async stats => {
-      const { assets, entrypoints, publicPath } = stats.toJson({
-        all: false,
-        assets: true,
-        cachedAssets: true,
-        chunkGroupAuxiliary: true,
-        entrypoints: true,
-        publicPath: true,
-      });
+      const { assets, assetsByChunkName, entrypoints, publicPath } =
+        stats.toJson({
+          all: false,
+          assets: true,
+          cachedAssets: true,
+          chunkGroupAuxiliary: true,
+          entrypoints: true,
+          publicPath: true,
+        });
 
-      const nonHmrAssetsIndex = Object.fromEntries(
+      const index = Object.fromEntries(
         assets
           .filter(
-            asset => asset.type === 'asset' && !asset.info.hotModuleReplacement
+            item => item.type === 'asset' && !item.info.hotModuleReplacement
           )
-          .map(asset => [asset.name, asset])
+          .map(asset => [
+            asset.name,
+            {
+              path: publicPath + asset.name,
+              immutable: Boolean(asset.info.immutable),
+            },
+          ])
       );
 
-      const assetsByEntrypoint = Object.fromEntries(
-        Object.values(entrypoints).map(entrypoint => [
-          entrypoint.name,
-          entrypoint.assets
-            .concat(entrypoint.auxiliaryAssets)
-            .map(asset => nonHmrAssetsIndex[asset.name])
-            .filter(Boolean)
-            .reduce(
-              (result, asset) => {
-                const ext = path.extname(asset.name).slice(1);
+      const dynamicAssets = new Set(Object.values(index));
+      const entriesAssets = new Set();
 
-                const assetPath =
-                  publicPath === 'auto' ? asset.name : publicPath + asset.name;
+      const initial = Object.fromEntries(
+        Object.values(entrypoints).map(entry => [
+          entry.name,
+          this.#groupAssetsByType(
+            entry.assets
+              .concat(entry.auxiliaryAssets)
+              .map(asset => index[asset.name])
+              .filter(asset => {
+                if (!asset) return false;
 
-                if (result[ext]) {
-                  result[ext].push(assetPath);
-                } else {
-                  result.auxiliary.push(assetPath);
-                }
+                dynamicAssets.delete(asset);
+                entriesAssets.add(asset);
 
-                return result;
-              },
-              {
-                auxiliary: [],
-                css: [],
-                js: [],
-              }
-            ),
+                return true;
+              })
+          ),
         ])
       );
+
+      const unnamedChunkAssets = new Set(dynamicAssets);
+
+      const async = Object.fromEntries(
+        Object.entries(assetsByChunkName)
+          .map(([chunkName, chunkAssetNames]) => [
+            chunkName,
+            chunkAssetNames
+              .map(assetName => index[assetName])
+              .filter(asset => {
+                if (!asset || !unnamedChunkAssets.has(asset)) return false;
+
+                unnamedChunkAssets.delete(asset);
+
+                return true;
+              }),
+          ])
+          .filter(([, chunkAssets]) => chunkAssets.length !== 0)
+          .map(([chunkName, chunkAssets]) => [
+            chunkName,
+            this.#groupAssetsByType(
+              chunkAssets.filter(
+                asset => asset != null && !entriesAssets.has(asset)
+              )
+            ),
+          ])
+      );
+
+      async[''] = this.#groupAssetsByType(Array.from(unnamedChunkAssets));
 
       await mkdir(path.dirname(this.filename), { recursive: true });
 
       await writeFile(
         this.filename,
-        JSON.stringify(assetsByEntrypoint, null, 2)
+        JSON.stringify({ initial, async }, null, 2)
       );
     });
   }
