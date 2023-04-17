@@ -310,7 +310,7 @@ export default async function makeWebpackConfig({
 
   return [
     makeConfig({
-      dependencies: ['browser'],
+      dependencies: ['webPage'],
       alias: {
         ...alias,
         'assets.json': path.join(paths.build, 'assets.json'),
@@ -341,7 +341,7 @@ export default async function makeWebpackConfig({
         new webpack.DefinePlugin({
           ...define,
           __DEV__: JSON.stringify(dev),
-          __NODE__: JSON.stringify(true),
+          __ENTRY_TARGET__: JSON.stringify('node'),
         }),
       ]
         .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
@@ -354,8 +354,8 @@ export default async function makeWebpackConfig({
       cache,
       stats,
       mode: env,
-      name: 'browser',
-      entry: mapEntry(entry.browser, entryArray =>
+      name: 'webPage',
+      entry: mapEntry(entry.webPage, entryArray =>
         (watch && dev
           ? ['@faergeek/tiny-browser-hmr-webpack-plugin/client']
           : []
@@ -374,7 +374,7 @@ export default async function makeWebpackConfig({
         new webpack.DefinePlugin({
           ...define,
           __DEV__: JSON.stringify(dev),
-          __NODE__: JSON.stringify(false),
+          __ENTRY_TARGET__: JSON.stringify('webPage'),
         }),
         new AssetsPlugin(path.join(paths.build, 'assets.json')),
         new MiniCssExtractPlugin({
@@ -437,7 +437,7 @@ export default async function makeWebpackConfig({
     }),
     entry.serviceWorker &&
       makeConfig({
-        dependencies: ['browser'],
+        dependencies: ['webPage'],
         alias: {
           ...alias,
           'assets.json': path.join(paths.build, 'assets.json'),
@@ -459,7 +459,7 @@ export default async function makeWebpackConfig({
           new webpack.DefinePlugin({
             ...define,
             __DEV__: JSON.stringify(dev),
-            __NODE__: JSON.stringify(false),
+            __ENTRY_TARGET__: JSON.stringify('serviceWorker'),
           }),
           new webpack.optimize.LimitChunkCountPlugin({
             maxChunks: 1,
