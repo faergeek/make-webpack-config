@@ -36,6 +36,7 @@
     "@faergeek/tiny-browser-hmr-webpack-plugin": "^1.0.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.0",
     "babel-loader": "^9.0.0",
+    "browserslist": "^4.21.5",
     "css-loader": "^6.0.0",
     "css-minimizer-webpack-plugin": "^5.0.0",
     "escape-string-regexp": "^5.0.0",
