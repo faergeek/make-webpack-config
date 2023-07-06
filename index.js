@@ -43,7 +43,7 @@ class AssetsPlugin {
         auxiliary: [],
         css: [],
         js: [],
-      }
+      },
     );
   }
 
@@ -62,7 +62,7 @@ class AssetsPlugin {
       const index = Object.fromEntries(
         assets
           .filter(
-            item => item.type === 'asset' && !item.info.hotModuleReplacement
+            item => item.type === 'asset' && !item.info.hotModuleReplacement,
           )
           .map(asset => [
             asset.name,
@@ -70,7 +70,7 @@ class AssetsPlugin {
               path: publicPath + asset.name,
               immutable: Boolean(asset.info.immutable),
             },
-          ])
+          ]),
       );
 
       const dynamicAssets = new Set(Object.values(index));
@@ -90,9 +90,9 @@ class AssetsPlugin {
                 entriesAssets.add(asset);
 
                 return true;
-              })
+              }),
           ),
-        ])
+        ]),
       );
 
       const unnamedChunkAssets = new Set(dynamicAssets);
@@ -116,10 +116,10 @@ class AssetsPlugin {
             chunkName,
             this.#groupAssetsByType(
               chunkAssets.filter(
-                asset => asset != null && !entriesAssets.has(asset)
-              )
+                asset => asset != null && !entriesAssets.has(asset),
+              ),
             ),
-          ])
+          ]),
       );
 
       async[''] = this.#groupAssetsByType(Array.from(unnamedChunkAssets));
@@ -128,7 +128,7 @@ class AssetsPlugin {
 
       await writeFile(
         this.filename,
-        JSON.stringify({ initial, async }, null, 2)
+        JSON.stringify({ initial, async }, null, 2),
       );
     });
   }
@@ -178,7 +178,7 @@ class NodeHmrPlugin {
         entryValue.import.unshift(
           `@faergeek/make-webpack-config/hmr/node${
             SIGNALS_ARE_SUPPORTED ? '' : '?poll=1000'
-          }`
+          }`,
         );
       });
     });
@@ -325,7 +325,7 @@ function mapEntryArrayOrString(entry, fn) {
 
 function mapObject(obj, fn) {
   return Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => [key, fn(value)])
+    Object.entries(obj).map(([key, value]) => [key, fn(value)]),
   );
 }
 
@@ -352,7 +352,7 @@ export default async function makeWebpackConfig({
 }) {
   const pkg = require(path.relative(
     __dirname,
-    path.resolve(process.cwd(), 'package.json')
+    path.resolve(process.cwd(), 'package.json'),
   ));
 
   const env = dev ? 'development' : 'production';
@@ -379,12 +379,12 @@ export default async function makeWebpackConfig({
       },
       devtoolModuleFilenameTemplate: path.relative(
         paths.build,
-        '[resource-path]'
+        '[resource-path]',
       ),
       externals: new RegExp(
         `^(${Object.keys(pkg.dependencies)
           .map(escapeStringRegexp)
-          .join('|')})(/|$)`
+          .join('|')})(/|$)`,
       ),
       externalsType: 'commonjs',
       plugins: [
@@ -396,7 +396,7 @@ export default async function makeWebpackConfig({
       ]
         .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
         .concat(
-          watch ? [new NodeHmrPlugin(path.join(paths.build, 'main.cjs'))] : []
+          watch ? [new NodeHmrPlugin(path.join(paths.build, 'main.cjs'))] : [],
         ),
     }),
     makeConfig({
@@ -409,14 +409,14 @@ export default async function makeWebpackConfig({
         (watch && dev
           ? ['@faergeek/tiny-browser-hmr-webpack-plugin/client']
           : []
-        ).concat(entryArray)
+        ).concat(entryArray),
       ),
       srcPath: paths.src,
       outputPath: paths.public,
       babelLoaderOptions: {
         envName: env,
         plugins: [watch && dev && reactRefresh && 'react-refresh/babel'].filter(
-          Boolean
+          Boolean,
         ),
       },
       immutableAssets: true,
@@ -444,12 +444,12 @@ export default async function makeWebpackConfig({
                   openAnalyzer: false,
                   reportFilename: path.join(
                     paths.build,
-                    'webpack-bundle-analyzer.html'
+                    'webpack-bundle-analyzer.html',
                   ),
                   statsFilename: path.join(paths.build, 'stats.json'),
                 }),
               ]
-            : []
+            : [],
         )
         .concat(
           watch && dev
@@ -461,7 +461,7 @@ export default async function makeWebpackConfig({
                     overlay: false,
                   }),
               ].filter(Boolean)
-            : []
+            : [],
         ),
       optimization: {
         minimizer: [
