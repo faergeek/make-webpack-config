@@ -350,10 +350,9 @@ export default async function makeWebpackConfig({
   reactRefresh,
   watch,
 }) {
-  const pkg = require(path.relative(
-    __dirname,
-    path.resolve(process.cwd(), 'package.json'),
-  ));
+  const pkg = require(
+    path.relative(__dirname, path.resolve(process.cwd(), 'package.json')),
+  );
 
   const env = dev ? 'development' : 'production';
   const stats = watch ? 'errors-warnings' : undefined;
