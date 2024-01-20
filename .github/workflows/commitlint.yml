@@ -11,9 +11,10 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
+      - uses: pnpm/action-setup@v2
       - uses: actions/setup-node@v4
         with:
-          cache: yarn
+          cache: pnpm
           node-version-file: .nvmrc
-      - run: yarn --frozen-lockfile
-      - run: yarn commitlint --verbose --from=remotes/origin/$GITHUB_BASE_REF
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec commitlint --verbose --from=remotes/origin/$GITHUB_BASE_REF

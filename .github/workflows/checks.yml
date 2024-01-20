@@ -11,10 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
       - uses: actions/setup-node@v4
         with:
-          cache: yarn
+          cache: pnpm
           node-version-file: .nvmrc
-      - run: yarn --frozen-lockfile
-      - run: yarn run prettier:check
-      - run: yarn run lint
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run prettier:check
+      - run: pnpm run lint
