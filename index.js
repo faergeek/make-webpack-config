@@ -406,7 +406,11 @@ export default async function makeWebpackConfig({
       name: 'webPage',
       entry: mapEntry(entry.webPage, entryArray =>
         (watch && dev
-          ? ['@faergeek/tiny-browser-hmr-webpack-plugin/client']
+          ? [
+              require.resolve(
+                '@faergeek/tiny-browser-hmr-webpack-plugin/client',
+              ),
+            ]
           : []
         ).concat(entryArray),
       ),
