@@ -1,18 +1,5 @@
 {
-  "extends": ["config:base"],
+  "extends": ["config:base", ":semanticCommits"],
   "lockFileMaintenance": { "enabled": true },
-  "packageRules": [
-    {
-      "automerge": true,
-      "packagePatterns": [
-        "^@babel/",
-        "^@faergeek/eslint-config",
-        "^eslint",
-        "^postcss$",
-        "^prettier$",
-        "^semantic-release$"
-      ]
-    }
-  ],
   "rangeStrategy": "update-lockfile"
 }
