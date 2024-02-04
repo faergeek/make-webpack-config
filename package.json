@@ -22,11 +22,6 @@
   "eslintConfig": {
     "extends": "@faergeek"
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "packageManager": "pnpm@8.15.1",
   "peerDependencies": {
     "@babel/core": "^7.14.3",
