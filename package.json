@@ -15,10 +15,6 @@
     "format": "prettier --write .",
     "format:check": "prettier --list-different ."
   },
-  "prettier": {
-    "arrowParens": "avoid",
-    "singleQuote": true
-  },
   "eslintConfig": {
     "extends": "@faergeek"
   },
