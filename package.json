@@ -13,7 +13,7 @@
   "scripts": {
     "lint": "eslint --max-warnings 0 .",
     "format": "prettier --write .",
-    "format:check": "prettier --list-different ."
+    "format:check": "prettier --check ."
   },
   "packageManager": "pnpm@8.15.1",
   "peerDependencies": {
