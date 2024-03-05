@@ -66,7 +66,7 @@ devDependencies:
     version: 19.0.3
   '@faergeek/eslint-config':
     specifier: ^6.0.0
-    version: 6.0.4(eslint@8.57.0)(typescript@5.3.3)
+    version: 6.0.5(eslint@8.57.0)(typescript@5.3.3)
   eslint:
     specifier: ^8.0.0
     version: 8.57.0
@@ -491,8 +491,8 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@faergeek/eslint-config@6.0.4(eslint@8.57.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-Lz8Jwd2kWDH0Ndy9z2eQnrbbWnWnPYykIxG765ZpBly6IdO51y3Fdmr+vrR85qa++Dxxt5s0ztmWETmF9ErOhQ==}
+  /@faergeek/eslint-config@6.0.5(eslint@8.57.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-QtE36tGIgBD/+mC/p+9azqZqNNBn+rSh2Yaj2Pu3QsgHsaBxQyzdUOjZRjz/dGMO2+LoONTiE2VRYM/YxtIZnQ==}
     peerDependencies:
       eslint: ^8.56.0
     dependencies:
