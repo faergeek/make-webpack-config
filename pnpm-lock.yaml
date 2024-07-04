@@ -13,7 +13,7 @@ importers:
         version: 7.24.7
       '@faergeek/tiny-browser-hmr-webpack-plugin':
         specifier: ^1.0.1
-        version: 1.0.14(webpack@5.92.1)
+        version: 1.0.15(webpack@5.92.1)
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: ^0.5.0
         version: 0.5.15(react-refresh@0.14.2)(type-fest@4.20.1)(webpack@5.92.1)
@@ -272,8 +272,8 @@ packages:
     peerDependencies:
       eslint: ^8.56.0
 
-  '@faergeek/tiny-browser-hmr-webpack-plugin@1.0.14':
-    resolution: {integrity: sha512-64pGrItQJ65HtxJ73Dl8Kwec16WFgvyq9411iJmSAKZa2rVt/W15MzVkugKuEf4l//FRZ5bZ1VGDSvA6w9STmQ==}
+  '@faergeek/tiny-browser-hmr-webpack-plugin@1.0.15':
+    resolution: {integrity: sha512-5fpUTo5yTFcjaGG6ifklwakXFFhOi5bzvYODGutwVxzDossHr7oU6gIY1iBcxG5OVXTgbiiCsxZKC6ztmLdbFQ==}
     peerDependencies:
       webpack: ^5.30.0
 
@@ -3139,8 +3139,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.17.1:
-    resolution: {integrity: sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==}
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -3484,10 +3484,10 @@ snapshots:
       - typescript
       - vitest
 
-  '@faergeek/tiny-browser-hmr-webpack-plugin@1.0.14(webpack@5.92.1)':
+  '@faergeek/tiny-browser-hmr-webpack-plugin@1.0.15(webpack@5.92.1)':
     dependencies:
       webpack: 5.92.1
-      ws: 8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+      ws: 8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.4)
     optionalDependencies:
       bufferutil: 4.0.8
       utf-8-validate: 6.0.4
@@ -6525,7 +6525,7 @@ snapshots:
       bufferutil: 4.0.8
       utf-8-validate: 6.0.4
 
-  ws@8.17.1(bufferutil@4.0.8)(utf-8-validate@6.0.4):
+  ws@8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.4):
     optionalDependencies:
       bufferutil: 4.0.8
       utf-8-validate: 6.0.4
