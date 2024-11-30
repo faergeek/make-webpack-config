@@ -15,7 +15,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
-  "packageManager": "pnpm@9.14.2",
+  "packageManager": "pnpm@9.14.4",
   "peerDependencies": {
     "@babel/core": "^7.14.3",
     "postcss": "^8.3.0",
