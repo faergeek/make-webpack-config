@@ -68,7 +68,7 @@ importers:
         version: 19.6.0
       '@faergeek/eslint-config':
         specifier: ^6.0.0
-        version: 6.1.52(@typescript-eslint/utils@8.18.0(eslint@8.57.1)(typescript@5.7.2))(eslint@8.57.1)(typescript@5.7.2)
+        version: 6.1.53(@typescript-eslint/utils@8.18.0(eslint@8.57.1)(typescript@5.7.2))(eslint@8.57.1)(typescript@5.7.2)
       eslint:
         specifier: ^8.0.0
         version: 8.57.1
@@ -243,8 +243,8 @@ packages:
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@faergeek/eslint-config@6.1.52':
-    resolution: {integrity: sha512-k1s3ZjVzXuNZkRH8LWO1XY3xzRfHfPhr8VlKj1pb2OUd1q/vWOpY0PsbhPrtQGq2S28AEyLqu0TfGDhTy1gHpw==}
+  '@faergeek/eslint-config@6.1.53':
+    resolution: {integrity: sha512-8cOFCGQ/tYSfwAMJQx8cdzoNuQ8BMX0LAnRLgGJAu3HuHPt5wqFbX5I1eCYdoZqA5fJrZq+ZdG6iHnDggigp3Q==}
     peerDependencies:
       eslint: ^8.56.0
 
@@ -3418,7 +3418,7 @@ snapshots:
 
   '@eslint/js@8.57.1': {}
 
-  '@faergeek/eslint-config@6.1.52(@typescript-eslint/utils@8.18.0(eslint@8.57.1)(typescript@5.7.2))(eslint@8.57.1)(typescript@5.7.2)':
+  '@faergeek/eslint-config@6.1.53(@typescript-eslint/utils@8.18.0(eslint@8.57.1)(typescript@5.7.2))(eslint@8.57.1)(typescript@5.7.2)':
     dependencies:
       '@typescript-eslint/eslint-plugin': 8.18.0(@typescript-eslint/parser@8.18.0(eslint@8.57.1)(typescript@5.7.2))(eslint@8.57.1)(typescript@5.7.2)
       '@typescript-eslint/parser': 8.18.0(eslint@8.57.1)(typescript@5.7.2)
