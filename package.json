@@ -16,6 +16,12 @@
     "format:check": "prettier --check ."
   },
   "packageManager": "pnpm@10.2.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "bufferutil",
+      "utf-8-validate"
+    ]
+  },
   "peerDependencies": {
     "@babel/core": "^7.14.3",
     "postcss": "^8.3.0",
