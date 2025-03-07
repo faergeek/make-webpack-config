@@ -28,7 +28,7 @@ importers:
         version: 7.1.2(webpack@5.98.0)
       css-minimizer-webpack-plugin:
         specifier: ^7.0.0
-        version: 7.0.1(lightningcss@1.29.2)(webpack@5.98.0)
+        version: 7.0.2(lightningcss@1.29.2)(webpack@5.98.0)
       escape-string-regexp:
         specifier: ^5.0.0
         version: 5.0.0
@@ -969,8 +969,8 @@ packages:
       webpack:
         optional: true
 
-  css-minimizer-webpack-plugin@7.0.1:
-    resolution: {integrity: sha512-L0XZFcGEPBZm0lJ8EjqifudRTvNAd7YuU7Ny5KAmeMbVh3ArtaOaiQTr5KhINEVhHpFZiTpUEdtTWE7ICA2hMA==}
+  css-minimizer-webpack-plugin@7.0.2:
+    resolution: {integrity: sha512-nBRWZtI77PBZQgcXMNqiIXVshiQOVLGSf2qX/WZfG8IQfMbeHUMXaBWQmiiSTmPJUflQxHjZjzAmuyO7tpL2Jg==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       '@parcel/css': '*'
@@ -4285,7 +4285,7 @@ snapshots:
     optionalDependencies:
       webpack: 5.98.0
 
-  css-minimizer-webpack-plugin@7.0.1(lightningcss@1.29.2)(webpack@5.98.0):
+  css-minimizer-webpack-plugin@7.0.2(lightningcss@1.29.2)(webpack@5.98.0):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       cssnano: 7.0.6(postcss@8.5.3)
