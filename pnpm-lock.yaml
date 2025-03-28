@@ -16,7 +16,7 @@ importers:
         version: 1.0.16(webpack@5.98.0)
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: ^0.5.0
-        version: 0.5.15(react-refresh@0.16.0)(type-fest@4.37.0)(webpack@5.98.0)
+        version: 0.5.15(react-refresh@0.17.0)(type-fest@4.37.0)(webpack@5.98.0)
       babel-loader:
         specifier: ^10.0.0
         version: 10.0.0(@babel/core@7.26.10)(webpack@5.98.0)
@@ -48,8 +48,8 @@ importers:
         specifier: ^8.0.0
         version: 8.1.1(postcss@8.5.3)(typescript@5.8.2)(webpack@5.98.0)
       react-refresh:
-        specifier: 0.16.0
-        version: 0.16.0
+        specifier: 0.17.0
+        version: 0.17.0
       source-map-loader:
         specifier: ^5.0.0
         version: 5.0.0(webpack@5.98.0)
@@ -2603,8 +2603,8 @@ packages:
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
-  react-refresh@0.16.0:
-    resolution: {integrity: sha512-FPvF2XxTSikpJxcr+bHut2H4gJ17+18Uy20D5/F+SKzFap62R3cM5wH6b8WN3LyGSYeQilLEcJcR1fjBSI2S1A==}
+  react-refresh@0.17.0:
+    resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
     engines: {node: '>=0.10.0'}
 
   read-package-up@11.0.0:
@@ -3598,14 +3598,14 @@ snapshots:
     dependencies:
       '@octokit/openapi-types': 24.2.0
 
-  '@pmmmwh/react-refresh-webpack-plugin@0.5.15(react-refresh@0.16.0)(type-fest@4.37.0)(webpack@5.98.0)':
+  '@pmmmwh/react-refresh-webpack-plugin@0.5.15(react-refresh@0.17.0)(type-fest@4.37.0)(webpack@5.98.0)':
     dependencies:
       ansi-html: 0.0.9
       core-js-pure: 3.41.0
       error-stack-parser: 2.1.4
       html-entities: 2.5.3
       loader-utils: 2.0.4
-      react-refresh: 0.16.0
+      react-refresh: 0.17.0
       schema-utils: 4.3.0
       source-map: 0.7.4
       webpack: 5.98.0
@@ -5875,7 +5875,7 @@ snapshots:
 
   react-is@16.13.1: {}
 
-  react-refresh@0.16.0: {}
+  react-refresh@0.17.0: {}
 
   read-package-up@11.0.0:
     dependencies:
