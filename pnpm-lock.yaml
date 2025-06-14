@@ -68,7 +68,7 @@ importers:
         version: 19.8.1
       '@faergeek/eslint-config':
         specifier: ^7.0.0
-        version: 7.0.45(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)
+        version: 7.0.46(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)
       eslint:
         specifier: ^9.19.0
         version: 9.29.0(jiti@2.4.2)
@@ -267,8 +267,8 @@ packages:
     resolution: {integrity: sha512-4SaFZCNfJqvk/kenHpI8xvN42DMaoycy4PzKc5otHxRswww1kAt82OlBuwRVLofCACCTZEcla2Ydxv8scMXaTg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@faergeek/eslint-config@7.0.45':
-    resolution: {integrity: sha512-ieO96eVhKJZXoJyOzrDK7BQFTdzcw/LogZV05Msz1ibczgyQDy2HDlgS5Hy+v4MzQOvLFv0yIT39yw02wgENVw==}
+  '@faergeek/eslint-config@7.0.46':
+    resolution: {integrity: sha512-z934wejCKZMS2zbXP/IUYNgZNWJAoAZHJRnZIoFS7kkWcjingnEBDXEd2jxVpEFWLwWSI+QpzV6OwjEAyQGpTQ==}
     peerDependencies:
       eslint: ^9.0.0
 
@@ -572,8 +572,8 @@ packages:
     resolution: {integrity: sha512-qHV7pW7E85A0x6qyrFn+O+q1k1p3tQCsqIZ1KZ5ESLXY57aTvUd3/a4rdPTeXisvhXn2VQG0VSKUqs8KHF2zcA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@vitest/eslint-plugin@1.2.4':
-    resolution: {integrity: sha512-4gcw3Kvh1cvwEA1dhPbcwoNmJJXQAaeSiP4UZ8Y9SFdxKuMKrt3moxQ1DLklugjw8S1zhziDp/vPrB3x0UEHKQ==}
+  '@vitest/eslint-plugin@1.2.5':
+    resolution: {integrity: sha512-cfmXz++mkqYpssrKymd7KJumxaZBsfFji2y22QV04kDYKRbiaZ+s4WZL/bzAkcefVKj4KkFctVALHdDZhFhHGg==}
     peerDependencies:
       eslint: '>= 8.57.0'
       typescript: '>= 5.0.0'
@@ -3466,9 +3466,9 @@ snapshots:
       '@eslint/core': 0.15.0
       levn: 0.4.1
 
-  '@faergeek/eslint-config@7.0.45(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)':
+  '@faergeek/eslint-config@7.0.46(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
-      '@vitest/eslint-plugin': 1.2.4(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)
+      '@vitest/eslint-plugin': 1.2.5(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)
       eslint: 9.29.0(jiti@2.4.2)
       eslint-plugin-react: 7.37.5(eslint@9.29.0(jiti@2.4.2))
       eslint-plugin-react-hooks: 5.2.0(eslint@9.29.0(jiti@2.4.2))
@@ -3849,7 +3849,7 @@ snapshots:
       '@typescript-eslint/types': 8.34.0
       eslint-visitor-keys: 4.2.1
 
-  '@vitest/eslint-plugin@1.2.4(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)':
+  '@vitest/eslint-plugin@1.2.5(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/utils': 8.34.0(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)
       eslint: 9.29.0(jiti@2.4.2)
