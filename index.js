@@ -6,10 +6,9 @@ import process from 'node:process';
 import { URL } from 'node:url';
 
 import { TinyBrowserHmrWebpackPlugin } from '@faergeek/tiny-browser-hmr-webpack-plugin';
-import browserslist from 'browserslist';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import escapeStringRegexp from 'escape-string-regexp';
-import { browserslistToTargets } from 'lightningcss';
+import * as LightningCss from 'lightningcss';
+import { LightningCssMinifyPlugin } from 'lightningcss-loader';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import svgToMiniDataURI from 'mini-svg-data-uri';
 import webpack from 'webpack';
@@ -187,7 +186,6 @@ class NodeHmrPlugin {
 
 function makeConfig({
   alias,
-  babelLoaderOptions,
   cache,
   dependencies,
   devtoolModuleFilenameTemplate,
@@ -202,6 +200,7 @@ function makeConfig({
   plugins,
   srcPath,
   stats,
+  swcLoaderOptions,
   target,
 }) {
   const filename = `[name]${immutableAssets ? '.[contenthash]' : ''}.${
@@ -236,16 +235,39 @@ function makeConfig({
     resolve: {
       alias,
       extensions: ['.js', '.ts', '.tsx'],
-      modules: ['node_modules', srcPath],
     },
     module: {
       strictExportPresence: true,
       rules: [
         {
-          test: /\.(js|tsx?)$/,
+          test: /\.js$/,
           include: srcPath,
-          loader: require.resolve('babel-loader'),
-          options: babelLoaderOptions,
+          loader: require.resolve('swc-loader'),
+          options: {
+            ...swcLoaderOptions,
+            jsc: {
+              ...swcLoaderOptions?.jsc,
+              parser: {
+                ...swcLoaderOptions?.jsc?.parser,
+                syntax: 'ecmascript',
+              },
+            },
+          },
+        },
+        {
+          test: /\.tsx?$/,
+          include: srcPath,
+          loader: require.resolve('swc-loader'),
+          options: {
+            ...swcLoaderOptions,
+            jsc: {
+              ...swcLoaderOptions?.jsc,
+              parser: {
+                ...swcLoaderOptions?.jsc?.parser,
+                syntax: 'typescript',
+              },
+            },
+          },
         },
         {
           test: /\.css$/,
@@ -266,7 +288,10 @@ function makeConfig({
                 },
               },
             },
-            require.resolve('postcss-loader'),
+            {
+              loader: require.resolve('lightningcss-loader'),
+              options: { implementation: LightningCss },
+            },
           ]),
         },
         { test: /\.(css|js)$/, use: require.resolve('source-map-loader') },
@@ -371,9 +396,10 @@ export default async function makeWebpackConfig({
       srcPath: paths.src,
       outputPath: paths.build,
       target: 'node',
-      babelLoaderOptions: {
-        envName: env,
-        targets: 'current node',
+      swcLoaderOptions: {
+        env: {
+          targets: 'current node',
+        },
       },
       devtoolModuleFilenameTemplate: path.relative(
         paths.build,
@@ -415,11 +441,14 @@ export default async function makeWebpackConfig({
       ),
       srcPath: paths.src,
       outputPath: paths.public,
-      babelLoaderOptions: {
-        envName: env,
-        plugins: [watch && dev && reactRefresh && 'react-refresh/babel'].filter(
-          Boolean,
-        ),
+      swcLoaderOptions: {
+        jsc: {
+          transform: {
+            react: {
+              refresh: watch && dev && reactRefresh,
+            },
+          },
+        },
       },
       immutableAssets: true,
       plugins: [
@@ -468,12 +497,7 @@ export default async function makeWebpackConfig({
       optimization: {
         minimizer: [
           '...',
-          new CssMinimizerPlugin({
-            minify: CssMinimizerPlugin.lightningCssMinify,
-            minimizerOptions: {
-              targets: browserslistToTargets(browserslist()),
-            },
-          }),
+          new LightningCssMinifyPlugin({ implementation: LightningCss }),
         ],
         runtimeChunk: 'single',
         splitChunks: {
@@ -507,9 +531,6 @@ export default async function makeWebpackConfig({
         srcPath: paths.src,
         outputPath: paths.public,
         target: 'webworker',
-        babelLoaderOptions: {
-          envName: env,
-        },
         plugins: [
           new webpack.DefinePlugin({
             ...define,
