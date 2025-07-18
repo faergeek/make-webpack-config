@@ -236,7 +236,6 @@ function makeConfig({
     resolve: {
       alias,
       extensions: ['.js', '.ts', '.tsx'],
-      modules: ['node_modules', srcPath],
     },
     module: {
       strictExportPresence: true,
