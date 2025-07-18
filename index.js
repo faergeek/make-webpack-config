@@ -186,7 +186,6 @@ class NodeHmrPlugin {
 
 function makeConfig({
   alias,
-  babelLoaderOptions,
   cache,
   dependencies,
   devtoolModuleFilenameTemplate,
@@ -201,6 +200,7 @@ function makeConfig({
   plugins,
   srcPath,
   stats,
+  swcLoaderOptions,
   target,
 }) {
   const filename = `[name]${immutableAssets ? '.[contenthash]' : ''}.${
@@ -240,10 +240,34 @@ function makeConfig({
       strictExportPresence: true,
       rules: [
         {
-          test: /\.(js|tsx?)$/,
+          test: /\.js$/,
           include: srcPath,
-          loader: require.resolve('babel-loader'),
-          options: babelLoaderOptions,
+          loader: require.resolve('swc-loader'),
+          options: {
+            ...swcLoaderOptions,
+            jsc: {
+              ...swcLoaderOptions?.jsc,
+              parser: {
+                ...swcLoaderOptions?.jsc?.parser,
+                syntax: 'ecmascript',
+              },
+            },
+          },
+        },
+        {
+          test: /\.tsx?$/,
+          include: srcPath,
+          loader: require.resolve('swc-loader'),
+          options: {
+            ...swcLoaderOptions,
+            jsc: {
+              ...swcLoaderOptions?.jsc,
+              parser: {
+                ...swcLoaderOptions?.jsc?.parser,
+                syntax: 'typescript',
+              },
+            },
+          },
         },
         {
           test: /\.css$/,
@@ -372,9 +396,10 @@ export default async function makeWebpackConfig({
       srcPath: paths.src,
       outputPath: paths.build,
       target: 'node',
-      babelLoaderOptions: {
-        envName: env,
-        targets: 'current node',
+      swcLoaderOptions: {
+        env: {
+          targets: 'current node',
+        },
       },
       devtoolModuleFilenameTemplate: path.relative(
         paths.build,
@@ -416,11 +441,14 @@ export default async function makeWebpackConfig({
       ),
       srcPath: paths.src,
       outputPath: paths.public,
-      babelLoaderOptions: {
-        envName: env,
-        plugins: [watch && dev && reactRefresh && 'react-refresh/babel'].filter(
-          Boolean,
-        ),
+      swcLoaderOptions: {
+        jsc: {
+          transform: {
+            react: {
+              refresh: watch && dev && reactRefresh,
+            },
+          },
+        },
       },
       immutableAssets: true,
       plugins: [
@@ -503,9 +531,6 @@ export default async function makeWebpackConfig({
         srcPath: paths.src,
         outputPath: paths.public,
         target: 'webworker',
-        babelLoaderOptions: {
-          envName: env,
-        },
         plugins: [
           new webpack.DefinePlugin({
             ...define,
