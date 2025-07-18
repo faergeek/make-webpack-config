@@ -41,6 +41,7 @@
     "mini-svg-data-uri": "^1.3.3",
     "react-refresh": "0.17.0",
     "source-map-loader": "^5.0.0",
+    "utf-8-validate": "^5.0.10",
     "webpack-bundle-analyzer": "^4.4.1"
   },
   "devDependencies": {
