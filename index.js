@@ -6,10 +6,9 @@ import process from 'node:process';
 import { URL } from 'node:url';
 
 import { TinyBrowserHmrWebpackPlugin } from '@faergeek/tiny-browser-hmr-webpack-plugin';
-import browserslist from 'browserslist';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import escapeStringRegexp from 'escape-string-regexp';
-import { browserslistToTargets } from 'lightningcss';
+import * as LightningCss from 'lightningcss';
+import { LightningCssMinifyPlugin } from 'lightningcss-loader';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import svgToMiniDataURI from 'mini-svg-data-uri';
 import webpack from 'webpack';
@@ -265,7 +264,10 @@ function makeConfig({
                 },
               },
             },
-            require.resolve('postcss-loader'),
+            {
+              loader: require.resolve('lightningcss-loader'),
+              options: { implementation: LightningCss },
+            },
           ]),
         },
         { test: /\.(css|js)$/, use: require.resolve('source-map-loader') },
@@ -467,12 +469,7 @@ export default async function makeWebpackConfig({
       optimization: {
         minimizer: [
           '...',
-          new CssMinimizerPlugin({
-            minify: CssMinimizerPlugin.lightningCssMinify,
-            minimizerOptions: {
-              targets: browserslistToTargets(browserslist()),
-            },
-          }),
+          new LightningCssMinifyPlugin({ implementation: LightningCss }),
         ],
         runtimeChunk: 'single',
         splitChunks: {
