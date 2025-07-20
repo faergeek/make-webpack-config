@@ -317,7 +317,11 @@ function makeConfig({
       extensions: ['.js', '.ts', '.tsx'],
     },
     module: {
-      strictExportPresence: true,
+      parser: {
+        javascript: {
+          exportsPresence: 'error',
+        },
+      },
       rules: [
         {
           test: /\.js$/,
