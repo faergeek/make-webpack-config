@@ -20,32 +20,43 @@ const __dirname = path.dirname(__filename);
 
 const SIGNALS_ARE_SUPPORTED = process.platform !== 'win32';
 
+/**
+ * @typedef {Object} Asset
+ * @property {boolean} immutable
+ * @property {string} path
+ */
+
+/**
+ * @typedef {{ auxiliary: Asset[]; css: Asset[]; js: Asset[]; [key: string]: Asset[] | undefined }} GroupedAssets
+ */
+
 class AssetsPlugin {
+  filename;
+
+  /** @param {string} filename  */
   constructor(filename) {
     this.filename = filename;
   }
 
+  /** @param {Asset[]} assets */
   #groupAssetsByType(assets) {
-    return assets.reduce(
-      (result, asset) => {
-        const ext = path.extname(asset.path).slice(1);
+    /** @type {GroupedAssets} */
+    const groups = { auxiliary: [], css: [], js: [] };
 
-        if (result[ext]) {
-          result[ext].push(asset);
-        } else {
-          result.auxiliary.push(asset);
-        }
+    assets.forEach(asset => {
+      const ext = path.extname(asset.path).slice(1);
 
-        return result;
-      },
-      {
-        auxiliary: [],
-        css: [],
-        js: [],
-      },
-    );
+      if (groups[ext]) {
+        groups[ext].push(asset);
+      } else {
+        groups.auxiliary.push(asset);
+      }
+    });
+
+    return groups;
   }
 
+  /** @param {import('webpack').Compiler} compiler */
   apply(compiler) {
     compiler.hooks.done.tapPromise({ name: 'AssetsPlugin' }, async stats => {
       const { assets, assetsByChunkName, entrypoints, publicPath } =
@@ -57,6 +68,9 @@ class AssetsPlugin {
           entrypoints: true,
           publicPath: true,
         });
+
+      if (!assets) throw new Error('assets must be present');
+      if (!publicPath) throw new Error('entrypoints must be present');
 
       const index = Object.fromEntries(
         assets
@@ -75,41 +89,56 @@ class AssetsPlugin {
       const dynamicAssets = new Set(Object.values(index));
       const entriesAssets = new Set();
 
+      if (!entrypoints) throw new Error('entrypoints must be present');
+
       const initial = Object.fromEntries(
-        Object.values(entrypoints).map(entry => [
-          entry.name,
-          this.#groupAssetsByType(
-            entry.assets
-              .concat(entry.auxiliaryAssets)
-              .map(asset => index[asset.name])
-              .filter(asset => {
-                if (!asset) return false;
+        Object.values(entrypoints).map(entry => {
+          if (!entry.assets || !entry.auxiliaryAssets) {
+            throw new Error('assets and auxiliaryAssets must be present');
+          }
 
-                dynamicAssets.delete(asset);
-                entriesAssets.add(asset);
+          return [
+            entry.name,
+            this.#groupAssetsByType(
+              entry.assets
+                .concat(entry.auxiliaryAssets)
+                .map(asset => index[asset.name])
+                .filter(asset => {
+                  if (!asset) return false;
 
-                return true;
-              }),
-          ),
-        ]),
+                  dynamicAssets.delete(asset);
+                  entriesAssets.add(asset);
+
+                  return true;
+                }),
+            ),
+          ];
+        }),
       );
 
       const unnamedChunkAssets = new Set(dynamicAssets);
 
+      if (!assetsByChunkName) {
+        throw new Error('assetsByChunkName must be present');
+      }
+
       const async = Object.fromEntries(
         Object.entries(assetsByChunkName)
-          .map(([chunkName, chunkAssetNames]) => [
-            chunkName,
-            chunkAssetNames
-              .map(assetName => index[assetName])
-              .filter(asset => {
-                if (!asset || !unnamedChunkAssets.has(asset)) return false;
+          .map(
+            /** @returns {[string, Asset[]]} */
+            ([chunkName, chunkAssetNames]) => [
+              chunkName,
+              chunkAssetNames
+                .map(assetName => index[assetName])
+                .filter(asset => {
+                  if (!asset || !unnamedChunkAssets.has(asset)) return false;
 
-                unnamedChunkAssets.delete(asset);
+                  unnamedChunkAssets.delete(asset);
 
-                return true;
-              }),
-          ])
+                  return true;
+                }),
+            ],
+          )
           .filter(([, chunkAssets]) => chunkAssets.length !== 0)
           .map(([chunkName, chunkAssets]) => [
             chunkName,
@@ -134,17 +163,24 @@ class AssetsPlugin {
 }
 
 class NodeHmrPlugin {
+  /** @type {import('node:child_process').ChildProcess | null} */
+  child;
+  path;
+
+  /** @param {string} filename */
   constructor(filename) {
     this.child = null;
     this.path = filename;
   }
 
+  /** @param {import('webpack').Compiler} compiler */
   apply(compiler) {
     new webpack.HotModuleReplacementPlugin().apply(compiler);
 
     compiler.hooks.afterEmit.tapPromise(this.constructor.name, async () => {
       if (this.child) {
         if (SIGNALS_ARE_SUPPORTED) {
+          if (!this.child.pid) throw new Error('pid must be present');
           process.kill(this.child.pid, 'SIGUSR2');
         }
         return;
@@ -155,24 +191,44 @@ class NodeHmrPlugin {
         stdio: 'inherit',
       });
 
-      await new Promise((resolve, reject) => {
-        const handleMessage = message => {
-          if (message === 'hmr-is-ready') {
-            this.child.off('message', handleMessage);
-            resolve();
+      const child = this.child;
+
+      await /** @type {Promise<void>} */ (
+        new Promise((resolve, reject) => {
+          /** @param {import('node:child_process').Serializable} message */
+          function handleMessage(message) {
+            if (message === 'hmr-is-ready') {
+              teardown();
+              resolve();
+            }
           }
-        };
 
-        this.child.on('message', handleMessage);
-        this.child.on('error', reject);
-      });
+          /** @param {Error} err  */
+          function handleError(err) {
+            teardown();
+            reject(err);
+          }
 
-      this.child.once('close', () => {
+          function setup() {
+            child.on('message', handleMessage);
+            child.on('error', handleError);
+          }
+
+          function teardown() {
+            child.off('message', handleMessage);
+            child.off('error', handleError);
+          }
+
+          setup();
+        })
+      );
+
+      child.once('close', () => {
         this.child = null;
       });
     });
 
-    compiler.hooks.entryOption.tap(this.constructor.name, (context, entry) => {
+    compiler.hooks.entryOption.tap(this.constructor.name, (_context, entry) => {
       Object.values(entry).forEach(entryValue => {
         entryValue.import.unshift(
           `@faergeek/make-webpack-config/hmr/node${
@@ -184,6 +240,30 @@ class NodeHmrPlugin {
   }
 }
 
+/** @typedef {import('webpack').Configuration} WebpackConfig */
+
+/**
+ * @param {Object} options
+ * @param {NonNullable<WebpackConfig['resolve']>['alias']} options.alias
+ * @param {WebpackConfig['cache']} options.cache
+ * @param {string[]} [options.dependencies]
+ * @param {string} [options.devtoolModuleFilenameTemplate]
+ * @param {WebpackConfig['entry']} options.entry
+ * @param {WebpackConfig['externals']} [options.externals]
+ * @param {WebpackConfig['externalsType']} [options.externalsType]
+ * @param {boolean} [options.immutableAssets]
+ * @param {'development' | 'production'} options.mode
+ * @param {WebpackConfig['name']} options.name
+ * @param {WebpackConfig['optimization']} [options.optimization]
+ * @param {string} options.outputPath
+ * @param {WebpackConfig['plugins']} options.plugins
+ * @param {string} options.srcPath
+ * @param {WebpackConfig['stats']} options.stats
+ * @param {import('@swc/core').Config} [options.swcLoaderOptions]
+ * @param {'node' | 'webworker'} [options.target]
+ *
+ * @returns {WebpackConfig}
+ */
 function makeConfig({
   alias,
   cache,
@@ -271,7 +351,9 @@ function makeConfig({
         },
         {
           test: /\.css$/,
-          use: (target == null ? [MiniCssExtractPlugin.loader] : []).concat([
+          use: /** @type {Extract<import('webpack').RuleSetRule['use'], unknown[]>} */ (
+            target == null ? [MiniCssExtractPlugin.loader] : []
+          ).concat([
             {
               loader: require.resolve('css-loader'),
               options: {
@@ -306,7 +388,8 @@ function makeConfig({
               resourceQuery: /inline/,
               type: 'asset/inline',
               generator: {
-                dataUrl: content => svgToMiniDataURI(content.toString()),
+                dataUrl: /** @param {string | Buffer} content */ content =>
+                  svgToMiniDataURI(content.toString()),
               },
             },
             {
@@ -343,16 +426,36 @@ function makeConfig({
   };
 }
 
+/**
+ * @typedef {(entry: EntryItem) => string[]} MapEntryFn
+ */
+
+/**
+ * @param {EntryItem} entry
+ * @param {MapEntryFn} fn
+ */
 function mapEntryArrayOrString(entry, fn) {
   return Array.isArray(entry) ? fn(entry) : fn([entry]);
 }
 
+/**
+ * @param {Record<string, EntryItem>} obj
+ * @param {MapEntryFn} fn
+ */
 function mapObject(obj, fn) {
   return Object.fromEntries(
     Object.entries(obj).map(([key, value]) => [key, fn(value)]),
   );
 }
 
+/**
+ * @typedef {string | string[]} EntryItem
+ */
+
+/**
+ * @param {EntryItem | Record<string, EntryItem>} entry
+ * @param {MapEntryFn} fn
+ */
 function mapEntry(entry, fn) {
   if (Array.isArray(entry) || typeof entry === 'string') {
     return mapEntryArrayOrString(entry, fn);
@@ -361,6 +464,36 @@ function mapEntry(entry, fn) {
   return mapObject(entry, value => mapEntryArrayOrString(value, fn));
 }
 
+/**
+ * @typedef {Object} Entry
+ * @property {EntryItem | Record<string, EntryItem>} node
+ * @property {EntryItem} [serviceWorker]
+ * @property {EntryItem | Record<string, EntryItem>} webPage
+ */
+
+/**
+ * @typedef {Object} Paths
+ * @property {string} build
+ * @property {string} public
+ * @property {string} src
+ */
+
+/**
+ * @param {Object} options
+ * @param {NonNullable<WebpackConfig['resolve']>['alias']} [options.alias]
+ * @param {boolean} [options.analyze]
+ * @param {number} [options.analyzerPort]
+ * @param {WebpackConfig['cache']} [options.cache]
+ * @param {Record<string, unknown>} [options.define]
+ * @param {boolean} options.dev
+ * @param {Entry} options.entry
+ * @param {Paths} options.paths
+ * @param {number} [options.port]
+ * @param {boolean} [options.reactRefresh]
+ * @param {boolean} [options.watch]
+ *
+ * @returns {Promise<WebpackConfig[]>}
+ */
 export default async function makeWebpackConfig({
   alias,
   analyze,
@@ -411,13 +544,13 @@ export default async function makeWebpackConfig({
           .join('|')})(/|$)`,
       ),
       externalsType: 'commonjs',
-      plugins: [
+      plugins: /** @type {import('webpack').WebpackPluginInstance[]} */ ([
         new webpack.DefinePlugin({
           ...define,
           __DEV__: JSON.stringify(dev),
           __ENTRY_TARGET__: JSON.stringify('node'),
         }),
-      ]
+      ])
         .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
         .concat(
           watch ? [new NodeHmrPlugin(path.join(paths.build, 'main.cjs'))] : [],
@@ -451,7 +584,7 @@ export default async function makeWebpackConfig({
         },
       },
       immutableAssets: true,
-      plugins: [
+      plugins: /** @type {import('webpack').WebpackPluginInstance[]} */ ([
         new webpack.DefinePlugin({
           ...define,
           __DEV__: JSON.stringify(dev),
@@ -461,7 +594,7 @@ export default async function makeWebpackConfig({
         new MiniCssExtractPlugin({
           filename: dev ? '[name].css' : '[name].[contenthash].css',
         }),
-      ]
+      ])
         .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
         .concat(
           analyze
@@ -507,7 +640,7 @@ export default async function makeWebpackConfig({
             vendors: {
               test: /[\\/]node_modules[\\/]/,
               chunks: 'initial',
-              name: (module, chunks, cacheGroupKey) =>
+              name: (_module, chunks, cacheGroupKey) =>
                 `${cacheGroupKey}-${chunks.map(chunk => chunk.name).join('&')}`,
             },
           },
@@ -531,7 +664,7 @@ export default async function makeWebpackConfig({
         srcPath: paths.src,
         outputPath: paths.public,
         target: 'webworker',
-        plugins: [
+        plugins: /** @type {import('webpack').WebpackPluginInstance[]} */ ([
           new webpack.DefinePlugin({
             ...define,
             __DEV__: JSON.stringify(dev),
@@ -540,7 +673,7 @@ export default async function makeWebpackConfig({
           new webpack.optimize.LimitChunkCountPlugin({
             maxChunks: 1,
           }),
-        ].concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : []),
+        ]).concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : []),
       }),
-  ].filter(Boolean);
+  ].filter(n => !!n);
 }

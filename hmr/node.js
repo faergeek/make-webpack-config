@@ -3,12 +3,14 @@ import process from 'node:process';
 import { setTimeout } from 'node:timers';
 import { URLSearchParams } from 'node:url';
 
+/** @param {() => void} cb */
 function onceIdle(cb) {
   if (import.meta.webpackHot.status() === 'idle') {
     cb();
     return;
   }
 
+  /** @param {webpack.HotUpdateStatus} status */
   function statusHandler(status) {
     if (status === 'idle') {
       cb();
@@ -46,6 +48,7 @@ if (import.meta.webpackHot) {
       });
     });
 
+    if (!process.send) throw new Error('IPC channel must be set up');
     process.send('hmr-is-ready');
   }
 }

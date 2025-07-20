@@ -3,17 +3,30 @@
   "name": "@faergeek/make-webpack-config",
   "version": "0.0.0-semantically-released",
   "main": "index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./index.js"
+    },
+    "./hmr/node": "./hmr/node.js",
+    "./hmr/node?*": "./hmr/node.js?*"
+  },
   "repository": "git@github.com:faergeek/make-webpack-config.git",
   "author": "Sergey Slipchenko <faergeek@gmail.com>",
   "license": "MIT",
   "files": [
-    "hmr/*.js",
-    "*.js"
+    "dist/index.d.ts",
+    "dist/index.d.ts.map",
+    "hmr/node.js",
+    "index.js"
   ],
   "scripts": {
-    "lint": "eslint --max-warnings 0 .",
+    "cleanup": "rimraf dist",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "lint": "eslint --max-warnings 0 .",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc"
   },
   "packageManager": "pnpm@10.13.1",
   "pnpm": {
@@ -33,6 +46,7 @@
     "@faergeek/tiny-browser-hmr-webpack-plugin": "^1.0.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.0",
     "@swc/core": "^1.13.0",
+    "@types/webpack-bundle-analyzer": "^4.7.0",
     "css-loader": "^7.0.0",
     "escape-string-regexp": "^5.0.0",
     "lightningcss": "^1.16.1",
@@ -48,8 +62,11 @@
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
     "@faergeek/eslint-config": "^7.0.0",
+    "@types/node": "^24.0.15",
     "eslint": "^9.19.0",
     "prettier": "^3.0.0",
-    "semantic-release": "^24.0.0"
+    "rimraf": "^6.0.1",
+    "semantic-release": "^24.0.0",
+    "typescript": "^5.8.3"
   }
 }
