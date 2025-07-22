@@ -492,6 +492,7 @@ function mapEntry(entry, fn) {
  * @param {boolean} options.dev
  * @param {Entry} options.entry
  * @param {Paths} options.paths
+ * @param {import('webpack').WebpackPluginInstance[]} [options.plugins]
  * @param {number} [options.port]
  * @param {boolean} [options.reactRefresh]
  * @param {boolean} [options.watch]
@@ -507,6 +508,7 @@ export default async function makeWebpackConfig({
   dev,
   entry,
   paths,
+  plugins,
   port = 8000,
   reactRefresh,
   watch,
@@ -558,7 +560,8 @@ export default async function makeWebpackConfig({
         .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
         .concat(
           watch ? [new NodeHmrPlugin(path.join(paths.build, 'main.cjs'))] : [],
-        ),
+        )
+        .concat(plugins ?? []),
     }),
     makeConfig({
       alias,
