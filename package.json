@@ -40,6 +40,7 @@
     ]
   },
   "peerDependencies": {
+    "@types/node": "^24.0.15",
     "webpack": "^5.36.2"
   },
   "dependencies": {
