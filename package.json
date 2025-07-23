@@ -56,8 +56,10 @@
     "mini-svg-data-uri": "^1.3.3",
     "source-map-loader": "^5.0.0",
     "swc-loader": "^0.2.6",
-    "utf-8-validate": "^6.0.0",
     "webpack-bundle-analyzer": "^4.4.1"
+  },
+  "optionalDependencies": {
+    "utf-8-validate": "^5.0.10"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.0.0",
