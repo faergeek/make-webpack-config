@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@faergeek/tiny-browser-hmr-webpack-plugin':
         specifier: ^1.0.1
-        version: 1.1.2(@types/node@24.1.0)(webpack@5.100.2(@swc/core@1.13.2))
+        version: 1.2.0(@types/node@24.1.0)(webpack@5.100.2(@swc/core@1.13.2))
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: ^0.6.0
         version: 0.6.1(react-refresh@0.17.0)(type-fest@4.41.0)(webpack@5.100.2(@swc/core@1.13.2))
@@ -213,8 +213,8 @@ packages:
     peerDependencies:
       eslint: ^9.0.0
 
-  '@faergeek/tiny-browser-hmr-webpack-plugin@1.1.2':
-    resolution: {integrity: sha512-hyrhIIPFnEQCP7FlIdZitfBclFTJNmV9x56jr+K1K+JCqw50lrlBfn/ptOhl+Y/EKSVSEdKxsqvJwOOKFvvG5A==}
+  '@faergeek/tiny-browser-hmr-webpack-plugin@1.2.0':
+    resolution: {integrity: sha512-kH9wjhPdxonFC1hToSnIRDQb1gLLVPIpsDe4sxK/i0qoh+Y2csnQZAbRx4kgDZTOgOU7b9ZPQn274XNGXzg3ig==}
     peerDependencies:
       '@types/node': ^24.1.0
       webpack: ^5.30.0
@@ -3115,7 +3115,7 @@ snapshots:
       - typescript
       - vitest
 
-  '@faergeek/tiny-browser-hmr-webpack-plugin@1.1.2(@types/node@24.1.0)(webpack@5.100.2(@swc/core@1.13.2))':
+  '@faergeek/tiny-browser-hmr-webpack-plugin@1.2.0(@types/node@24.1.0)(webpack@5.100.2(@swc/core@1.13.2))':
     dependencies:
       '@types/node': 24.1.0
       '@types/ws': 8.18.1
