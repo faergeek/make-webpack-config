@@ -28,7 +28,7 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc"
   },
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.14.0",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@swc/core",
