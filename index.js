@@ -3,7 +3,6 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import * as path from 'node:path';
 import process from 'node:process';
-import { URL } from 'node:url';
 
 import { TinyBrowserHmrWebpackPlugin } from '@faergeek/tiny-browser-hmr-webpack-plugin';
 import escapeStringRegexp from 'escape-string-regexp';
@@ -15,8 +14,6 @@ import webpack from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 const require = createRequire(import.meta.url);
-const __filename = new URL(import.meta.url).pathname;
-const __dirname = path.dirname(__filename);
 
 const SIGNALS_ARE_SUPPORTED = process.platform !== 'win32';
 
@@ -512,10 +509,7 @@ export default async function makeWebpackConfig({
   reactRefresh,
   watch,
 }) {
-  const pkg = require(
-    path.relative(__dirname, path.resolve(process.cwd(), 'package.json')),
-  );
-
+  const pkg = require(path.resolve(process.cwd(), 'package.json'));
   const env = dev ? 'development' : 'production';
   const stats = watch ? 'errors-warnings' : undefined;
 
