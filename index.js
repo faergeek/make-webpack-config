@@ -492,7 +492,7 @@ function mapEntry(entry, fn) {
  * @param {boolean} options.dev
  * @param {Entry} options.entry
  * @param {Paths} options.paths
- * @param {import('webpack').WebpackPluginInstance[]} [options.plugins]
+ * @param {webpack.WebpackPluginInstance[] | ((entryTarget: 'node' | 'serviceWorker' | 'webPage') => webpack.WebpackPluginInstance[])} [options.plugins]
  * @param {number} [options.port]
  * @param {boolean} [options.reactRefresh]
  * @param {boolean} [options.watch]
@@ -550,7 +550,7 @@ export default async function makeWebpackConfig({
           .join('|')})(/|$)`,
       ),
       externalsType: 'commonjs',
-      plugins: /** @type {import('webpack').WebpackPluginInstance[]} */ ([
+      plugins: /** @type {webpack.WebpackPluginInstance[]} */ ([
         new webpack.DefinePlugin({
           ...define,
           __DEV__: JSON.stringify(dev),
@@ -561,7 +561,9 @@ export default async function makeWebpackConfig({
         .concat(
           watch ? [new NodeHmrPlugin(path.join(paths.build, 'main.cjs'))] : [],
         )
-        .concat(plugins ?? []),
+        .concat(
+          typeof plugins === 'function' ? plugins('node') : (plugins ?? []),
+        ),
     }),
     makeConfig({
       alias,
@@ -591,7 +593,7 @@ export default async function makeWebpackConfig({
         },
       },
       immutableAssets: true,
-      plugins: /** @type {import('webpack').WebpackPluginInstance[]} */ ([
+      plugins: /** @type {webpack.WebpackPluginInstance[]} */ ([
         new webpack.DefinePlugin({
           ...define,
           __DEV__: JSON.stringify(dev),
@@ -633,7 +635,8 @@ export default async function makeWebpackConfig({
                   }),
               ].filter(Boolean)
             : [],
-        ),
+        )
+        .concat(typeof plugins === 'function' ? plugins('webPage') : []),
       optimization: {
         minimizer: [
           '...',
@@ -671,7 +674,7 @@ export default async function makeWebpackConfig({
         srcPath: paths.src,
         outputPath: paths.public,
         target: 'webworker',
-        plugins: /** @type {import('webpack').WebpackPluginInstance[]} */ ([
+        plugins: /** @type {webpack.WebpackPluginInstance[]} */ ([
           new webpack.DefinePlugin({
             ...define,
             __DEV__: JSON.stringify(dev),
@@ -680,7 +683,11 @@ export default async function makeWebpackConfig({
           new webpack.optimize.LimitChunkCountPlugin({
             maxChunks: 1,
           }),
-        ]).concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : []),
+        ])
+          .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
+          .concat(
+            typeof plugins === 'function' ? plugins('serviceWorker') : [],
+          ),
       }),
   ].filter(n => !!n);
 }
