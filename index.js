@@ -1,9 +1,8 @@
-import { fork } from 'node:child_process';
+import { ChildProcess, fork } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import * as path from 'node:path';
 import process from 'node:process';
-import { URL } from 'node:url';
 
 import { TinyBrowserHmrWebpackPlugin } from '@faergeek/tiny-browser-hmr-webpack-plugin';
 import escapeStringRegexp from 'escape-string-regexp';
@@ -15,8 +14,6 @@ import webpack from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 const require = createRequire(import.meta.url);
-const __filename = new URL(import.meta.url).pathname;
-const __dirname = path.dirname(__filename);
 
 const SIGNALS_ARE_SUPPORTED = process.platform !== 'win32';
 
@@ -27,13 +24,16 @@ const SIGNALS_ARE_SUPPORTED = process.platform !== 'win32';
  */
 
 /**
- * @typedef {{ auxiliary: Asset[]; css: Asset[]; js: Asset[]; [key: string]: Asset[] | undefined }} GroupedAssets
+ * @typedef {Object} GroupedAssets
+ * @property {Asset[]} auxiliary
+ * @property {Asset[]} css
+ * @property {Asset[]} js
  */
 
 class AssetsPlugin {
   filename;
 
-  /** @param {string} filename  */
+  /** @param {string} filename */
   constructor(filename) {
     this.filename = filename;
   }
@@ -46,7 +46,7 @@ class AssetsPlugin {
     assets.forEach(asset => {
       const ext = path.extname(asset.path).slice(1);
 
-      if (groups[ext]) {
+      if (ext === 'css' || ext === 'js') {
         groups[ext].push(asset);
       } else {
         groups.auxiliary.push(asset);
@@ -56,7 +56,7 @@ class AssetsPlugin {
     return groups;
   }
 
-  /** @param {import('webpack').Compiler} compiler */
+  /** @param {webpack.Compiler} compiler */
   apply(compiler) {
     compiler.hooks.done.tapPromise({ name: 'AssetsPlugin' }, async stats => {
       const { assets, assetsByChunkName, entrypoints, publicPath } =
@@ -87,14 +87,16 @@ class AssetsPlugin {
       );
 
       const dynamicAssets = new Set(Object.values(index));
+
+      /** @type {Set<Asset>} */
       const entriesAssets = new Set();
 
       if (!entrypoints) throw new Error('entrypoints must be present');
 
       const initial = Object.fromEntries(
         Object.values(entrypoints).map(entry => {
-          if (!entry.assets || !entry.auxiliaryAssets) {
-            throw new Error('assets and auxiliaryAssets must be present');
+          if (!entry.assets || !entry.auxiliaryAssets || !entry.name) {
+            throw new Error('assets, auxiliaryAssets and name must be present');
           }
 
           return [
@@ -163,7 +165,7 @@ class AssetsPlugin {
 }
 
 class NodeHmrPlugin {
-  /** @type {import('node:child_process').ChildProcess | null} */
+  /** @type {ChildProcess | null} */
   child;
   path;
 
@@ -173,7 +175,7 @@ class NodeHmrPlugin {
     this.path = filename;
   }
 
-  /** @param {import('webpack').Compiler} compiler */
+  /** @param {webpack.Compiler} compiler */
   apply(compiler) {
     new webpack.HotModuleReplacementPlugin().apply(compiler);
 
@@ -240,29 +242,27 @@ class NodeHmrPlugin {
   }
 }
 
-/** @typedef {import('webpack').Configuration} WebpackConfig */
-
 /**
  * @param {Object} options
- * @param {NonNullable<WebpackConfig['resolve']>['alias']} options.alias
- * @param {WebpackConfig['cache']} options.cache
+ * @param {NonNullable<webpack.Configuration['resolve']>['alias']} options.alias
+ * @param {webpack.Configuration['cache']} options.cache
  * @param {string[]} [options.dependencies]
  * @param {string} [options.devtoolModuleFilenameTemplate]
- * @param {WebpackConfig['entry']} options.entry
- * @param {WebpackConfig['externals']} [options.externals]
- * @param {WebpackConfig['externalsType']} [options.externalsType]
+ * @param {webpack.Configuration['entry']} options.entry
+ * @param {webpack.Configuration['externals']} [options.externals]
+ * @param {webpack.Configuration['externalsType']} [options.externalsType]
  * @param {boolean} [options.immutableAssets]
  * @param {'development' | 'production'} options.mode
- * @param {WebpackConfig['name']} options.name
- * @param {WebpackConfig['optimization']} [options.optimization]
+ * @param {webpack.Configuration['name']} options.name
+ * @param {webpack.Configuration['optimization']} [options.optimization]
  * @param {string} options.outputPath
- * @param {WebpackConfig['plugins']} options.plugins
+ * @param {webpack.Configuration['plugins']} options.plugins
  * @param {string} options.srcPath
- * @param {WebpackConfig['stats']} options.stats
+ * @param {webpack.Configuration['stats']} options.stats
  * @param {import('@swc/core').Config} [options.swcLoaderOptions]
  * @param {'node' | 'webworker'} [options.target]
  *
- * @returns {WebpackConfig}
+ * @returns {webpack.Configuration}
  */
 function makeConfig({
   alias,
@@ -355,7 +355,7 @@ function makeConfig({
         },
         {
           test: /\.css$/,
-          use: /** @type {Extract<import('webpack').RuleSetRule['use'], unknown[]>} */ (
+          use: /** @type {Extract<webpack.RuleSetRule['use'], unknown[]>} */ (
             target == null ? [MiniCssExtractPlugin.loader] : []
           ).concat([
             {
@@ -430,9 +430,7 @@ function makeConfig({
   };
 }
 
-/**
- * @typedef {(entry: EntryItem) => string[]} MapEntryFn
- */
+/** @typedef {(entry: EntryItem) => string[]} MapEntryFn */
 
 /**
  * @param {EntryItem} entry
@@ -452,9 +450,7 @@ function mapObject(obj, fn) {
   );
 }
 
-/**
- * @typedef {string | string[]} EntryItem
- */
+/** @typedef {string | string[]} EntryItem */
 
 /**
  * @param {EntryItem | Record<string, EntryItem>} entry
@@ -484,20 +480,20 @@ function mapEntry(entry, fn) {
 
 /**
  * @param {Object} options
- * @param {NonNullable<WebpackConfig['resolve']>['alias']} [options.alias]
+ * @param {NonNullable<webpack.Configuration['resolve']>['alias']} [options.alias]
  * @param {boolean} [options.analyze]
  * @param {number} [options.analyzerPort]
- * @param {WebpackConfig['cache']} [options.cache]
+ * @param {webpack.Configuration['cache']} [options.cache]
  * @param {Record<string, unknown>} [options.define]
  * @param {boolean} options.dev
  * @param {Entry} options.entry
  * @param {Paths} options.paths
- * @param {import('webpack').WebpackPluginInstance[]} [options.plugins]
+ * @param {webpack.WebpackPluginInstance[] | ((entryTarget: 'node' | 'serviceWorker' | 'webPage') => webpack.WebpackPluginInstance[])} [options.plugins]
  * @param {number} [options.port]
  * @param {boolean} [options.reactRefresh]
  * @param {boolean} [options.watch]
  *
- * @returns {Promise<WebpackConfig[]>}
+ * @returns {Promise<webpack.Configuration[]>}
  */
 export default async function makeWebpackConfig({
   alias,
@@ -513,10 +509,7 @@ export default async function makeWebpackConfig({
   reactRefresh,
   watch,
 }) {
-  const pkg = require(
-    path.relative(__dirname, path.resolve(process.cwd(), 'package.json')),
-  );
-
+  const pkg = require(path.resolve(process.cwd(), 'package.json'));
   const env = dev ? 'development' : 'production';
   const stats = watch ? 'errors-warnings' : undefined;
 
@@ -550,7 +543,7 @@ export default async function makeWebpackConfig({
           .join('|')})(/|$)`,
       ),
       externalsType: 'commonjs',
-      plugins: /** @type {import('webpack').WebpackPluginInstance[]} */ ([
+      plugins: /** @type {webpack.WebpackPluginInstance[]} */ ([
         new webpack.DefinePlugin({
           ...define,
           __DEV__: JSON.stringify(dev),
@@ -561,7 +554,9 @@ export default async function makeWebpackConfig({
         .concat(
           watch ? [new NodeHmrPlugin(path.join(paths.build, 'main.cjs'))] : [],
         )
-        .concat(plugins ?? []),
+        .concat(
+          typeof plugins === 'function' ? plugins('node') : (plugins ?? []),
+        ),
     }),
     makeConfig({
       alias,
@@ -591,7 +586,7 @@ export default async function makeWebpackConfig({
         },
       },
       immutableAssets: true,
-      plugins: /** @type {import('webpack').WebpackPluginInstance[]} */ ([
+      plugins: /** @type {webpack.WebpackPluginInstance[]} */ ([
         new webpack.DefinePlugin({
           ...define,
           __DEV__: JSON.stringify(dev),
@@ -633,7 +628,8 @@ export default async function makeWebpackConfig({
                   }),
               ].filter(Boolean)
             : [],
-        ),
+        )
+        .concat(typeof plugins === 'function' ? plugins('webPage') : []),
       optimization: {
         minimizer: [
           '...',
@@ -671,7 +667,7 @@ export default async function makeWebpackConfig({
         srcPath: paths.src,
         outputPath: paths.public,
         target: 'webworker',
-        plugins: /** @type {import('webpack').WebpackPluginInstance[]} */ ([
+        plugins: /** @type {webpack.WebpackPluginInstance[]} */ ([
           new webpack.DefinePlugin({
             ...define,
             __DEV__: JSON.stringify(dev),
@@ -680,7 +676,11 @@ export default async function makeWebpackConfig({
           new webpack.optimize.LimitChunkCountPlugin({
             maxChunks: 1,
           }),
-        ]).concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : []),
+        ])
+          .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
+          .concat(
+            typeof plugins === 'function' ? plugins('serviceWorker') : [],
+          ),
       }),
   ].filter(n => !!n);
 }
