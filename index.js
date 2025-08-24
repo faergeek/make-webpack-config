@@ -1,11 +1,10 @@
 import { ChildProcess, fork } from 'node:child_process';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import * as path from 'node:path';
 import process from 'node:process';
 
 import { TinyBrowserHmrWebpackPlugin } from '@faergeek/tiny-browser-hmr-webpack-plugin';
-import escapeStringRegexp from 'escape-string-regexp';
 import * as LightningCss from 'lightningcss';
 import { LightningCssMinifyPlugin } from 'lightningcss-loader';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -463,6 +462,55 @@ function mapEntry(entry, fn) {
 }
 
 /**
+ * @param {string} dirname
+ * @returns {Generator<string, void, void>}
+ */
+function* directoriesUpwardsFrom(dirname) {
+  let nextDirname = dirname;
+
+  do {
+    dirname = nextDirname;
+    yield dirname;
+    nextDirname = path.dirname(dirname);
+  } while (nextDirname !== dirname);
+}
+
+/** @param {import('webpack').ExternalItemFunctionData} data */
+async function nodeExternals({ context, request }) {
+  if (!context || !request || !path.isAbsolute(context)) return false;
+
+  if (request.startsWith('node:')) return true;
+
+  for (const dirname of directoriesUpwardsFrom(path.normalize(context))) {
+    const dependencies = await readFile(
+      path.join(dirname, 'package.json'),
+      'utf8',
+    )
+      .then(JSON.parse)
+      .then(
+        /** @param {unknown} pkgJson */
+        pkgJson =>
+          pkgJson &&
+          typeof pkgJson === 'object' &&
+          'dependencies' in pkgJson &&
+          pkgJson.dependencies &&
+          typeof pkgJson.dependencies === 'object'
+            ? pkgJson.dependencies
+            : undefined,
+        () => undefined,
+      );
+
+    if (dependencies) {
+      for (const key in dependencies) {
+        if (request.startsWith(key)) return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+/**
  * @typedef {Object} Entry
  * @property {EntryItem | Record<string, EntryItem>} node
  * @property {EntryItem} [serviceWorker]
@@ -506,7 +554,6 @@ export default async function makeWebpackConfig({
   reactRefresh,
   watch,
 }) {
-  const pkg = require(path.resolve(process.cwd(), 'package.json'));
   const env = dev ? 'development' : 'production';
   const stats = watch ? 'errors-warnings' : undefined;
 
@@ -533,11 +580,7 @@ export default async function makeWebpackConfig({
         paths.build,
         '[resource-path]',
       ),
-      externals: new RegExp(
-        `^(${Object.keys(pkg.dependencies)
-          .map(escapeStringRegexp)
-          .join('|')})(/|$)`,
-      ),
+      externals: nodeExternals,
       externalsType: 'commonjs',
       plugins: /** @type {webpack.WebpackPluginInstance[]} */ ([
         new webpack.DefinePlugin({
