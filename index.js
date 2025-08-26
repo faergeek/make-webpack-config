@@ -257,7 +257,6 @@ class NodeHmrPlugin {
  * @param {webpack.Configuration['optimization']} [options.optimization]
  * @param {string} options.outputPath
  * @param {webpack.Configuration['plugins']} options.plugins
- * @param {string} options.srcPath
  * @param {webpack.Configuration['stats']} options.stats
  * @param {import('@swc/core').Config} [options.swcLoaderOptions]
  * @param {'node' | 'webworker'} [options.target]
@@ -278,7 +277,6 @@ function makeConfig({
   optimization,
   outputPath,
   plugins,
-  srcPath,
   stats,
   swcLoaderOptions,
   target,
@@ -325,7 +323,7 @@ function makeConfig({
       rules: [
         {
           test: /\.js$/,
-          include: srcPath,
+          exclude: /node_modules/,
           loader: require.resolve('swc-loader'),
           options: {
             ...swcLoaderOptions,
@@ -340,7 +338,7 @@ function makeConfig({
         },
         {
           test: /\.tsx?$/,
-          include: srcPath,
+          exclude: /node_modules/,
           loader: require.resolve('swc-loader'),
           options: {
             ...swcLoaderOptions,
@@ -475,7 +473,6 @@ function mapEntry(entry, fn) {
  * @typedef {Object} Paths
  * @property {string} build
  * @property {string} public
- * @property {string} src
  */
 
 /**
@@ -525,7 +522,6 @@ export default async function makeWebpackConfig({
       mode: env,
       name: 'node',
       entry: entry.node,
-      srcPath: paths.src,
       outputPath: paths.build,
       target: 'node',
       swcLoaderOptions: {
@@ -574,7 +570,6 @@ export default async function makeWebpackConfig({
           : []
         ).concat(entryArray),
       ),
-      srcPath: paths.src,
       outputPath: paths.public,
       swcLoaderOptions: {
         jsc: {
@@ -664,7 +659,6 @@ export default async function makeWebpackConfig({
         entry: {
           sw: entry.serviceWorker,
         },
-        srcPath: paths.src,
         outputPath: paths.public,
         target: 'webworker',
         plugins: /** @type {webpack.WebpackPluginInstance[]} */ ([
