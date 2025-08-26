@@ -12,7 +12,7 @@
     "./hmr/node?*": "./hmr/node.js?*"
   },
   "repository": "git@github.com:faergeek/make-webpack-config.git",
-  "author": "Sergey Slipchenko <faergeek@gmail.com>",
+  "author": "Sergei Slipchenko <faergeek@gmail.com>",
   "license": "MIT",
   "files": [
     "dist/index.d.ts",
