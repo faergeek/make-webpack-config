@@ -673,7 +673,7 @@ export default async function makeWebpackConfig({
           '...',
           new LightningCssMinifyPlugin({ implementation: LightningCss }),
         ],
-        runtimeChunk: 'single',
+        runtimeChunk: true,
         splitChunks: { chunks: 'all' },
       },
     }),
