@@ -674,18 +674,7 @@ export default async function makeWebpackConfig({
           new LightningCssMinifyPlugin({ implementation: LightningCss }),
         ],
         runtimeChunk: 'single',
-        splitChunks: {
-          cacheGroups: {
-            default: false,
-            defaultVendors: false,
-            vendors: {
-              test: /[\\/]node_modules[\\/]/,
-              chunks: 'initial',
-              name: (_module, chunks, cacheGroupKey) =>
-                `${cacheGroupKey}-${chunks.map(chunk => chunk.name).join('&')}`,
-            },
-          },
-        },
+        splitChunks: { chunks: 'all' },
       },
     }),
     entry.serviceWorker &&
