@@ -8,7 +8,10 @@
       "default": "./index.js"
     },
     "./hmr/node": "./hmr/node.js",
-    "./hmr/node?*": "./hmr/node.js?*"
+    "./hmr/node?*": "./hmr/node.js?*",
+    "./module": {
+      "types": "./module.d.ts"
+    }
   },
   "repository": {
     "type": "git",
@@ -20,7 +23,8 @@
     "dist/index.d.ts",
     "dist/index.d.ts.map",
     "hmr/node.js",
-    "index.js"
+    "index.js",
+    "module.d.ts"
   ],
   "scripts": {
     "cleanup": "rimraf dist",
