@@ -256,6 +256,7 @@ class NodeHmrPlugin {
  * @param {webpack.Configuration['optimization']} [options.optimization]
  * @param {string} options.outputPath
  * @param {webpack.Configuration['plugins']} options.plugins
+ * @param {string} options.publicOutputPath
  * @param {webpack.Configuration['stats']} options.stats
  * @param {import('@swc/core').Config} [options.swcLoaderOptions]
  * @param {'node' | 'webworker'} [options.target]
@@ -276,6 +277,7 @@ function makeConfig({
   optimization,
   outputPath,
   plugins,
+  publicOutputPath,
   stats,
   swcLoaderOptions,
   target,
@@ -379,46 +381,33 @@ function makeConfig({
         },
         { test: /\.(css|js)$/, use: require.resolve('source-map-loader') },
         {
-          test: /\.svg$/,
+          test: /\.(eot|gif|ico|jpe?g|otf|png|svg|ttf|webp|woff2?)$/,
           oneOf: [
-            {
-              resourceQuery: /absolute/,
+            target === 'node' && {
+              resourceQuery: '?file',
+              dependency: 'url',
               type: 'asset/resource',
             },
             {
-              resourceQuery: /inline/,
-              type: 'asset/inline',
-              generator: {
-                dataUrl: /** @param {string | Buffer} content */ content =>
-                  svgToMiniDataURI(content.toString()),
-              },
-            },
-            {
-              type: 'asset/resource',
-              generator: {
-                emit: target == null,
-                publicPath: '/',
-              },
-            },
-          ],
-        },
-        {
-          test: /\.(png|gif|jpe?g|ico|eot|otf|ttf|webp|woff2?)$/,
-          oneOf: [
-            {
-              resourceQuery: /absolute/,
-              type: 'asset/resource',
-            },
-            {
-              resourceQuery: /inline/,
-              type: 'asset/inline',
-            },
-            {
-              type: 'asset/resource',
-              generator: {
-                emit: target == null,
-                publicPath: '/',
-              },
+              type: 'asset',
+              rules: [
+                {
+                  test: /\.svg$/,
+                  generator: {
+                    /**
+                     * @param {string | Buffer} content
+                     * @returns {string}
+                     */
+                    dataUrl: content => svgToMiniDataURI(content.toString()),
+                  },
+                },
+                {
+                  generator: {
+                    outputPath: path.relative(outputPath, publicOutputPath),
+                    publicPath: '/',
+                  },
+                },
+              ],
             },
           ],
         },
@@ -475,7 +464,7 @@ function* directoriesUpwardsFrom(dirname) {
   } while (nextDirname !== dirname);
 }
 
-/** @param {import('webpack').ExternalItemFunctionData} data */
+/** @param {webpack.ExternalItemFunctionData} data */
 async function nodeExternals({ context, request }) {
   if (!context || !request || !path.isAbsolute(context)) return false;
 
@@ -570,6 +559,7 @@ export default async function makeWebpackConfig({
       name: 'node',
       entry: entry.node,
       outputPath: paths.build,
+      publicOutputPath: paths.public,
       target: 'node',
       swcLoaderOptions: {
         env: {
@@ -614,6 +604,7 @@ export default async function makeWebpackConfig({
         ).concat(entryArray),
       ),
       outputPath: paths.public,
+      publicOutputPath: paths.public,
       swcLoaderOptions: {
         jsc: {
           transform: {
@@ -692,6 +683,7 @@ export default async function makeWebpackConfig({
           sw: entry.serviceWorker,
         },
         outputPath: paths.public,
+        publicOutputPath: paths.public,
         target: 'webworker',
         plugins: /** @type {webpack.WebpackPluginInstance[]} */ ([
           new webpack.DefinePlugin({
