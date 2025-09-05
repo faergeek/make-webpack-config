@@ -60,13 +60,9 @@ function makeAssetsPlugin(filename) {
           cachedAssets: true,
           chunkGroupAuxiliary: true,
           entrypoints: true,
-          publicPath: true,
         });
 
         if (!stats.assets) throw new Error('assets must be present');
-
-        const publicPath = stats.publicPath;
-        if (!publicPath) throw new Error('entrypoints must be present');
 
         const assetsIndex = new Map(
           stats.assets
@@ -76,7 +72,7 @@ function makeAssetsPlugin(filename) {
             .map(asset => [
               asset.name,
               {
-                path: publicPath + asset.name,
+                path: asset.name,
                 immutable: Boolean(asset.info.immutable),
               },
             ]),
@@ -312,7 +308,6 @@ function makeConfig({
       }`,
       iife: target == null,
       path: outputPath,
-      publicPath: target == null ? '/' : undefined,
     },
     resolve: {
       alias,
@@ -390,6 +385,9 @@ function makeConfig({
               resourceQuery: '?file',
               dependency: 'url',
               type: 'asset/resource',
+              generator: {
+                publicPath: path.normalize(outputPath + path.sep),
+              },
             },
             {
               type: 'asset',
@@ -407,7 +405,6 @@ function makeConfig({
                 {
                   generator: {
                     outputPath: path.relative(outputPath, publicOutputPath),
-                    publicPath: '/',
                   },
                 },
               ],
