@@ -1,10 +1,11 @@
 import { ChildProcess, fork } from 'node:child_process';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import * as path from 'node:path';
 import process from 'node:process';
 
 import { TinyBrowserHmrWebpackPlugin } from '@faergeek/tiny-browser-hmr-webpack-plugin';
+import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import * as LightningCss from 'lightningcss';
 import { LightningCssMinifyPlugin } from 'lightningcss-loader';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -29,37 +30,31 @@ const SIGNALS_ARE_SUPPORTED = process.platform !== 'win32';
  * @property {Asset[]} js
  */
 
-class AssetsPlugin {
-  filename;
+/** @param {string} filename */
+function makeAssetsPlugin(filename) {
+  /** @this {webpack.Compiler} */
+  return function AssetsPlugin() {
+    /** @param {Asset[]} assets */
+    function groupAssetsByType(assets) {
+      /** @type {GroupedAssets} */
+      const groups = { auxiliary: [], css: [], js: [] };
 
-  /** @param {string} filename */
-  constructor(filename) {
-    this.filename = filename;
-  }
+      assets.forEach(asset => {
+        const ext = path.extname(asset.path).slice(1);
 
-  /** @param {Asset[]} assets */
-  #groupAssetsByType(assets) {
-    /** @type {GroupedAssets} */
-    const groups = { auxiliary: [], css: [], js: [] };
+        if (ext === 'css' || ext === 'js') {
+          groups[ext].push(asset);
+        } else {
+          groups.auxiliary.push(asset);
+        }
+      });
 
-    assets.forEach(asset => {
-      const ext = path.extname(asset.path).slice(1);
+      return groups;
+    }
 
-      if (ext === 'css' || ext === 'js') {
-        groups[ext].push(asset);
-      } else {
-        groups.auxiliary.push(asset);
-      }
-    });
-
-    return groups;
-  }
-
-  /** @param {webpack.Compiler} compiler */
-  apply(compiler) {
-    compiler.hooks.done.tapPromise({ name: 'AssetsPlugin' }, async stats => {
-      const { assets, assetsByChunkName, entrypoints, publicPath } =
-        stats.toJson({
+    this.hooks.thisCompilation.tap(AssetsPlugin.name, compilation => {
+      compilation.hooks.processAssets.tap(AssetsPlugin.name, () => {
+        const stats = compilation.getStats().toJson({
           all: false,
           assets: true,
           cachedAssets: true,
@@ -68,99 +63,106 @@ class AssetsPlugin {
           publicPath: true,
         });
 
-      if (!assets) throw new Error('assets must be present');
-      if (!publicPath) throw new Error('entrypoints must be present');
+        if (!stats.assets) throw new Error('assets must be present');
 
-      const index = Object.fromEntries(
-        assets
-          .filter(
-            item => item.type === 'asset' && !item.info.hotModuleReplacement,
-          )
-          .map(asset => [
-            asset.name,
-            {
-              path: publicPath + asset.name,
-              immutable: Boolean(asset.info.immutable),
-            },
-          ]),
-      );
+        const publicPath = stats.publicPath;
+        if (!publicPath) throw new Error('entrypoints must be present');
 
-      const dynamicAssets = new Set(Object.values(index));
+        const assetsIndex = new Map(
+          stats.assets
+            .filter(
+              item => item.type === 'asset' && !item.info.hotModuleReplacement,
+            )
+            .map(asset => [
+              asset.name,
+              {
+                path: publicPath + asset.name,
+                immutable: Boolean(asset.info.immutable),
+              },
+            ]),
+        );
 
-      /** @type {Set<Asset>} */
-      const entriesAssets = new Set();
+        if (!stats.entrypoints) throw new Error('entrypoints must be present');
 
-      if (!entrypoints) throw new Error('entrypoints must be present');
+        const dynamicAssets = new Set(assetsIndex.values());
 
-      const initial = Object.fromEntries(
-        Object.values(entrypoints).map(entry => {
-          if (!entry.assets || !entry.auxiliaryAssets || !entry.name) {
-            throw new Error('assets, auxiliaryAssets and name must be present');
-          }
+        /** @type {Set<Asset>} */
+        const entriesAssets = new Set();
 
-          return [
-            entry.name,
-            this.#groupAssetsByType(
-              entry.assets
-                .concat(entry.auxiliaryAssets)
-                .map(asset => index[asset.name])
-                .filter(asset => {
-                  if (!asset) return false;
+        const initial = Object.fromEntries(
+          Object.values(stats.entrypoints).map(entry => {
+            if (!entry.assets || !entry.auxiliaryAssets || !entry.name) {
+              throw new Error(
+                'assets, auxiliaryAssets and name must be present',
+              );
+            }
 
-                  dynamicAssets.delete(asset);
-                  entriesAssets.add(asset);
+            return [
+              entry.name,
+              groupAssetsByType(
+                entry.assets
+                  .concat(entry.auxiliaryAssets)
+                  .map(asset => assetsIndex.get(asset.name))
+                  .filter(asset => asset != null)
+                  .map(asset => {
+                    dynamicAssets.delete(asset);
+                    entriesAssets.add(asset);
 
-                  return true;
-                }),
-            ),
-          ];
-        }),
-      );
+                    return asset;
+                  }),
+              ),
+            ];
+          }),
+        );
 
-      const unnamedChunkAssets = new Set(dynamicAssets);
+        if (!stats.assetsByChunkName) {
+          throw new Error('assetsByChunkName must be present');
+        }
 
-      if (!assetsByChunkName) {
-        throw new Error('assetsByChunkName must be present');
-      }
+        const unnamedChunkAssets = new Set(dynamicAssets);
 
-      const async = Object.fromEntries(
-        Object.entries(assetsByChunkName)
-          .map(
-            /** @returns {[string, Asset[]]} */
+        const assetsByChunkName = new Map(
+          Object.entries(stats.assetsByChunkName).map(
             ([chunkName, chunkAssetNames]) => [
               chunkName,
               chunkAssetNames
-                .map(assetName => index[assetName])
-                .filter(asset => {
-                  if (!asset || !unnamedChunkAssets.has(asset)) return false;
-
+                .map(assetName => assetsIndex.get(assetName))
+                .filter(asset => asset != null)
+                .filter(asset => unnamedChunkAssets.has(asset))
+                .map(asset => {
                   unnamedChunkAssets.delete(asset);
 
-                  return true;
+                  return asset;
                 }),
             ],
-          )
-          .filter(([, chunkAssets]) => chunkAssets.length !== 0)
-          .map(([chunkName, chunkAssets]) => [
-            chunkName,
-            this.#groupAssetsByType(
-              chunkAssets.filter(
-                asset => asset != null && !entriesAssets.has(asset),
+          ),
+        );
+
+        const async = Object.fromEntries(
+          assetsByChunkName
+            .entries()
+            .filter(([, chunkAssets]) => chunkAssets.length !== 0)
+            .map(([chunkName, chunkAssets]) => [
+              chunkName,
+              groupAssetsByType(
+                chunkAssets.filter(asset => !entriesAssets.has(asset)),
               ),
-            ),
-          ]),
-      );
+            ]),
+        );
 
-      async[''] = this.#groupAssetsByType(Array.from(unnamedChunkAssets));
+        if (unnamedChunkAssets.size !== 0) {
+          async[''] = groupAssetsByType(Array.from(unnamedChunkAssets));
+        }
 
-      await mkdir(path.dirname(this.filename), { recursive: true });
-
-      await writeFile(
-        this.filename,
-        JSON.stringify({ initial, async }, null, 2),
-      );
+        compilation.emitAsset(
+          path.relative(this.outputPath, filename),
+          new webpack.sources.RawSource(
+            JSON.stringify({ initial, async }, null, 2),
+          ),
+        );
+      });
     });
-  }
+  };
 }
 
 class NodeHmrPlugin {
@@ -302,6 +304,7 @@ function makeConfig({
     cache,
     output: {
       chunkFilename: filename,
+      clean: true,
       devtoolModuleFilenameTemplate,
       filename,
       hotUpdateChunkFilename: `[id].[fullhash].hot-update.${
@@ -500,16 +503,9 @@ async function nodeExternals({ context, request }) {
 }
 
 /**
- * @typedef {Object} Entry
- * @property {EntryItem | Record<string, EntryItem>} node
- * @property {EntryItem} [serviceWorker]
- * @property {EntryItem | Record<string, EntryItem>} webPage
- */
-
-/**
- * @typedef {Object} Paths
- * @property {string} build
- * @property {string} public
+ * @typedef {Object} TargetSpec
+ * @property {EntryItem | Record<string, EntryItem>} entry
+ * @property {string} outputPath
  */
 
 /**
@@ -520,80 +516,43 @@ async function nodeExternals({ context, request }) {
  * @param {webpack.Configuration['cache']} [options.cache]
  * @param {Record<string, unknown>} [options.define]
  * @param {boolean} options.dev
- * @param {Entry} options.entry
- * @param {Paths} options.paths
+ * @param {TargetSpec} options.node
+ * @param {TargetSpec} [options.serviceWorker]
+ * @param {TargetSpec} options.webPage
  * @param {webpack.WebpackPluginInstance[] | ((entryTarget: 'node' | 'serviceWorker' | 'webPage') => webpack.WebpackPluginInstance[])} [options.plugins]
  * @param {number} [options.port]
  * @param {boolean} [options.reactRefresh]
  * @param {boolean} [options.watch]
  *
- * @returns {Promise<webpack.Configuration[]>}
+ * @returns {webpack.Configuration[]}
  */
-export default async function makeWebpackConfig({
+export default function makeWebpackConfig({
   alias,
   analyze,
   analyzerPort = 8001,
   cache,
   define,
   dev,
-  entry,
-  paths,
+  node,
   plugins,
   port = 8000,
   reactRefresh,
+  serviceWorker,
   watch,
+  webPage,
 }) {
   const env = dev ? 'development' : 'production';
   const stats = watch ? 'errors-warnings' : undefined;
+  const assetsJsonPath = path.join(webPage.outputPath, 'assets.json');
 
   return [
-    makeConfig({
-      dependencies: ['webPage'],
-      alias: {
-        ...alias,
-        'assets.json': path.join(paths.build, 'assets.json'),
-      },
-      cache,
-      stats,
-      mode: env,
-      name: 'node',
-      entry: entry.node,
-      outputPath: paths.build,
-      publicOutputPath: paths.public,
-      target: 'node',
-      swcLoaderOptions: {
-        env: {
-          targets: 'current node',
-        },
-      },
-      devtoolModuleFilenameTemplate: path.relative(
-        paths.build,
-        '[resource-path]',
-      ),
-      externals: nodeExternals,
-      externalsType: 'commonjs',
-      plugins: /** @type {webpack.WebpackPluginInstance[]} */ ([
-        new webpack.DefinePlugin({
-          ...define,
-          __DEV__: JSON.stringify(dev),
-          __ENTRY_TARGET__: JSON.stringify('node'),
-        }),
-      ])
-        .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
-        .concat(
-          watch ? [new NodeHmrPlugin(path.join(paths.build, 'main.cjs'))] : [],
-        )
-        .concat(
-          typeof plugins === 'function' ? plugins('node') : (plugins ?? []),
-        ),
-    }),
     makeConfig({
       alias,
       cache,
       stats,
       mode: env,
       name: 'webPage',
-      entry: mapEntry(entry.webPage, entryArray =>
+      entry: mapEntry(webPage.entry, entryArray =>
         (watch && dev
           ? [
               require.resolve(
@@ -603,8 +562,8 @@ export default async function makeWebpackConfig({
           : []
         ).concat(entryArray),
       ),
-      outputPath: paths.public,
-      publicOutputPath: paths.public,
+      outputPath: path.join(webPage.outputPath, 'public'),
+      publicOutputPath: path.join(webPage.outputPath, 'public'),
       swcLoaderOptions: {
         jsc: {
           transform: {
@@ -615,50 +574,39 @@ export default async function makeWebpackConfig({
         },
       },
       immutableAssets: true,
-      plugins: /** @type {webpack.WebpackPluginInstance[]} */ ([
+      plugins: [
         new webpack.DefinePlugin({
           ...define,
           __DEV__: JSON.stringify(dev),
           __ENTRY_TARGET__: JSON.stringify('webPage'),
         }),
-        new AssetsPlugin(path.join(paths.build, 'assets.json')),
+        makeAssetsPlugin(assetsJsonPath),
         new MiniCssExtractPlugin({
           filename: dev ? '[name].css' : '[name].[contenthash].css',
         }),
-      ])
-        .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
-        .concat(
-          analyze
-            ? [
-                new BundleAnalyzerPlugin({
-                  analyzerHost: 'localhost',
-                  analyzerMode: watch ? 'server' : 'static',
-                  analyzerPort,
-                  defaultSizes: 'gzip',
-                  generateStatsFile: true,
-                  openAnalyzer: false,
-                  reportFilename: path.join(
-                    paths.build,
-                    'webpack-bundle-analyzer.html',
-                  ),
-                  statsFilename: path.join(paths.build, 'stats.json'),
-                }),
-              ]
-            : [],
-        )
-        .concat(
-          watch && dev
-            ? [
-                new webpack.HotModuleReplacementPlugin(),
-                new TinyBrowserHmrWebpackPlugin({ port }),
-                reactRefresh &&
-                  new (require('@pmmmwh/react-refresh-webpack-plugin'))({
-                    overlay: false,
-                  }),
-              ].filter(Boolean)
-            : [],
-        )
-        .concat(typeof plugins === 'function' ? plugins('webPage') : []),
+        process.stdout.isTTY && new webpack.ProgressPlugin(),
+        analyze &&
+          new BundleAnalyzerPlugin({
+            analyzerHost: 'localhost',
+            analyzerMode: watch ? 'server' : 'static',
+            analyzerPort,
+            defaultSizes: 'gzip',
+            generateStatsFile: true,
+            openAnalyzer: false,
+            reportFilename: path.join(
+              webPage.outputPath,
+              'webpack-bundle-analyzer.html',
+            ),
+            statsFilename: path.join(webPage.outputPath, 'stats.json'),
+          }),
+        watch && dev && new webpack.HotModuleReplacementPlugin(),
+        watch && dev && new TinyBrowserHmrWebpackPlugin({ port }),
+        watch &&
+          dev &&
+          reactRefresh &&
+          new ReactRefreshPlugin({ overlay: false }),
+        ...(typeof plugins === 'function' ? plugins('webPage') : []),
+      ],
       optimization: {
         minimizer: [
           '...',
@@ -668,24 +616,49 @@ export default async function makeWebpackConfig({
         splitChunks: { chunks: 'all' },
       },
     }),
-    entry.serviceWorker &&
+    makeConfig({
+      dependencies: ['webPage'],
+      alias: { ...alias, 'assets.json': assetsJsonPath },
+      cache,
+      stats,
+      mode: env,
+      name: 'node',
+      entry: node.entry,
+      outputPath: node.outputPath,
+      publicOutputPath: path.join(node.outputPath, 'public'),
+      target: 'node',
+      swcLoaderOptions: {
+        env: {
+          targets: 'current node',
+        },
+      },
+      devtoolModuleFilenameTemplate: '[absolute-resource-path]',
+      externals: nodeExternals,
+      externalsType: 'commonjs',
+      plugins: [
+        new webpack.DefinePlugin({
+          ...define,
+          __DEV__: JSON.stringify(dev),
+          __ENTRY_TARGET__: JSON.stringify('node'),
+        }),
+        process.stdout.isTTY && new webpack.ProgressPlugin(),
+        watch && new NodeHmrPlugin(path.join(node.outputPath, 'main.cjs')),
+        ...(typeof plugins === 'function' ? plugins('node') : (plugins ?? [])),
+      ],
+    }),
+    serviceWorker &&
       makeConfig({
         dependencies: ['webPage'],
-        alias: {
-          ...alias,
-          'assets.json': path.join(paths.build, 'assets.json'),
-        },
+        alias: { ...alias, 'assets.json': assetsJsonPath },
         cache,
         stats,
         mode: env,
         name: 'service-worker',
-        entry: {
-          sw: entry.serviceWorker,
-        },
-        outputPath: paths.public,
-        publicOutputPath: paths.public,
+        entry: serviceWorker.entry,
+        outputPath: path.join(serviceWorker.outputPath, 'public'),
+        publicOutputPath: path.join(serviceWorker.outputPath, 'public'),
         target: 'webworker',
-        plugins: /** @type {webpack.WebpackPluginInstance[]} */ ([
+        plugins: [
           new webpack.DefinePlugin({
             ...define,
             __DEV__: JSON.stringify(dev),
@@ -694,11 +667,9 @@ export default async function makeWebpackConfig({
           new webpack.optimize.LimitChunkCountPlugin({
             maxChunks: 1,
           }),
-        ])
-          .concat(process.stdout.isTTY ? [new webpack.ProgressPlugin()] : [])
-          .concat(
-            typeof plugins === 'function' ? plugins('serviceWorker') : [],
-          ),
+          process.stdout.isTTY && new webpack.ProgressPlugin(),
+          ...(typeof plugins === 'function' ? plugins('serviceWorker') : []),
+        ],
       }),
   ].filter(n => !!n);
 }
