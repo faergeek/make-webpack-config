@@ -10,7 +10,10 @@
     "./hmr/node": "./hmr/node.js",
     "./hmr/node?*": "./hmr/node.js?*"
   },
-  "repository": "git@github.com:faergeek/make-webpack-config.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/faergeek/make-webpack-config.git"
+  },
   "author": "Sergei Slipchenko <faergeek@gmail.com>",
   "license": "MIT",
   "files": [
