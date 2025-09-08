@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@faergeek/make-webpack-config",
-  "version": "0.0.0-semantically-released",
+  "version": "24.0.1",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
