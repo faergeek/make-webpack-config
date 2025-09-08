@@ -32,7 +32,7 @@
     "generate-changelog": "git-cliff --bump -o CHANGELOG.md && prettier --write CHANGELOG.md",
     "version": "pnpm run generate-changelog && git add CHANGELOG.md"
   },
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "pnpm@10.15.1",
   "peerDependencies": {
     "@types/node": "^22.17.1",
     "webpack": "^5.36.2"
