@@ -29,16 +29,6 @@
     "build": "tsc"
   },
   "packageManager": "pnpm@10.15.0",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@swc/core",
-      "bufferutil",
-      "utf-8-validate"
-    ],
-    "ignoredBuiltDependencies": [
-      "core-js-pure"
-    ]
-  },
   "peerDependencies": {
     "@types/node": "^22.17.1",
     "webpack": "^5.36.2"
