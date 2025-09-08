@@ -57,7 +57,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
-    "@faergeek/eslint-config": "^7.0.0",
+    "@faergeek/eslint-config": "^8.0.0",
     "@types/node": "^22.17.1",
     "eslint": "^9.19.0",
     "git-cliff": "^2.10.0",
