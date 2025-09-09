@@ -34,7 +34,7 @@
   },
   "packageManager": "pnpm@10.15.1",
   "peerDependencies": {
-    "@types/node": "^22.17.1",
+    "@types/node": "^24.3.1",
     "webpack": "^5.36.2"
   },
   "dependencies": {
@@ -58,7 +58,7 @@
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
     "@faergeek/eslint-config": "^8.0.0",
-    "@types/node": "^22.17.1",
+    "@types/node": "^24.3.1",
     "eslint": "^9.19.0",
     "git-cliff": "^2.10.0",
     "prettier": "^3.0.0",
