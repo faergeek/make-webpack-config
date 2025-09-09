@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## 24.0.3 (2025-09-09)
+
+### Documentation
+
+- clean up readme
+
 ## 24.0.2 (2025-09-08)
 
 ### Fixes
