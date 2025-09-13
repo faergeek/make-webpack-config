@@ -34,7 +34,7 @@
   },
   "packageManager": "pnpm@10.16.0",
   "peerDependencies": {
-    "@types/node": "^24.3.1",
+    "@types/node": ">= 22.0.0",
     "webpack": "^5.36.2"
   },
   "dependencies": {
