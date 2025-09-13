@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## 24.0.5 (2025-09-13)
+
+### Fixes
+
+- change `@types/node` peer dependency to `>= 22.0.0`
+
 ## 24.0.4 (2025-09-09)
 
 ### Fixes
