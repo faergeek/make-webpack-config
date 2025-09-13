@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@faergeek/make-webpack-config",
-  "version": "24.0.4",
+  "version": "24.0.5",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -34,7 +34,7 @@
   },
   "packageManager": "pnpm@10.16.0",
   "peerDependencies": {
-    "@types/node": "^24.3.1",
+    "@types/node": ">= 22.0.0",
     "webpack": "^5.36.2"
   },
   "dependencies": {
