@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## 24.0.6 (2025-09-13)
+
+### Fixes
+
+- update dependency @faergeek/tiny-browser-hmr-webpack-plugin to v1.2.4
+
 ## 24.0.5 (2025-09-13)
 
 ### Fixes
