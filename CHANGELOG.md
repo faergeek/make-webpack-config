@@ -2,7 +2,57 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
-## 24.0.6 (2025-09-13)
+## 25.0.0 (2025-09-14)
+
+### BREAKING CHANGES
+
+- including multiple entry points on the same page will
+  most likely fail.
+  See https://webpack.js.org/configuration/optimization/#optimizationruntimechunk
+
+- whether to inline an asset or not is decided
+  automatically based on asset size (<8KB assets are inlined), `?inline`
+  has no effect. Using url constructor like this
+  `new URL('./icon.png', import.meta.url).pathname` for assets that are
+  meant to be used in a browser is not guaranteed to work reliably because
+  of it.
+  Use `import image from './icon.png'` instead.
+- `?absolute` is removed. To get absolute path to a file
+  in node, use `new URL('...?file', import.meta.url)`. It has no effect in
+  other targets.
+
+- the way to specify entry and output paths has changed.
+  There's neither an `entry` nor `paths` anymore. There's now `node`,
+  `serviceWorker` and `webPage` keys each containing an `entry` and
+  `outputPath`.
+- nesting output paths inside each other is not going to
+  work reliably since the last emitted target can clean output from
+  another.
+- public assets are now being output inside of a `public`
+  subdirectory of every target, you might need to adjust the way you serve
+  the assets.
+
+- you have to set `__webpack_public_path__` to whatever
+  value you prefer at runtime, documentation on how to do it:
+
+- `--inspect` flag is not passed to node out-of-the-box
+  anymore, but it might be provided via `nodeArgs` if needed for all
+  entries at once or just one or however is desired.
+
+### Features
+
+- add `/module` export containing the types for a module
+- clean output directory before emitting
+- support multiple entries for node, add `nodeArgs` option
+
+### Fixes
+
+- set `splitChunks.chunks` to `all` instead of creating a cache group
+- set `runtimeChunk` to `true` instead of `'single'`
+- emit static assets for all targets
+- don't hardcode public path
+
+## 24.0.6 (2025-09-14)
 
 ### Fixes
 
