@@ -161,82 +161,57 @@ function makeAssetsPlugin(filename) {
   };
 }
 
-class NodeHmrPlugin {
-  /** @type {ChildProcess | null} */
-  child;
-  path;
+/** @param {string[] | Partial<Record<string, string[]>>} [args] */
+function makeNodeHmrPlugin(args) {
+  /** @this {webpack.Compiler} */
+  return function NodeHmrPlugin() {
+    /** @type {Map<string, ChildProcess>} */
+    const childProcesses = new Map();
 
-  /** @param {string} filename */
-  constructor(filename) {
-    this.child = null;
-    this.path = filename;
-  }
-
-  /** @param {webpack.Compiler} compiler */
-  apply(compiler) {
-    new webpack.HotModuleReplacementPlugin().apply(compiler);
-
-    compiler.hooks.afterEmit.tapPromise(this.constructor.name, async () => {
-      if (this.child) {
+    this.hooks.afterEmit.tap(NodeHmrPlugin.name, compilation => {
+      for (const child of childProcesses.values()) {
         if (SIGNALS_ARE_SUPPORTED) {
-          if (!this.child.pid) throw new Error('pid must be present');
-          process.kill(this.child.pid, 'SIGUSR2');
+          if (!child.pid) throw new Error('pid must be present');
+          process.kill(child.pid, 'SIGUSR2');
         }
-        return;
       }
 
-      this.child = fork(this.path, {
-        execArgv: ['--enable-source-maps', '--inspect=9229'],
-        stdio: 'inherit',
-      });
+      const stats = compilation.getStats().toJson({ entrypoints: true });
+      if (!stats.entrypoints) throw new Error('entrypoints must be present');
 
-      const child = this.child;
+      for (const [entryName, entrypoint] of Object.entries(stats.entrypoints)) {
+        if (childProcesses.has(entryName)) continue;
+        if (!entrypoint.assets) throw new Error('assets must be present');
 
-      await /** @type {Promise<void>} */ (
-        new Promise((resolve, reject) => {
-          /** @param {import('node:child_process').Serializable} message */
-          function handleMessage(message) {
-            if (message === 'hmr-is-ready') {
-              teardown();
-              resolve();
-            }
-          }
+        const entryAsset = entrypoint.assets.at(0);
 
-          /** @param {Error} err  */
-          function handleError(err) {
-            teardown();
-            reject(err);
-          }
+        if (!entryAsset) {
+          throw new Error('there must be a single asset for node');
+        }
 
-          function setup() {
-            child.on('message', handleMessage);
-            child.on('error', handleError);
-          }
+        const modulePath = path.join(this.outputPath, entryAsset.name);
 
-          function teardown() {
-            child.off('message', handleMessage);
-            child.off('error', handleError);
-          }
+        const execArgv = Array.isArray(args)
+          ? args
+          : (args?.[entryName] ?? ['--enable-source-maps']);
 
-          setup();
-        })
-      );
+        function start() {
+          return fork(modulePath, { execArgv, stdio: 'inherit' }).once(
+            'close',
+            code => {
+              if (code === 0) {
+                childProcesses.delete(entryName);
+              } else {
+                childProcesses.set(entryName, start());
+              }
+            },
+          );
+        }
 
-      child.once('close', () => {
-        this.child = null;
-      });
+        childProcesses.set(entryName, start());
+      }
     });
-
-    compiler.hooks.entryOption.tap(this.constructor.name, (_context, entry) => {
-      Object.values(entry).forEach(entryValue => {
-        entryValue.import.unshift(
-          `@faergeek/make-webpack-config/hmr/node${
-            SIGNALS_ARE_SUPPORTED ? '' : '?poll=1000'
-          }`,
-        );
-      });
-    });
-  }
+  };
 }
 
 /**
@@ -514,6 +489,7 @@ async function nodeExternals({ context, request }) {
  * @param {Record<string, unknown>} [options.define]
  * @param {boolean} options.dev
  * @param {TargetSpec} options.node
+ * @param {string[] | Record<string, string[]>} [options.nodeArgs]
  * @param {TargetSpec} [options.serviceWorker]
  * @param {TargetSpec} options.webPage
  * @param {webpack.WebpackPluginInstance[] | ((entryTarget: 'node' | 'serviceWorker' | 'webPage') => webpack.WebpackPluginInstance[])} [options.plugins]
@@ -531,6 +507,7 @@ export default function makeWebpackConfig({
   define,
   dev,
   node,
+  nodeArgs,
   plugins,
   port = 8000,
   reactRefresh,
@@ -620,7 +597,16 @@ export default function makeWebpackConfig({
       stats,
       mode: env,
       name: 'node',
-      entry: node.entry,
+      entry: mapEntry(node.entry, entryArray =>
+        (watch && dev
+          ? [
+              `${require.resolve(
+                `@faergeek/make-webpack-config/hmr/node`,
+              )}${SIGNALS_ARE_SUPPORTED ? '' : '?poll=1000'}`,
+            ]
+          : []
+        ).concat(entryArray),
+      ),
       outputPath: node.outputPath,
       publicOutputPath: path.join(node.outputPath, 'public'),
       target: 'node',
@@ -639,7 +625,8 @@ export default function makeWebpackConfig({
           __ENTRY_TARGET__: JSON.stringify('node'),
         }),
         process.stdout.isTTY && new webpack.ProgressPlugin(),
-        watch && new NodeHmrPlugin(path.join(node.outputPath, 'main.cjs')),
+        watch && new webpack.HotModuleReplacementPlugin(),
+        watch && makeNodeHmrPlugin(nodeArgs),
         ...(typeof plugins === 'function' ? plugins('node') : (plugins ?? [])),
       ],
     }),
