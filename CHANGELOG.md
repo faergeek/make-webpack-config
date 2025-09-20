@@ -9,7 +9,6 @@ All notable changes to this project will be documented in this file. See [conven
 - including multiple entry points on the same page will
   most likely fail.
   See https://webpack.js.org/configuration/optimization/#optimizationruntimechunk
-
 - whether to inline an asset or not is decided
   automatically based on asset size (<8KB assets are inlined), `?inline`
   has no effect. Using url constructor like this
@@ -20,7 +19,6 @@ All notable changes to this project will be documented in this file. See [conven
 - `?absolute` is removed. To get absolute path to a file
   in node, use `new URL('...?file', import.meta.url)`. It has no effect in
   other targets.
-
 - the way to specify entry and output paths has changed.
   There's neither an `entry` nor `paths` anymore. There's now `node`,
   `serviceWorker` and `webPage` keys each containing an `entry` and
@@ -31,10 +29,8 @@ All notable changes to this project will be documented in this file. See [conven
 - public assets are now being output inside of a `public`
   subdirectory of every target, you might need to adjust the way you serve
   the assets.
-
 - you have to set `__webpack_public_path__` to whatever
   value you prefer at runtime, documentation on how to do it:
-
 - `--inspect` flag is not passed to node out-of-the-box
   anymore, but it might be provided via `nodeArgs` if needed for all
   entries at once or just one or however is desired.
@@ -214,10 +210,8 @@ All notable changes to this project will be documented in this file. See [conven
 
 - module resolution analogous to `"baseUrl":
 "<paths.src>"` in `tsconfig.json` will not work anymore
-
 - support for postcss has been dropped, postcss
   configuration has no effect anymore.
-
 - support for babel has been dropped, babel configuration
   has no effect anymore.
 
@@ -860,7 +854,6 @@ All notable changes to this project will be documented in this file. See [conven
 - `__NODE__` boolean global is replaced by
   **ENTRY_TARGET** enum-like global with possible values being
   `'webPage'`, `'node'`, or `'serviceWorker'`.
-
 - assets.json file format has changed to contain both
   initial and async chunks assets along with an immutable flag. This
   allows caching all assets on service worker install, so implementing
@@ -1075,7 +1068,6 @@ All notable changes to this project will be documented in this file. See [conven
 ### BREAKING CHANGES
 
 - webpack-assets.json is moved to public folder and renamed to assets.json
-
 - now you have to specify full cache configuration as a
   cache option, instead of just boolean.
 
@@ -1160,7 +1152,6 @@ All notable changes to this project will be documented in this file. See [conven
 ### BREAKING CHANGES
 
 - there's no extractRuntimeChunk option anymore
-
 - from now on, you have to use a dynamic import, if you
   want to use it from commonjs
 
