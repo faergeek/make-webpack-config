@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## Unreleased
+
+### Fixes
+
+- update dependency @swc/core to v1.13.19
+
 ## 25.0.0 (2025-09-14)
 
 ### BREAKING CHANGES
