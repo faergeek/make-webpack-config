@@ -13,7 +13,7 @@ importers:
         version: 1.2.4(@types/node@24.7.2)(webpack@5.102.1(@swc/core@1.13.5))
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: ^0.6.0
-        version: 0.6.1(react-refresh@0.18.0)(type-fest@5.0.1)(webpack@5.102.1(@swc/core@1.13.5))
+        version: 0.6.1(react-refresh@0.18.0)(type-fest@5.1.0)(webpack@5.102.1(@swc/core@1.13.5))
       '@swc/core':
         specifier: ^1.13.0
         version: 1.13.5
@@ -80,7 +80,7 @@ importers:
         version: 6.0.1
       type-fest:
         specifier: ^5.0.0
-        version: 5.0.1
+        version: 5.1.0
       typescript:
         specifier: ^5.8.3
         version: 5.9.3
@@ -2151,8 +2151,8 @@ packages:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
 
-  type-fest@5.0.1:
-    resolution: {integrity: sha512-9MpwAI52m8H6ssA542UxSLnSiSD2dsC3/L85g6hVubLSXd82wdI80eZwTWhdOfN67NlA+D+oipAs1MlcTcu3KA==}
+  type-fest@5.1.0:
+    resolution: {integrity: sha512-wQ531tuWvB6oK+pchHIu5lHe5f5wpSCqB8Kf4dWQRbOYc9HTge7JL0G4Qd44bh6QuJCccIzL3bugb8GI0MwHrg==}
     engines: {node: '>=20'}
 
   typed-array-buffer@1.0.3:
@@ -2680,7 +2680,7 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
-  '@pmmmwh/react-refresh-webpack-plugin@0.6.1(react-refresh@0.18.0)(type-fest@5.0.1)(webpack@5.102.1(@swc/core@1.13.5))':
+  '@pmmmwh/react-refresh-webpack-plugin@0.6.1(react-refresh@0.18.0)(type-fest@5.1.0)(webpack@5.102.1(@swc/core@1.13.5))':
     dependencies:
       anser: 2.3.2
       core-js-pure: 3.46.0
@@ -2691,7 +2691,7 @@ snapshots:
       source-map: 0.7.6
       webpack: 5.102.1(@swc/core@1.13.5)
     optionalDependencies:
-      type-fest: 5.0.1
+      type-fest: 5.1.0
 
   '@polka/url@1.0.0-next.29': {}
 
@@ -4608,7 +4608,7 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
 
-  type-fest@5.0.1:
+  type-fest@5.1.0:
     dependencies:
       tagged-tag: 1.0.0
 
