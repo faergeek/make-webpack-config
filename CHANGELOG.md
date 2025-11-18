@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## Unreleased
+
+### Fixes
+
+- update dependency webpack-bundle-analyzer to v5
+
 ## 25.0.1 (2025-09-25)
 
 ### Fixes
