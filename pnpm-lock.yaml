@@ -13,7 +13,7 @@ importers:
         version: 1.2.4(@types/node@24.10.1)(webpack@5.103.0(@swc/core@1.15.3))
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: ^0.6.0
-        version: 0.6.1(react-refresh@0.18.0)(type-fest@5.2.0)(webpack@5.103.0(@swc/core@1.15.3))
+        version: 0.6.2(react-refresh@0.18.0)(type-fest@5.2.0)(webpack@5.103.0(@swc/core@1.15.3))
       '@swc/core':
         specifier: ^1.13.0
         version: 1.15.3
@@ -336,14 +336,14 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@pmmmwh/react-refresh-webpack-plugin@0.6.1':
-    resolution: {integrity: sha512-95DXXJxNkpYu+sqmpDp7vbw9JCyiNpHuCsvuMuOgVFrKQlwEIn9Y1+NNIQJq+zFL+eWyxw6htthB5CtdwJupNA==}
+  '@pmmmwh/react-refresh-webpack-plugin@0.6.2':
+    resolution: {integrity: sha512-IhIAD5n4XvGHuL9nAgWfsBR0TdxtjrUWETYKCBHxauYXEv+b+ctEbs9neEgPC7Ecgzv4bpZTBwesAoGDeFymzA==}
     engines: {node: '>=18.12'}
     peerDependencies:
       '@types/webpack': 5.x
       react-refresh: '>=0.10.0 <1.0.0'
       sockjs-client: ^1.4.0
-      type-fest: '>=0.17.0 <5.0.0'
+      type-fest: '>=0.17.0 <6.0.0'
       webpack: ^5.0.0
       webpack-dev-server: ^4.8.0 || 5.x
       webpack-hot-middleware: 2.x
@@ -2627,7 +2627,7 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
-  '@pmmmwh/react-refresh-webpack-plugin@0.6.1(react-refresh@0.18.0)(type-fest@5.2.0)(webpack@5.103.0(@swc/core@1.15.3))':
+  '@pmmmwh/react-refresh-webpack-plugin@0.6.2(react-refresh@0.18.0)(type-fest@5.2.0)(webpack@5.103.0(@swc/core@1.15.3))':
     dependencies:
       anser: 2.3.3
       core-js-pure: 3.47.0
