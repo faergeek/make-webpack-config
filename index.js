@@ -529,9 +529,7 @@ export default function makeWebpackConfig({
       entry: mapEntry(webPage.entry, entryArray =>
         (watch && dev
           ? [
-              require.resolve(
-                '@faergeek/tiny-browser-hmr-webpack-plugin/client',
-              ),
+              require.resolve('@faergeek/tiny-browser-hmr-webpack-plugin/client'),
             ]
           : []
         ).concat(entryArray),
