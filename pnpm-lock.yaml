@@ -49,7 +49,7 @@ importers:
         version: 5.103.0(@swc/core@1.15.3)
       webpack-bundle-analyzer:
         specifier: ^5.0.0
-        version: 5.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        version: 5.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
     devDependencies:
       '@commitlint/cli':
         specifier: ^20.0.0
@@ -2138,8 +2138,8 @@ packages:
     resolution: {integrity: sha512-c5EGNOiyxxV5qmTtAB7rbiXxi1ooX1pQKMLX/MIabJjRA0SJBQOjKF+KSVfHkr9U1cADPon0mRiVe/riyaiDUA==}
     engines: {node: '>=10.13.0'}
 
-  webpack-bundle-analyzer@5.0.1:
-    resolution: {integrity: sha512-PUp3YFOHysSw8t+13rcF+8o5SGaP/AZ5KnIF3qJfFodv4xJkmixnfcyy+LOwNadpzvyrEKpaMlewAG2sFUfdpw==}
+  webpack-bundle-analyzer@5.1.0:
+    resolution: {integrity: sha512-WAWwIoIUx4yC2AEBqXbDkcmh/LzAaenv0+nISBflP5l+XIXO9/x6poWarGA3RTrfavk9H3oWQ64Wm0z26/UGKA==}
     engines: {node: '>= 20.9.0'}
     hasBin: true
 
@@ -4515,7 +4515,7 @@ snapshots:
       glob-to-regexp: 0.4.1
       graceful-fs: 4.2.11
 
-  webpack-bundle-analyzer@5.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10):
+  webpack-bundle-analyzer@5.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10):
     dependencies:
       '@discoveryjs/json-ext': 0.5.7
       acorn: 8.15.0
