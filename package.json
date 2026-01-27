@@ -34,7 +34,7 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc"
   },
-  "packageManager": "pnpm@10.28.1",
+  "packageManager": "pnpm@10.28.2",
   "peerDependencies": {
     "@types/node": ">= 22.0.0",
     "webpack": "^5.36.2"
