@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@faergeek/tiny-browser-hmr-webpack-plugin':
         specifier: ^1.2.1
-        version: 1.2.5(@types/node@24.10.10)(webpack@5.104.1(@swc/core@1.15.11))
+        version: 1.2.6(@types/node@24.10.10)(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.11))
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: ^0.6.0
         version: 0.6.2(react-refresh@0.18.0)(type-fest@5.4.3)(webpack@5.104.1(@swc/core@1.15.11))
@@ -275,8 +275,8 @@ packages:
       '@eslint/js': ^9.19.0
       eslint: ^9.0.0
 
-  '@faergeek/tiny-browser-hmr-webpack-plugin@1.2.5':
-    resolution: {integrity: sha512-M+vQshBiaeFj2bESrbuaIjRp9IJvL5gMP8d3XzY6zgegEdi0ijN6d6LeA0vW3NYuoilulLR1vASPENHB5TU+wQ==}
+  '@faergeek/tiny-browser-hmr-webpack-plugin@1.2.6':
+    resolution: {integrity: sha512-bd703o3n+YTDFBJ3Q5WR3p0cWbsITUixt3QlCeXn7FjEmJdaJY2Ncg/1hc5GAv1+7upJid7F5DFxODDmtS7ZiA==}
     peerDependencies:
       '@types/node': '>= 22.0.0'
       webpack: ^5.30.0
@@ -2080,10 +2080,6 @@ packages:
     resolution: {integrity: sha512-Z6czzLq4u8fPOyx7TU6X3dvUZVvoJmxSQ+IcrlmagKhilxlhZgxPK6C5Jqbkw1IDUmFTM+cz9QDnnLTwDz/2gQ==}
     engines: {node: '>=6.14.2'}
 
-  utf-8-validate@6.0.6:
-    resolution: {integrity: sha512-q3l3P9UtEEiAHcsgsqTgf9PPjctrDWoIXW3NpOHFdRDbLvu4DLIcxHangJ4RLrWkBcKjmcs/6NkerI8T/rE4LA==}
-    engines: {node: '>=6.14.2'}
-
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -2456,15 +2452,15 @@ snapshots:
       - typescript
       - vitest
 
-  '@faergeek/tiny-browser-hmr-webpack-plugin@1.2.5(@types/node@24.10.10)(webpack@5.104.1(@swc/core@1.15.11))':
+  '@faergeek/tiny-browser-hmr-webpack-plugin@1.2.6(@types/node@24.10.10)(bufferutil@4.1.0)(utf-8-validate@5.0.10)(webpack@5.104.1(@swc/core@1.15.11))':
     dependencies:
       '@types/node': 24.10.10
       '@types/ws': 8.18.1
       webpack: 5.104.1(@swc/core@1.15.11)
-      ws: 8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
-    optionalDependencies:
-      bufferutil: 4.1.0
-      utf-8-validate: 6.0.6
+      ws: 8.19.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
 
   '@humanfs/core@0.19.1': {}
 
@@ -4388,11 +4384,6 @@ snapshots:
       node-gyp-build: 4.8.4
     optional: true
 
-  utf-8-validate@6.0.6:
-    dependencies:
-      node-gyp-build: 4.8.4
-    optional: true
-
   util-deprecate@1.0.2: {}
 
   watchpack@2.5.1:
@@ -4508,11 +4499,6 @@ snapshots:
     optionalDependencies:
       bufferutil: 4.1.0
       utf-8-validate: 5.0.10
-
-  ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6):
-    optionalDependencies:
-      bufferutil: 4.1.0
-      utf-8-validate: 6.0.6
 
   y18n@5.0.8: {}
 
