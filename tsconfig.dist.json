@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "rootDir": ".",
+    "tsBuildInfoFile": "node_modules/.cache/tsc/tsconfig.dist.tsbuildinfo"
+  },
+  "extends": "./tsconfig.base.json",
+  "include": ["index.js"]
+}

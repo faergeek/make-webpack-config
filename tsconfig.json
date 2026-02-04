@@ -1,22 +1,8 @@
 {
-  "include": ["./hmr/node.js", "./index.js"],
-  "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true,
-    "isolatedModules": true,
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "noErrorTruncation": true,
-    "noFallthroughCasesInSwitch": true,
-    "outDir": "dist",
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strict": true,
-    "target": "esnext",
-    "types": ["webpack/module"]
-  }
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.configs.json" },
+    { "path": "./tsconfig.dist.json" },
+    { "path": "./tsconfig.node-hmr-client.json" }
+  ]
 }
