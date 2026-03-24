@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## Unreleased
+
+### Fixes
+
+- add `declare module '*.css'`
+
 ## 25.0.4 (2026-02-19)
 
 ### Fixes
