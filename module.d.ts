@@ -3,6 +3,8 @@
 declare const __DEV__: boolean;
 declare const __ENTRY_TARGET__: 'node' | 'serviceWorker' | 'webPage';
 
+declare module '*.css' {}
+
 declare module '*.module.css' {
   const css: { [key: string]: string };
   export = css;
