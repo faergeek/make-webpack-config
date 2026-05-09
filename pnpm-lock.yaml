@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@faergeek/tiny-browser-hmr-webpack-plugin':
         specifier: ^1.2.7
-        version: 1.2.7(@types/node@24.12.2)(utf-8-validate@5.0.10)(webpack@5.106.2(@swc/core@1.15.33))
+        version: 1.2.7(@types/node@24.12.3)(utf-8-validate@5.0.10)(webpack@5.106.2(@swc/core@1.15.33))
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: ^0.6.0
         version: 0.6.2(react-refresh@0.18.0)(type-fest@5.6.0)(webpack@5.106.2(@swc/core@1.15.33))
@@ -53,7 +53,7 @@ importers:
     devDependencies:
       '@commitlint/cli':
         specifier: ^20.0.0
-        version: 20.5.3(@types/node@24.12.2)(conventional-commits-parser@6.4.0)(typescript@6.0.3)
+        version: 20.5.3(@types/node@24.12.3)(conventional-commits-parser@6.4.0)(typescript@6.0.3)
       '@commitlint/config-conventional':
         specifier: ^20.0.0
         version: 20.5.3
@@ -62,7 +62,7 @@ importers:
         version: 8.2.3(@eslint/js@9.39.4)(@typescript-eslint/eslint-plugin@8.59.1(@typescript-eslint/parser@8.59.1(eslint@10.3.0(jiti@2.6.1))(typescript@6.0.3))(eslint@10.3.0(jiti@2.6.1))(typescript@6.0.3))(eslint@10.3.0(jiti@2.6.1))(typescript@6.0.3)
       '@types/node':
         specifier: ^24.3.1
-        version: 24.12.2
+        version: 24.12.3
       eslint:
         specifier: ^10.0.0
         version: 10.3.0(jiti@2.6.1)
@@ -480,8 +480,8 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
-  '@types/node@24.12.2':
-    resolution: {integrity: sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g==}
+  '@types/node@24.12.3':
+    resolution: {integrity: sha512-8oljBDGun9cIsZRJR6fkihn0TSXJI0UDOOhncYaERq6M0JMDoPLxyscwruJcb4GKS6dvK/d8xebYBg27h/duaQ==}
 
   '@types/webpack-bundle-analyzer@4.7.0':
     resolution: {integrity: sha512-c5i2ThslSNSG8W891BRvOd/RoCjI2zwph8maD22b1adtSns20j+0azDDMCK06DiVrzTgnwiDl5Ntmu1YRJw8Sg==}
@@ -2258,11 +2258,11 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@commitlint/cli@20.5.3(@types/node@24.12.2)(conventional-commits-parser@6.4.0)(typescript@6.0.3)':
+  '@commitlint/cli@20.5.3(@types/node@24.12.3)(conventional-commits-parser@6.4.0)(typescript@6.0.3)':
     dependencies:
       '@commitlint/format': 20.5.0
       '@commitlint/lint': 20.5.3
-      '@commitlint/load': 20.5.3(@types/node@24.12.2)(typescript@6.0.3)
+      '@commitlint/load': 20.5.3(@types/node@24.12.3)(typescript@6.0.3)
       '@commitlint/read': 20.5.0(conventional-commits-parser@6.4.0)
       '@commitlint/types': 20.5.0
       tinyexec: 1.1.2
@@ -2307,14 +2307,14 @@ snapshots:
       '@commitlint/rules': 20.5.3
       '@commitlint/types': 20.5.0
 
-  '@commitlint/load@20.5.3(@types/node@24.12.2)(typescript@6.0.3)':
+  '@commitlint/load@20.5.3(@types/node@24.12.3)(typescript@6.0.3)':
     dependencies:
       '@commitlint/config-validator': 20.5.0
       '@commitlint/execute-rule': 20.0.0
       '@commitlint/resolve-extends': 20.5.3
       '@commitlint/types': 20.5.0
       cosmiconfig: 9.0.1(typescript@6.0.3)
-      cosmiconfig-typescript-loader: 6.3.0(@types/node@24.12.2)(cosmiconfig@9.0.1(typescript@6.0.3))(typescript@6.0.3)
+      cosmiconfig-typescript-loader: 6.3.0(@types/node@24.12.3)(cosmiconfig@9.0.1(typescript@6.0.3))(typescript@6.0.3)
       es-toolkit: 1.46.1
       is-plain-obj: 4.1.0
       picocolors: 1.1.1
@@ -2425,9 +2425,9 @@ snapshots:
       - typescript
       - vitest
 
-  '@faergeek/tiny-browser-hmr-webpack-plugin@1.2.7(@types/node@24.12.2)(utf-8-validate@5.0.10)(webpack@5.106.2(@swc/core@1.15.33))':
+  '@faergeek/tiny-browser-hmr-webpack-plugin@1.2.7(@types/node@24.12.3)(utf-8-validate@5.0.10)(webpack@5.106.2(@swc/core@1.15.33))':
     dependencies:
-      '@types/node': 24.12.2
+      '@types/node': 24.12.3
       '@types/ws': 8.18.1
       webpack: 5.106.2(@swc/core@1.15.33)
       ws: 8.20.0(utf-8-validate@5.0.10)
@@ -2576,13 +2576,13 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
-  '@types/node@24.12.2':
+  '@types/node@24.12.3':
     dependencies:
       undici-types: 7.16.0
 
   '@types/webpack-bundle-analyzer@4.7.0(@swc/core@1.15.33)':
     dependencies:
-      '@types/node': 24.12.2
+      '@types/node': 24.12.3
       tapable: 2.3.3
       webpack: 5.106.2(@swc/core@1.15.33)
     transitivePeerDependencies:
@@ -2593,7 +2593,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 24.12.2
+      '@types/node': 24.12.3
 
   '@typescript-eslint/eslint-plugin@8.59.1(@typescript-eslint/parser@8.59.1(eslint@10.3.0(jiti@2.6.1))(typescript@6.0.3))(eslint@10.3.0(jiti@2.6.1))(typescript@6.0.3)':
     dependencies:
@@ -2977,9 +2977,9 @@ snapshots:
 
   core-js-pure@3.49.0: {}
 
-  cosmiconfig-typescript-loader@6.3.0(@types/node@24.12.2)(cosmiconfig@9.0.1(typescript@6.0.3))(typescript@6.0.3):
+  cosmiconfig-typescript-loader@6.3.0(@types/node@24.12.3)(cosmiconfig@9.0.1(typescript@6.0.3))(typescript@6.0.3):
     dependencies:
-      '@types/node': 24.12.2
+      '@types/node': 24.12.3
       cosmiconfig: 9.0.1(typescript@6.0.3)
       jiti: 2.6.1
       typescript: 6.0.3
@@ -3667,7 +3667,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 24.12.2
+      '@types/node': 24.12.3
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
