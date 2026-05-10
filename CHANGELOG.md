@@ -1,6 +1,8 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
+All notable changes to this project will be documented in this file. See
+[conventional commits](https://www.conventionalcommits.org/) for commit
+guidelines.
 
 ## 25.0.6 (2026-03-24)
 
@@ -42,34 +44,27 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- including multiple entry points on the same page will
-  most likely fail.
-  See https://webpack.js.org/configuration/optimization/#optimizationruntimechunk
-- whether to inline an asset or not is decided
-  automatically based on asset size (<8KB assets are inlined), `?inline`
-  has no effect. Using url constructor like this
-  `new URL('./icon.png', import.meta.url).pathname` for assets that are
-  meant to be used in a browser is not guaranteed to work reliably because
-  of it.
-  Use `import image from './icon.png'` instead.
-- `?absolute` is removed. To get absolute path to a file
-  in node, use `new URL('...?file', import.meta.url)`. It has no effect in
-  other targets.
-- the way to specify entry and output paths has changed.
-  There's neither an `entry` nor `paths` anymore. There's now `node`,
-  `serviceWorker` and `webPage` keys each containing an `entry` and
-  `outputPath`.
-- nesting output paths inside each other is not going to
-  work reliably since the last emitted target can clean output from
-  another.
-- public assets are now being output inside of a `public`
-  subdirectory of every target, you might need to adjust the way you serve
-  the assets.
-- you have to set `__webpack_public_path__` to whatever
-  value you prefer at runtime, documentation on how to do it:
-- `--inspect` flag is not passed to node out-of-the-box
-  anymore, but it might be provided via `nodeArgs` if needed for all
-  entries at once or just one or however is desired.
+- including multiple entry points on the same page will most likely fail. See
+  https://webpack.js.org/configuration/optimization/#optimizationruntimechunk
+- whether to inline an asset or not is decided automatically based on asset size
+  (<8KB assets are inlined), `?inline` has no effect. Using url constructor like
+  this `new URL('./icon.png', import.meta.url).pathname` for assets that are
+  meant to be used in a browser is not guaranteed to work reliably because of
+  it. Use `import image from './icon.png'` instead.
+- `?absolute` is removed. To get absolute path to a file in node, use
+  `new URL('...?file', import.meta.url)`. It has no effect in other targets.
+- the way to specify entry and output paths has changed. There's neither an
+  `entry` nor `paths` anymore. There's now `node`, `serviceWorker` and `webPage`
+  keys each containing an `entry` and `outputPath`.
+- nesting output paths inside each other is not going to work reliably since the
+  last emitted target can clean output from another.
+- public assets are now being output inside of a `public` subdirectory of every
+  target, you might need to adjust the way you serve the assets.
+- you have to set `__webpack_public_path__` to whatever value you prefer at
+  runtime, documentation on how to do it:
+- `--inspect` flag is not passed to node out-of-the-box anymore, but it might be
+  provided via `nodeArgs` if needed for all entries at once or just one or
+  however is desired.
 
 ### Features
 
@@ -125,8 +120,8 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- transpiling files inside of `node_modules` nested
-  inside `paths.src` won't work anymore.
+- transpiling files inside of `node_modules` nested inside `paths.src` won't
+  work anymore.
 
 ### Fixes
 
@@ -244,12 +239,11 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- module resolution analogous to `"baseUrl":
-"<paths.src>"` in `tsconfig.json` will not work anymore
-- support for postcss has been dropped, postcss
-  configuration has no effect anymore.
-- support for babel has been dropped, babel configuration
-  has no effect anymore.
+- module resolution analogous to `"baseUrl": "<paths.src>"` in `tsconfig.json`
+  will not work anymore
+- support for postcss has been dropped, postcss configuration has no effect
+  anymore.
+- support for babel has been dropped, babel configuration has no effect anymore.
 
 ### Fixes
 
@@ -887,13 +881,12 @@ All notable changes to this project will be documented in this file. See [conven
 ### BREAKING CHANGES
 
 - entry.browser renamed to entry.webPage
-- `__NODE__` boolean global is replaced by
-  **ENTRY_TARGET** enum-like global with possible values being
-  `'webPage'`, `'node'`, or `'serviceWorker'`.
-- assets.json file format has changed to contain both
-  initial and async chunks assets along with an immutable flag. This
-  allows caching all assets on service worker install, so implementing
-  offline support is much more straightforward now.
+- `__NODE__` boolean global is replaced by **ENTRY_TARGET** enum-like global
+  with possible values being `'webPage'`, `'node'`, or `'serviceWorker'`.
+- assets.json file format has changed to contain both initial and async chunks
+  assets along with an immutable flag. This allows caching all assets on service
+  worker install, so implementing offline support is much more straightforward
+  now.
 
 ### Features
 
@@ -1067,8 +1060,7 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- you need to update path from which you read/import
-  assets.json
+- you need to update path from which you read/import assets.json
 
 ### Features
 
@@ -1104,8 +1096,8 @@ All notable changes to this project will be documented in this file. See [conven
 ### BREAKING CHANGES
 
 - webpack-assets.json is moved to public folder and renamed to assets.json
-- now you have to specify full cache configuration as a
-  cache option, instead of just boolean.
+- now you have to specify full cache configuration as a cache option, instead of
+  just boolean.
 
 ### Features
 
@@ -1158,8 +1150,8 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- if you want to use absolute path in node, you need to
-  add `?absolute` query to `import` or `new URL(...)`.
+- if you want to use absolute path in node, you need to add `?absolute` query to
+  `import` or `new URL(...)`.
 
 ### Features
 
@@ -1188,8 +1180,8 @@ All notable changes to this project will be documented in this file. See [conven
 ### BREAKING CHANGES
 
 - there's no extractRuntimeChunk option anymore
-- from now on, you have to use a dynamic import, if you
-  want to use it from commonjs
+- from now on, you have to use a dynamic import, if you want to use it from
+  commonjs
 
 ### Features
 
@@ -1791,9 +1783,8 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- you should pass --enable-source-maps flag yourself when
-  you run built bundle using node. In development it's passed
-  automatically.
+- you should pass --enable-source-maps flag yourself when you run built bundle
+  using node. In development it's passed automatically.
 
 ### Fixes
 
@@ -1947,8 +1938,8 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- react-refresh and @preact/refresh are not disabled
-  in production anymore. You should decide to enable them or not
+- react-refresh and @preact/refresh are not disabled in production anymore. You
+  should decide to enable them or not
 
 ### Features
 
@@ -1992,9 +1983,8 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- static assets are not served in development anymore,
-  you should serve them yourself. And they should not be cached based on
-  filename.
+- static assets are not served in development anymore, you should serve them
+  yourself. And they should not be cached based on filename.
 
 ### Performance Improvements
 
@@ -2070,8 +2060,8 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- you now have to explicitly enable analyzer. To preserve
-  the old behavior set analyzer option to the value opposite to dev
+- you now have to explicitly enable analyzer. To preserve the old behavior set
+  analyzer option to the value opposite to dev
 
 ### Features
 
@@ -2196,8 +2186,7 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- you must change default imports to namespace imports
-  like this:
+- you must change default imports to namespace imports like this:
 
 ### Performance Improvements
 
@@ -2249,8 +2238,8 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- externals are no longer configured by default, to
-  preserve the old behavior, copy nodeExternals example from README.md
+- externals are no longer configured by default, to preserve the old behavior,
+  copy nodeExternals example from README.md
 
 ### Features
 
@@ -2266,8 +2255,7 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- you need to enable extractRuntimeChunk option to
-  preserve the old behavior
+- you need to enable extractRuntimeChunk option to preserve the old behavior
 
 ### Documentation
 
@@ -2367,8 +2355,7 @@ All notable changes to this project will be documented in this file. See [conven
 
 ### BREAKING CHANGES
 
-- webpack-assets.json does not exists when server is
-  started
+- webpack-assets.json does not exists when server is started
 
 ### Performance Improvements
 
