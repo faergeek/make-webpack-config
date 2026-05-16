@@ -3,3 +3,5 @@ allowBuilds:
   bufferutil: true
   core-js-pure: false
   utf-8-validate: true
+
+minimumReleaseAge: 4320
