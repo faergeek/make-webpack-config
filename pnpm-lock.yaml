@@ -13,7 +13,7 @@ importers:
         version: 1.2.7(@types/node@24.13.3)(utf-8-validate@5.0.10)(webpack@5.106.2(@swc/core@1.16.1)(lightningcss@1.33.0)(postcss@8.5.14))
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: ^0.6.0
-        version: 0.6.2(react-refresh@0.18.0)(type-fest@5.8.0)(webpack@5.106.2(@swc/core@1.16.1)(lightningcss@1.33.0)(postcss@8.5.14))
+        version: 0.6.3(react-refresh@0.18.0)(type-fest@5.8.0)(webpack@5.106.2(@swc/core@1.16.1)(lightningcss@1.33.0)(postcss@8.5.14))
       '@swc/core':
         specifier: ^1.13.0
         version: 1.16.1
@@ -332,8 +332,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@pmmmwh/react-refresh-webpack-plugin@0.6.2':
-    resolution: {integrity: sha512-IhIAD5n4XvGHuL9nAgWfsBR0TdxtjrUWETYKCBHxauYXEv+b+ctEbs9neEgPC7Ecgzv4bpZTBwesAoGDeFymzA==}
+  '@pmmmwh/react-refresh-webpack-plugin@0.6.3':
+    resolution: {integrity: sha512-k1EEmFS9K7685tqJM55DCA3sYlTNZb7aFj1M3HNFwMqH+fGgMEvemIQ5kurIzKc9wYRSmfKpSZN3WUyY/GHlvg==}
     engines: {node: '>=18.12'}
     peerDependencies:
       '@types/webpack': 5.x
@@ -341,7 +341,7 @@ packages:
       sockjs-client: ^1.4.0
       type-fest: '>=0.17.0 <6.0.0'
       webpack: ^5.0.0
-      webpack-dev-server: ^4.8.0 || 5.x
+      webpack-dev-server: ^4.8.0 || 5.x || 6.x
       webpack-hot-middleware: 2.x
       webpack-plugin-serve: 1.x
     peerDependenciesMeta:
@@ -2523,7 +2523,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@pmmmwh/react-refresh-webpack-plugin@0.6.2(react-refresh@0.18.0)(type-fest@5.8.0)(webpack@5.106.2(@swc/core@1.16.1)(lightningcss@1.33.0)(postcss@8.5.14))':
+  '@pmmmwh/react-refresh-webpack-plugin@0.6.3(react-refresh@0.18.0)(type-fest@5.8.0)(webpack@5.106.2(@swc/core@1.16.1)(lightningcss@1.33.0)(postcss@8.5.14))':
     dependencies:
       anser: 2.3.5
       core-js-pure: 3.49.0
