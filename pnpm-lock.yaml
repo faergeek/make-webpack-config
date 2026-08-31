@@ -22,7 +22,7 @@ importers:
         version: 4.7.0(@swc/core@1.16.1)(lightningcss@1.33.0)(postcss@8.5.14)
       css-loader:
         specifier: ^7.0.0
-        version: 7.1.4(webpack@5.106.2(@swc/core@1.16.1)(lightningcss@1.33.0)(postcss@8.5.14))
+        version: 7.1.5(webpack@5.106.2(@swc/core@1.16.1)(lightningcss@1.33.0)(postcss@8.5.14))
       lightningcss:
         specifier: ^1.16.1
         version: 1.33.0
@@ -827,8 +827,8 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
-  css-loader@7.1.4:
-    resolution: {integrity: sha512-vv3J9tlOl04WjiMvHQI/9tmIrCxVrj6PFbHemBB1iihpeRbi/I4h033eoFIhwxBBqLhI0KYFS7yvynBFhIZfTw==}
+  css-loader@7.1.5:
+    resolution: {integrity: sha512-Q7iAfQkU2twNBryKX/vGAlE+GAmkF7quhSzAGNK8fBimxk3+tqg245rH52UPb9dioBolBc8rP0ihmHBaDTJQBA==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       '@rspack/core': 0.x || ^1.0.0 || ^2.0.0-0
@@ -1825,11 +1825,6 @@ packages:
 
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
-    hasBin: true
-
-  semver@7.8.0:
-    resolution: {integrity: sha512-AcM7dV/5ul4EekoQ29Agm5vri8JNqRyj39o0qpX6vDF2GZrtutZl5RwgD1XnZjiTAfncsJhMI48QQH3sN87YNA==}
-    engines: {node: '>=10'}
     hasBin: true
 
   semver@7.8.5:
@@ -3057,7 +3052,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  css-loader@7.1.4(webpack@5.106.2(@swc/core@1.16.1)(lightningcss@1.33.0)(postcss@8.5.14)):
+  css-loader@7.1.5(webpack@5.106.2(@swc/core@1.16.1)(lightningcss@1.33.0)(postcss@8.5.14)):
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.14)
       postcss: 8.5.14
@@ -3066,7 +3061,7 @@ snapshots:
       postcss-modules-scope: 3.2.1(postcss@8.5.14)
       postcss-modules-values: 4.0.0(postcss@8.5.14)
       postcss-value-parser: 4.2.0
-      semver: 7.8.0
+      semver: 7.8.5
     optionalDependencies:
       webpack: 5.106.2(@swc/core@1.16.1)(lightningcss@1.33.0)(postcss@8.5.14)
 
@@ -4121,8 +4116,6 @@ snapshots:
       ajv-keywords: 5.1.0(ajv@8.20.0)
 
   semver@6.3.1: {}
-
-  semver@7.8.0: {}
 
   semver@7.8.5: {}
 
