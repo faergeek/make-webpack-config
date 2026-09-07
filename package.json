@@ -32,7 +32,7 @@
     "lint": "eslint --max-warnings 0 .",
     "build": "tsc --build"
   },
-  "packageManager": "pnpm@12.3.1",
+  "packageManager": "pnpm@12.3.2",
   "peerDependencies": {
     "@types/node": ">= 22.0.0",
     "webpack": "^5.36.2"
