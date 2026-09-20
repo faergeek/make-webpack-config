@@ -207,7 +207,7 @@ importers:
         version: 5.106.2(@swc/core@1.16.2)(lightningcss@1.33.0)(postcss@8.5.14)
       webpack-bundle-analyzer:
         specifier: ^5.0.0
-        version: 5.3.3(utf-8-validate@5.0.10)
+        version: 5.4.0(utf-8-validate@5.0.10)
     devDependencies:
       '@commitlint/cli':
         specifier: ^21.0.0
@@ -2276,8 +2276,8 @@ packages:
     resolution: {integrity: sha512-Zn5uXdcFNIA1+1Ei5McRd+iRzfhENPCe7LeABkJtNulSxjma+l7ltNx55BWZkRlwRnpOgHqxnjyaDgJnNXnqzg==}
     engines: {node: '>=10.13.0'}
 
-  webpack-bundle-analyzer@5.3.3:
-    resolution: {integrity: sha512-kr/bzg3sORg1xAnxpg1uaIPGDDNwaRIsClOv22HzCIMX9X64FbvIBNjP2ulPdfCgZw7ekrv7JGAPc30W+0b7rA==}
+  webpack-bundle-analyzer@5.4.0:
+    resolution: {integrity: sha512-6OjsEFQIwcRT1nId/O7OyHjDvrE0JSFAef/XCwGarrf9MF5/CaD0lhDvoySbus57dYEdJ3vrRVj5F3i30c4ozw==}
     engines: {node: '>= 20.9.0'}
     hasBin: true
 
@@ -4627,7 +4627,7 @@ snapshots:
       glob-to-regexp: 0.4.1
       graceful-fs: 4.2.11
 
-  webpack-bundle-analyzer@5.3.3(utf-8-validate@5.0.10):
+  webpack-bundle-analyzer@5.4.0(utf-8-validate@5.0.10):
     dependencies:
       '@discoveryjs/json-ext': 0.6.3
       acorn: 8.18.0
