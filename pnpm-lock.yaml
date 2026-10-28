@@ -168,7 +168,7 @@ importers:
     dependencies:
       '@faergeek/tiny-browser-hmr-webpack-plugin':
         specifier: ^1.2.7
-        version: 1.2.7(@types/node@24.19.2)(utf-8-validate@5.0.10)(webpack@5.106.2(@swc/core@1.16.20)(lightningcss@1.33.0)(postcss@8.5.14))
+        version: 1.2.7(@types/node@26.6.5)(utf-8-validate@5.0.10)(webpack@5.106.2(@swc/core@1.16.20)(lightningcss@1.33.0)(postcss@8.5.14))
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: ^0.6.0
         version: 0.6.3(react-refresh@0.18.0)(type-fest@5.10.0)(webpack@5.106.2(@swc/core@1.16.20)(lightningcss@1.33.0)(postcss@8.5.14))
@@ -219,8 +219,8 @@ importers:
         specifier: ^8.0.0
         version: 8.2.4(@eslint/js@9.39.4)(@typescript-eslint/eslint-plugin@8.64.0(@typescript-eslint/parser@8.64.0(eslint@10.13.0(jiti@2.6.1)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(jiti@2.6.1)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(jiti@2.6.1)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
       '@types/node':
-        specifier: ^24.3.1
-        version: 24.19.2
+        specifier: ^26.0.0
+        version: 26.6.5
       eslint:
         specifier: ^10.0.0
         version: 10.13.0(jiti@2.6.1)(supports-color@8.1.1)
@@ -657,8 +657,8 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
-  '@types/node@24.19.2':
-    resolution: {integrity: sha512-93d49wCWJkCyN87MxLpNN6KXPCwFw7bVUg79mGUV1OS40JGWwVCr8n61DXCSqz7CV6/VfPkb7xec7uP2M+QHWQ==}
+  '@types/node@26.6.5':
+    resolution: {integrity: sha512-uMzsv9stDdofIZBx4UGh4Z9ZgXnGC9seRDscilBcTHAeOFk67MZg/k9bWVfO+bk4qZmG+l52hRnLwUiH2LnJTg==}
 
   '@types/webpack-bundle-analyzer@4.7.0':
     resolution: {integrity: sha512-c5i2ThslSNSG8W891BRvOd/RoCjI2zwph8maD22b1adtSns20j+0azDDMCK06DiVrzTgnwiDl5Ntmu1YRJw8Sg==}
@@ -2241,8 +2241,8 @@ packages:
     resolution: {integrity: sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==}
     engines: {node: '>= 0.4'}
 
-  undici-types@7.24.6:
-    resolution: {integrity: sha512-WRNW+sJgj5OBN4/0JpHFqtqzhpbnV0GuB+OozA9gCL7a993SmU+1JBZCzLNxYsbMfIeDL+lTsphD5jN5N+n0zg==}
+  undici-types@8.9.0:
+    resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
 
   unicorn-magic@0.3.0:
     resolution: {integrity: sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA==}
@@ -2652,9 +2652,9 @@ snapshots:
       - typescript
       - vitest
 
-  '@faergeek/tiny-browser-hmr-webpack-plugin@1.2.7(@types/node@24.19.2)(utf-8-validate@5.0.10)(webpack@5.106.2(@swc/core@1.16.20)(lightningcss@1.33.0)(postcss@8.5.14))':
+  '@faergeek/tiny-browser-hmr-webpack-plugin@1.2.7(@types/node@26.6.5)(utf-8-validate@5.0.10)(webpack@5.106.2(@swc/core@1.16.20)(lightningcss@1.33.0)(postcss@8.5.14))':
     dependencies:
-      '@types/node': 24.19.2
+      '@types/node': 26.6.5
       '@types/ws': 8.18.1
       webpack: 5.106.2(@swc/core@1.16.20)(lightningcss@1.33.0)(postcss@8.5.14)
       ws: 8.20.1(utf-8-validate@5.0.10)
@@ -2811,13 +2811,13 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
-  '@types/node@24.19.2':
+  '@types/node@26.6.5':
     dependencies:
-      undici-types: 7.24.6
+      undici-types: 8.9.0
 
   '@types/webpack-bundle-analyzer@4.7.0(@swc/core@1.16.20)(lightningcss@1.33.0)(postcss@8.5.14)':
     dependencies:
-      '@types/node': 24.19.2
+      '@types/node': 26.6.5
       tapable: 2.3.3
       webpack: 5.106.2(@swc/core@1.16.20)(lightningcss@1.33.0)(postcss@8.5.14)
     transitivePeerDependencies:
@@ -2837,7 +2837,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 24.19.2
+      '@types/node': 26.6.5
 
   '@typescript-eslint/eslint-plugin@8.64.0(@typescript-eslint/parser@8.64.0(eslint@10.13.0(jiti@2.6.1)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(jiti@2.6.1)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)':
     dependencies:
@@ -3923,7 +3923,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 24.19.2
+      '@types/node': 26.6.5
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -4578,7 +4578,7 @@ snapshots:
       has-symbols: 1.1.0
       which-boxed-primitive: 1.1.1
 
-  undici-types@7.24.6: {}
+  undici-types@8.9.0: {}
 
   unicorn-magic@0.3.0: {}
 
