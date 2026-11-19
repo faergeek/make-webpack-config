@@ -180,7 +180,7 @@ importers:
         version: 1.2.7(@types/node@26.6.6)(utf-8-validate@5.0.10)(webpack@5.106.2(@swc/core@1.16.22)(lightningcss@1.33.0)(postcss@8.5.14))
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: ^0.6.0
-        version: 0.6.3(react-refresh@0.18.0)(type-fest@5.10.0)(webpack@5.106.2(@swc/core@1.16.22)(lightningcss@1.33.0)(postcss@8.5.14))
+        version: 0.6.3(react-refresh@0.18.0)(type-fest@6.0.0)(webpack@5.106.2(@swc/core@1.16.22)(lightningcss@1.33.0)(postcss@8.5.14))
       '@swc/core':
         specifier: ^1.13.0
         version: 1.16.22
@@ -246,8 +246,8 @@ importers:
         specifier: ^6.0.1
         version: 6.1.4
       type-fest:
-        specifier: ^5.0.0
-        version: 5.10.0
+        specifier: ^6.0.0
+        version: 6.0.0
       typescript:
         specifier: ^6.0.0
         version: 6.0.3
@@ -2228,9 +2228,9 @@ packages:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
 
-  type-fest@5.10.0:
-    resolution: {integrity: sha512-NoSdpq/WEiAg5sjmBkmV/hfxv6HJH4NqPNrqjtSO5CwRmpsDfaf4begxW34KdJykH/l1yHtwBWQkCRdoXO8mPA==}
-    engines: {node: '>=20'}
+  type-fest@6.0.0:
+    resolution: {integrity: sha512-cFOr1/4SZf98P0WMLb1X+RJNZrZI9Wf4xT0bjdH8OP2tJmUcuJ6jyLE8i10ecq1m/7ObGbXNa7QEF2LCXKVLqg==}
+    engines: {node: '>=22'}
 
   typed-array-buffer@1.0.3:
     resolution: {integrity: sha512-nAYYwfY3qnzX30IkA6AQZjVbtK6duGontcQm1WSG1MD94YLqK0515GNApXkoxKOWMusVssAHWLh9SeaoefYFGw==}
@@ -2737,7 +2737,7 @@ snapshots:
 
   '@keyv/serialize@1.1.1': {}
 
-  '@pmmmwh/react-refresh-webpack-plugin@0.6.3(react-refresh@0.18.0)(type-fest@5.10.0)(webpack@5.106.2(@swc/core@1.16.22)(lightningcss@1.33.0)(postcss@8.5.14))':
+  '@pmmmwh/react-refresh-webpack-plugin@0.6.3(react-refresh@0.18.0)(type-fest@6.0.0)(webpack@5.106.2(@swc/core@1.16.22)(lightningcss@1.33.0)(postcss@8.5.14))':
     dependencies:
       anser: 2.3.5
       core-js-pure: 3.49.0
@@ -2748,7 +2748,7 @@ snapshots:
       source-map: 0.7.6
       webpack: 5.106.2(@swc/core@1.16.22)(lightningcss@1.33.0)(postcss@8.5.14)
     optionalDependencies:
-      type-fest: 5.10.0
+      type-fest: 6.0.0
 
   '@polka/url@1.0.0-next.29': {}
 
@@ -4558,7 +4558,7 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
 
-  type-fest@5.10.0:
+  type-fest@6.0.0:
     dependencies:
       tagged-tag: 1.0.0
 
